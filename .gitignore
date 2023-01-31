@@ -7,3 +7,7 @@ target
 *.iml
 *.svg
 
+# Eclipse stuff
+.settings
+.project
+.classpath
