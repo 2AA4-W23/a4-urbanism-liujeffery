@@ -1,8 +1,8 @@
 # Assignment A2: Mesh Generator
 
-  - Author #1 [shim34@mcmaster.ca]
-  - Author #2 [quj22@mcmaster.ca]
-  - Author #3 [email@mcmaster.ca]
+  - Michael Shi [shim34@mcmaster.ca]
+  - Johnny Qu [quj22@mcmaster.ca]
+  - Jeffery Liu [liu1121@mcmaster.ca]
 
 ## How to run the product
 
@@ -63,8 +63,9 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Product Backlog
 
-| Id | Feature title | Who? | Start | End | Status |
-|:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
+| Id  | Feature title                  | Who?       | Start      | End | Status |
+| :-: | ------------------------------ | ---------- | ---------- | --- | ------ |
+| F01 | Draw segments between vertices | @icecapped | 02/03/2023 |     | P      |
+|     |                                |            |            |     |        |
 
 
