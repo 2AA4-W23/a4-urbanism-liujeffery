@@ -6,8 +6,12 @@ target
 *.mesh
 *.iml
 *.svg
+*.sh
 
 # Eclipse stuff
 .settings
 .project
 .classpath
+
+# macOS stuff
+.DS_Store
