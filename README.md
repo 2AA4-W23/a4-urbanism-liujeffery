@@ -66,6 +66,7 @@ When you develop features and enrich the product, remember that you have first t
 | Id  | Feature title                  | Who?       | Start      | End        | Status |
 | :-: | ------------------------------ | ---------- | ---------- | ---------- | ------ |
 | F01 | Draw segments between vertices | @johnny-q  | 02/03/2023 | 02/24/2023 | D      |
+| F02 | Create Mesh ADT                | @johnny-q  | 02/24/2023 | 02/24/2023 | P      |
 |     |                                |            |            |            |        |
 
 
