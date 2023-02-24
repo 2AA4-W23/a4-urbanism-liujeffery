@@ -63,9 +63,9 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Product Backlog
 
-| Id  | Feature title                  | Who?       | Start      | End | Status |
-| :-: | ------------------------------ | ---------- | ---------- | --- | ------ |
-| F01 | Draw segments between vertices | @icecapped | 02/03/2023 |     | P      |
-|     |                                |            |            |     |        |
+| Id  | Feature title                  | Who?       | Start      | End        | Status |
+| :-: | ------------------------------ | ---------- | ---------- | ---------- | ------ |
+| F01 | Draw segments between vertices | @johnny-q  | 02/03/2023 | 02/24/2023 | D      |
+|     |                                |            |            |            |        |
 
 
