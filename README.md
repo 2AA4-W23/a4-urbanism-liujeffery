@@ -69,6 +69,6 @@ When you develop features and enrich the product, remember that you have first t
 | F02 | Create Mesh ADT                                        | @johnny-q   | 02/24/2023 | 02/24/2023 | P      |
 | F03 | Add debug mode for segments and verticies              | @liujeffery | 02/25/2023 |            | P      |
 |     | Generate relaxed irregular meshes via Llyod Relaxation | @icecapped  | 02/26/2023 |            | P      |
-|     | Order segments via Convex Hull                         | @icecapped  | 02/26/2023 |            | P |
-
+|     | Order segments via Convex Hull                         | @icecapped  | 02/26/2023 |            | P      |
+|     | Add colour and thickness properties                    | @liujeffery | 02/26/2023 |            | P      |
 
