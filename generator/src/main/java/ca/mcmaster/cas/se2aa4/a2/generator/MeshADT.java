@@ -269,6 +269,6 @@ public class MeshADT{
     }
 
     public Structs.Mesh makeMesh(){
-        return Structs.Mesh.newBuilder().addAllVertices(this.vertices).addAllSegments(this.segments).build();
+        return Structs.Mesh.newBuilder().addAllVertices(this.vertices).addAllSegments(this.segments).addAllPolygons(this.polygons).build();
     }
 }
