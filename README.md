@@ -63,12 +63,12 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Product Backlog
 
-| Id  | Feature title | Who? | Start | End | Status |
-| :-: | ------------- | ---- | ----- | --- | ------ |
-| F01 | Draw segments between vertices | @johnny-q | 02/03/2023 | 02/24/2023 | D |
-| F02 | Create Mesh ADT | @johnny-q   | 02/24/2023 | 02/24/2023 | P |
-| F03 | Add debug mode for segments and verticies | @liujeffery | 02/25/2023 |   | P |
-| F04 | Generate relaxed irregular meshes via Llyod Relaxation | @icecapped  | 02/26/2023 |   | P |
-| F05 | Order segments via Convex Hull | @icecapped  | 02/26/2023 |   | P |
-| F06 | Add colour and thickness properties | @liujeffery | 02/26/2023 |   | P |
-| F07 | Produce full meshes (compute neighbour information) | @johnny-q | 02/26/2023 |   | P |
+| Id  | Feature title                                          | Who?        | Start      | End        | Status |
+| :-: | ------------------------------------------------------ | ----------- | ---------- | ---------- | ------ |
+| F01 | Draw segments between vertices                         | @johnny-q   | 02/03/2023 | 02/24/2023 | D      |
+| F02 | Create Mesh ADT                                        | @johnny-q   | 02/24/2023 | 02/24/2023 | P      |
+| F03 | Add debug mode for segments and verticies              | @liujeffery | 02/25/2023 |            | P      |
+| F04 | Generate relaxed irregular meshes via Llyod Relaxation | @icecapped  | 02/26/2023 |            | S      |
+| F05 | Order segments via Convex Hull                         | @icecapped  | 02/26/2023 |            | P      |
+| F06 | Add colour and thickness properties                    | @liujeffery | 02/26/2023 |            | P      |
+| F07 | Produce full meshes (compute neighbour information)    | @johnny-q   | 02/26/2023 |            | P      |
