@@ -38,24 +38,25 @@ public class GraphicRenderer {
         List<Integer> checkDuplucPairs = new ArrayList<>();
         for (Polygon p : aMesh.getPolygonsList()){
             Vertex v1 = aMesh.getVertices(p.getCentroidIdx());
-
             drawPoint(v1, canvas, debug, new Color(255, 0, 0));
 
             for (int i : p.getNeighborIdxsList()){
+                Polygon temp = aMesh.getPolygons(i);
                 //to check for duplicates
                 boolean isDup = false;
                 for (int j : checkDuplucPairs){
-                    if (j == i){
+                    if (j == temp.getCentroidIdx()){
                         isDup = true;
                         break;
                     }
                 }
                 //drawing segment line
                 if (!isDup){
-                    Vertex v2 = aMesh.getVertices(i);
+                    Vertex v2 = aMesh.getVertices(temp.getCentroidIdx());
                     //light grey colour for debugging
                     drawSegment(aMesh, v1, v2, debug, canvas, new Color(178, 178, 178));
                 }
+                
             }
             checkDuplucPairs.add(p.getCentroidIdx());
         }
