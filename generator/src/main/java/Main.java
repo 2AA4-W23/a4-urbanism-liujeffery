@@ -8,22 +8,27 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        MeshADT baseMesh = new MeshADT(500, 500, 100);
+        String debugString = args[args.length - 1];
+        boolean debug = false;
+        if (debugString.equals("-X")){
+            debug = true;
+        }
+        MeshADT baseMesh = new MeshADT(500, 500, 100, debug);
         int width = 500, height = 500, squareSize = 20;
         //create a uniform grid to test
-        for(int i = 0;i <= width; i+=squareSize){
-            for(int j = 0;j <= height; j+=squareSize){
-                baseMesh.addVertex(i, j);
-            }
-        }
+        // for(int i = 0;i <= width; i+=squareSize){
+        //     for(int j = 0;j <= height; j+=squareSize){
+        //         baseMesh.addVertex(i, j);
+        //     }
+        // }
 
         //create random points
-        // Random bag = new Random(69);
-        // for(int i = 0; i < 100; i++){
-        //     int x = bag.nextInt(width);
-        //     int y = bag.nextInt(height);
-        //     baseMesh.addVertex(x, y);
-        // }
+        Random bag = new Random(69);
+        for(int i = 0; i < 100; i++){
+            int x = bag.nextInt(width);
+            int y = bag.nextInt(height);
+            baseMesh.addVertex(x, y);
+        }
 
         baseMesh.processVoronoi();
         Mesh myMesh = baseMesh.makeMesh();

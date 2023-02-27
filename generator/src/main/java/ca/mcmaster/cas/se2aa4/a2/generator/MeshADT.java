@@ -11,9 +11,10 @@ public class MeshADT{
     public final double width;
     public final double height;
     public final double precision;
+    public final boolean debug;
     public ArrayList<Structs.Vertex> vertices;
     public ArrayList<Structs.Segment> segments;
-    public MeshADT(double width, double height, double precision){
+    public MeshADT(double width, double height, double precision, boolean debug){
         this.width = width;
         this.height = height;
         this.precision = precision;
@@ -21,7 +22,7 @@ public class MeshADT{
         this.gf = new GeometryFactory(pm);
         this.vertices = new ArrayList<>();
         this.segments = new ArrayList<>();
-
+        this.debug = debug;
         //create points on each end to make sure our canvas is the right width and height
     }
     public int addVertex(double x, double y){
@@ -30,7 +31,10 @@ public class MeshADT{
         return this.addVertex(c1);
     }
     public int addVertex(Coordinate c1){
-        return this.addVertex(c1, "0,0,0");
+        String colorCode = "255,255,0";
+        if (debug)
+            colorCode = "255,0,0";
+        return this.addVertex(c1, colorCode);
     }
     public int addVertex(Coordinate c1, String colorCode){
         //enforce the precision
@@ -72,7 +76,7 @@ public class MeshADT{
                 return i;
             }
         }
-        Structs.Segment s =Structs.Segment.newBuilder().setV1Idx(v1Idx).setV2Idx(v2Idx).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("0,0,0").build()).build();
+        Structs.Segment s =Structs.Segment.newBuilder().setV1Idx(v1Idx).setV2Idx(v2Idx).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("250,160,12").build()).build();
         this.segments.add(s);
         return this.segments.size()-1;
     }
@@ -104,8 +108,11 @@ public class MeshADT{
             System.out.println(g.toString());
             Coordinate coords[] = g.getCoordinates();
             for(int j = 1; j < coords.length; j++){
-                int v1Idx = this.addVertex(coords[j-1], "100,100,100");
-                int v2Idx = this.addVertex(coords[j], "100,100,100");
+                String colorCode = "100,100,100";
+                if (debug)
+                    colorCode = "0,0,0";
+                int v1Idx = this.addVertex(coords[j-1], colorCode);
+                int v2Idx = this.addVertex(coords[j], colorCode);
                 if(v1Idx == -1 || v2Idx == -1) continue;
                 this.addSegment(v1Idx, v2Idx);
             }
