@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.visualizer;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
@@ -11,23 +12,18 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
-    public void render(Mesh aMesh, Graphics2D canvas) {
+    public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
         for (Vertex v: aMesh.getVerticesList()) {
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-            canvas.fill(point);
-            canvas.setColor(old);
+            drawPoint(v, canvas, debug, new Color(0, 0, 0));
         }
 
         //draw segments
@@ -35,20 +31,33 @@ public class GraphicRenderer {
         for(Segment s : aMesh.getSegmentsList()){
             Vertex v1 = aMesh.getVertices(s.getV1Idx());
             Vertex v2 = aMesh.getVertices(s.getV2Idx());
-            Color v1Color = extractColor(v1.getPropertiesList());
-            Color v2Color = extractColor(v2.getPropertiesList());
-            Color segmentColor = new Color(
-                (v1Color.getRed()+v2Color.getRed()) / 2, 
-                (v1Color.getGreen()+v2Color.getGreen()) / 2, 
-                (v1Color.getBlue()+v2Color.getBlue()) / 2
-            );
-            System.out.format("Creating line at: %f %f %f %f\n", v1.getX(), v1.getY(), v2.getX(), v2.getY());
-            Line2D line = new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY());
-            
-            Color old = canvas.getColor();
-            canvas.setColor(segmentColor);
-            canvas.draw(line);
-            canvas.setColor(old);
+            drawSegment(aMesh, v1, v2, debug, canvas, new Color(0, 0, 0));
+        }
+
+        System.out.println("Drawing neighbour relations and centroids: ");
+        List<Integer> checkDuplucPairs = new ArrayList<>();
+        for (Polygon p : aMesh.getPolygonsList()){
+            Vertex v1 = aMesh.getVertices(p.getCentroidIdx());
+
+            drawPoint(v1, canvas, debug, new Color(255, 0, 0));
+
+            for (int i : p.getNeighborIdxsList()){
+                //to check for duplicates
+                boolean isDup = false;
+                for (int j : checkDuplucPairs){
+                    if (j == i){
+                        isDup = true;
+                        break;
+                    }
+                }
+                //drawing segment line
+                if (!isDup){
+                    Vertex v2 = aMesh.getVertices(i);
+                    //light grey colour for debugging
+                    drawSegment(aMesh, v1, v2, debug, canvas, new Color(178, 178, 178));
+                }
+            }
+            checkDuplucPairs.add(p.getCentroidIdx());
         }
     }
 
@@ -67,6 +76,45 @@ public class GraphicRenderer {
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
         return new Color(red, green, blue);
+    }
+
+    public void drawPoint(Vertex v, Graphics2D canvas, boolean debug, Color debugColor){
+        double centre_x = v.getX() - (THICKNESS/2.0d);
+        double centre_y = v.getY() - (THICKNESS/2.0d);
+        Color old = canvas.getColor();
+        if (debug){
+            canvas.setColor(debugColor);
+        }
+        else{
+            canvas.setColor(extractColor(v.getPropertiesList()));
+        }
+        Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+        canvas.fill(point);
+        canvas.setColor(old);
+    }
+
+    public void drawSegment(Mesh aMesh, Vertex v1, Vertex v2, boolean debug, Graphics2D canvas, Color debugColor){
+        Color v1Color = extractColor(v1.getPropertiesList());
+        Color v2Color = extractColor(v2.getPropertiesList());
+        Color segmentColor;
+        if (debug){
+            segmentColor = debugColor;
+        }
+        else{
+            segmentColor = new Color(
+                (v1Color.getRed()+v2Color.getRed()) / 2, 
+                (v1Color.getGreen()+v2Color.getGreen()) / 2, 
+                (v1Color.getBlue()+v2Color.getBlue()) / 2
+            );
+        }
+        
+        System.out.format("Creating line at: %f %f %f %f\n", v1.getX(), v1.getY(), v2.getX(), v2.getY());
+        Line2D line = new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY());
+        
+        Color old = canvas.getColor();
+        canvas.setColor(segmentColor);
+        canvas.draw(line);
+        canvas.setColor(old);
     }
 
 }
