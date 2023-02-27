@@ -29,6 +29,7 @@ public class Main {
         }        
 
         baseMesh.addVoronoiPolygons();
+        baseMesh.relaxMesh();
         baseMesh.computeNeighbours();
         Mesh myMesh = baseMesh.makeMesh();
 

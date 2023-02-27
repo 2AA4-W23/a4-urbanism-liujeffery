@@ -7,6 +7,7 @@ import java.util.HashSet;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
+import org.locationtech.jts.triangulate.quadedge.Vertex;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
@@ -141,15 +142,10 @@ public class MeshADT{
             System.out.println("couldnt find originating vertex");
             return -1;
         } 
+        
+        //Store actual centroid information
+        String centroid = g.getCentroid().getCoordinate().toString();
 
-        // Coordinate vertex = (Coordinate)g.getUserData();
-        // this.pm.makePrecise(vertex);
-        // int vertexIdx = this.addVertex(vertex, "255,0,0");
-        // if(vertexIdx == -1){
-        //     return -1;
-        // }
-        
-        
         //add polygon segments to mesh
         Coordinate coords[] = g.getCoordinates();
         List<Integer> segmentIdxs = new ArrayList<>();
@@ -160,12 +156,17 @@ public class MeshADT{
             segmentIdxs.add(this.addSegment(v1Idx, v2Idx));
         }
 
-        return this.addPolygon(vertexIdx, segmentIdxs, new ArrayList<Integer>());
+        return this.addPolygon(vertexIdx, segmentIdxs, new ArrayList<Integer>(), centroid);
     }
 
-    public int addPolygon(int vertexIdx, Iterable<? extends Integer> segmentIdxs, Iterable<? extends Integer> neighbourIdxs){
-        Structs.Polygon p = Structs.Polygon.newBuilder().setCentroidIdx(vertexIdx).addAllSegmentIdxs(segmentIdxs).addAllNeighborIdxs(neighbourIdxs).build(); //takes segment and neighbors
-        //Centroid is set as vertex for visualization
+    public int addPolygon(int vertexIdx, Iterable<? extends Integer> segmentIdxs, Iterable<? extends Integer> neighbourIdxs, String centerCoord){
+        Structs.Polygon.Builder pb = Structs.Polygon.newBuilder();
+        pb.setCentroidIdx(vertexIdx);
+        pb.addAllSegmentIdxs(segmentIdxs);
+        pb.addAllNeighborIdxs(neighbourIdxs);
+        pb.addProperties(Structs.Property.newBuilder().setKey("center").setValue(centerCoord));
+
+        Structs.Polygon p = pb.build();
         this.polygons.add(p);
         return this.polygons.size()-1;
     }
@@ -199,9 +200,6 @@ public class MeshADT{
             new Coordinate(0, 0),
         };
         Geometry diagram = vdb.getDiagram(this.gf).intersection(this.gf.createPolygon(bounds));
-
-        //remove old vertices to allow for new vertices with polygon associations to be added
-        // this.vertices.clear();
 
         //has to add polygons, add polygons that don't have neighbors for now
         for(int i = 0; i < diagram.getNumGeometries(); i++){
@@ -289,5 +287,25 @@ public class MeshADT{
 
     public Structs.Mesh makeMesh(){
         return Structs.Mesh.newBuilder().addAllVertices(this.vertices).addAllSegments(this.segments).addAllPolygons(this.polygons).build();
+    }
+
+    public void relaxMesh(){
+        //get centroids of every thing
+        //set those as new vertices
+        //regenerate graph
+        this.vertices.clear();
+        this.segments.clear();
+
+        for(Structs.Polygon p : this.polygons){
+            String rawCoords = p.getProperties(p.getPropertiesCount() - 1).getValue();
+            double x = Double.parseDouble(rawCoords.split("[(,]")[1]);
+            double y = Double.parseDouble(rawCoords.split("[(,]")[2]);
+
+            Coordinate c = new Coordinate(x, y);
+            this.addVertex(c, "255,0,0");
+        }
+
+        this.polygons.clear();
+        addVoronoiPolygons();
     }
 }
