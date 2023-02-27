@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         MeshADT baseMesh = new MeshADT(500, 500, 100);
         int width = 500, height = 500, squareSize = 20;
-        String target = "grid";
+        String target = "irregular";
         // create a uniform grid to test
         if(target.equals("grid")){
             for(int i = 0;i <= width; i+=squareSize){

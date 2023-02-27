@@ -123,13 +123,32 @@ public class MeshADT{
             return -1;
         }
 
-        //find the centroid that this polygon was created around
-        Coordinate centroid = g.getCentroid().getCoordinate();
-        this.pm.makePrecise(centroid);
-        int centroidIdx = this.addVertex(centroid, "255,0,0");
-        if(centroidIdx == -1){
-            return -1;
+        //find the VERTEX that this polygon was created around
+        Coordinate vertexCoord = null;
+        int vertexIdx = -1;
+        for(int i = 0; i < this.vertices.size(); i++){
+            Structs.Vertex vertex = this.vertices.get(i);
+            vertexCoord = new Coordinate(vertex.getX(), vertex.getY());
+            // System.out.println(vertexCoord.toString());
+            Point p = this.gf.createPoint(vertexCoord);
+            if(g.contains(p)){
+                System.out.println("Found match");
+                vertexIdx = i;
+                break;
+            }
         }
+        if(vertexIdx == -1){
+            System.out.println("couldnt find originating vertex");
+            return -1;
+        } 
+
+        // Coordinate vertex = (Coordinate)g.getUserData();
+        // this.pm.makePrecise(vertex);
+        // int vertexIdx = this.addVertex(vertex, "255,0,0");
+        // if(vertexIdx == -1){
+        //     return -1;
+        // }
+        
         
         //add polygon segments to mesh
         Coordinate coords[] = g.getCoordinates();
@@ -141,11 +160,12 @@ public class MeshADT{
             segmentIdxs.add(this.addSegment(v1Idx, v2Idx));
         }
 
-        return this.addPolygon(centroidIdx, segmentIdxs, new ArrayList<Integer>());
+        return this.addPolygon(vertexIdx, segmentIdxs, new ArrayList<Integer>());
     }
 
-    public int addPolygon(int centroidIdx, Iterable<? extends Integer> segmentIdxs, Iterable<? extends Integer> neighbourIdxs){
-        Structs.Polygon p = Structs.Polygon.newBuilder().setCentroidIdx(centroidIdx).addAllSegmentIdxs(segmentIdxs).addAllNeighborIdxs(neighbourIdxs).build(); //takes segment and neighbors
+    public int addPolygon(int vertexIdx, Iterable<? extends Integer> segmentIdxs, Iterable<? extends Integer> neighbourIdxs){
+        Structs.Polygon p = Structs.Polygon.newBuilder().setCentroidIdx(vertexIdx).addAllSegmentIdxs(segmentIdxs).addAllNeighborIdxs(neighbourIdxs).build(); //takes segment and neighbors
+        //Centroid is set as vertex for visualization
         this.polygons.add(p);
         return this.polygons.size()-1;
     }
@@ -154,7 +174,7 @@ public class MeshADT{
         int centroidIdx = this.findVertex(centroidVertex);
         if(centroidIdx == -1){
             return -1;
-        }
+        } 
 
         for(int i = 0;i < this.polygons.size(); i++){
             if(this.polygons.get(i).getCentroidIdx() == centroidIdx){
@@ -180,9 +200,8 @@ public class MeshADT{
         };
         Geometry diagram = vdb.getDiagram(this.gf).intersection(this.gf.createPolygon(bounds));
 
-        //when polygons are added, they add a vertex representing their centroid
-        //because of this we want to remove the old vertices the polygons were generated around
-        this.vertices.clear();
+        //remove old vertices to allow for new vertices with polygon associations to be added
+        // this.vertices.clear();
 
         //has to add polygons, add polygons that don't have neighbors for now
         for(int i = 0; i < diagram.getNumGeometries(); i++){
