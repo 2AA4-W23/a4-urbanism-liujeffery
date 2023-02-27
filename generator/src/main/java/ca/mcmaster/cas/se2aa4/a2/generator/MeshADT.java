@@ -16,9 +16,9 @@ public class MeshADT{
     public final double width;
     public final double height;
     public final double precision;
-    public ArrayList<Structs.Vertex> vertices;
-    public ArrayList<Structs.Segment> segments;
-    public ArrayList<Structs.Polygon> polygons;
+    public List<Structs.Vertex> vertices;
+    public List<Structs.Segment> segments;
+    public List<Structs.Polygon> polygons;
     public MeshADT(double width, double height, double precision){
         this.width = width;
         this.height = height;
@@ -58,6 +58,7 @@ public class MeshADT{
         //check the point doesn't already exist
         int idx = this.findVertex(c1);
         if(idx != -1){
+            System.out.println("trying to add duplicate vertex");
             return idx;
         }
         
@@ -79,7 +80,6 @@ public class MeshADT{
             Coordinate c2 = new Coordinate(v.getX(), v.getY());
             this.pm.makePrecise(c2);
             if(c1.equals2D(c2)){
-                System.out.println("trying to add duplicate vertex");
                 return i;
             }
         }
@@ -122,6 +122,15 @@ public class MeshADT{
         if(!g.getGeometryType().equals("Polygon")){
             return -1;
         }
+
+        //find the centroid that this polygon was created around
+        Coordinate centroid = g.getCentroid().getCoordinate();
+        this.pm.makePrecise(centroid);
+        int centroidIdx = this.addVertex(centroid, "255,0,0");
+        if(centroidIdx == -1){
+            return -1;
+        }
+        
         //add polygon segments to mesh
         Coordinate coords[] = g.getCoordinates();
         List<Integer> segmentIdxs = new ArrayList<>();
@@ -130,14 +139,6 @@ public class MeshADT{
             int v2Idx = this.addVertex(coords[j], "0,0,0");
             if(v1Idx == -1 || v2Idx == -1) continue;
             segmentIdxs.add(this.addSegment(v1Idx, v2Idx));
-        }
-
-        //find the centroid that this polygon was created around
-        Coordinate centroid = g.getCentroid().getCoordinate();
-        this.pm.makePrecise(centroid);
-        int centroidIdx = this.addVertex(centroid, "255,0,0");
-        if(centroidIdx == -1){
-            return -1;
         }
 
         return this.addPolygon(centroidIdx, segmentIdxs, new ArrayList<Integer>());
@@ -166,7 +167,7 @@ public class MeshADT{
 
     public void addVoronoiPolygons(){
         //convert vertices to sites
-        ArrayList<Coordinate> sites = this.getSitesFromVertices();
+        List<Coordinate> sites = this.getSitesFromVertices();
 
         VoronoiDiagramBuilder vdb = new VoronoiDiagramBuilder();
         vdb.setSites(sites);
@@ -198,13 +199,10 @@ public class MeshADT{
         
         //convert vertices to coordinates
         //TODO: update this to use polygons instead
-        ArrayList<Coordinate> sites = this.getSitesFromPolygons();
+        List<Coordinate> sites = this.getSitesFromPolygons();
         dtb.setSites(sites);
 
         Geometry triangles = dtb.getTriangles(this.gf);
-        System.out.println(triangles.toString());
-
-        // this.addGeometrySegments(triangles);
 
         //take the triangles and find the polygons that it references
         for(int i = 0;i < triangles.getNumGeometries(); i++){
@@ -220,10 +218,6 @@ public class MeshADT{
             }
             //remove the last one because it's a duplicate of the first (that's how the coordinates are generated)
             neighbourIdxs.remove(neighbourIdxs.size()-1);
-            for(int x : neighbourIdxs){
-                System.out.print(x + " ");
-            }
-            System.out.println();
 
             //update the polygons to include neighbor information
             for(int j = 0;j < neighbourIdxs.size(); j++){
@@ -244,12 +238,6 @@ public class MeshADT{
                 }
 
                 this.polygons.set(currIdx, Structs.Polygon.newBuilder().setCentroidIdx(old.getCentroidIdx()).addAllSegmentIdxs(old.getSegmentIdxsList()).addAllNeighborIdxs(uniqueNeighbourIdxs).build());
-        
-                System.out.print(currIdx + " neighbors: ");
-                for(Integer idx : this.polygons.get(currIdx).getNeighborIdxsList()){
-                    System.out.print(idx + " ");
-                }
-                System.out.println();
 
                 //add back the idx to the list of neighbors
                 neighbourIdxs.add(j, currIdx);
@@ -257,8 +245,8 @@ public class MeshADT{
         }
     }
 
-    private ArrayList<Coordinate> getSitesFromVertices(){
-        ArrayList<Coordinate> sites = new ArrayList<>();
+    private List<Coordinate> getSitesFromVertices(){
+        List<Coordinate> sites = new ArrayList<>();
         for(int i = 0;i < this.vertices.size(); i++){
             Structs.Vertex v = this.vertices.get(i);
             Coordinate c = new Coordinate(v.getX(), v.getY());
@@ -268,8 +256,8 @@ public class MeshADT{
         return sites;
     }
 
-    private ArrayList<Coordinate> getSitesFromPolygons(){
-        ArrayList<Coordinate> sites = new ArrayList<>();
+    private List<Coordinate> getSitesFromPolygons(){
+        List<Coordinate> sites = new ArrayList<>();
         for(int i = 0;i < this.polygons.size(); i++){
             Structs.Polygon p = this.polygons.get(i);
             Structs.Vertex centroid = this.vertices.get(p.getCentroidIdx());
