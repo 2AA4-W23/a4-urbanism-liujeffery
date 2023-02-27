@@ -25,7 +25,8 @@ public class Main {
         //     baseMesh.addVertex(x, y);
         // }
 
-        baseMesh.processVoronoi();
+        // baseMesh.processVoronoi();
+        baseMesh.processNeighbours();
         Mesh myMesh = baseMesh.makeMesh();
 
         MeshFactory factory = new MeshFactory();

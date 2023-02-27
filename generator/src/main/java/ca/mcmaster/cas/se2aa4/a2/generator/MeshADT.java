@@ -1,6 +1,7 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 import java.util.ArrayList;
 import org.locationtech.jts.geom.*;
+import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -79,13 +80,7 @@ public class MeshADT{
 
     public void processVoronoi(){
         //convert vertices to sites
-        ArrayList<Coordinate> sites = new ArrayList<>();
-        for(int i = 0;i < this.vertices.size(); i++){
-            Structs.Vertex v = this.vertices.get(i);
-            Coordinate c = new Coordinate(v.getX(), v.getY());
-            this.pm.makePrecise(c);
-            sites.add(c);
-        }
+        ArrayList<Coordinate> sites = this.getSitesFromVertices();
 
         VoronoiDiagramBuilder vdb = new VoronoiDiagramBuilder();
         vdb.setSites(sites);
@@ -98,6 +93,33 @@ public class MeshADT{
         };
         Geometry diagram = vdb.getDiagram(this.gf).intersection(this.gf.createPolygon(bounds));
 
+        this.addGeometrySegments(diagram);
+    }
+    public void processNeighbours(){
+        DelaunayTriangulationBuilder dtb = new DelaunayTriangulationBuilder();
+        
+        //convert vertices to coordinates
+        ArrayList<Coordinate> sites = this.getSitesFromVertices();
+        dtb.setSites(sites);
+
+        Geometry triangles = dtb.getTriangles(this.gf);
+        System.out.println(triangles.toString());
+
+        this.addGeometrySegments(triangles);
+    }
+
+    private ArrayList<Coordinate> getSitesFromVertices(){
+        ArrayList<Coordinate> sites = new ArrayList<>();
+        for(int i = 0;i < this.vertices.size(); i++){
+            Structs.Vertex v = this.vertices.get(i);
+            Coordinate c = new Coordinate(v.getX(), v.getY());
+            this.pm.makePrecise(c);
+            sites.add(c);
+        }
+        return sites;
+    }
+
+    private void addGeometrySegments(Geometry diagram){
         //convert polygons to segments
         for(int i = 0; i < diagram.getNumGeometries(); i++){
             Geometry g = diagram.getGeometryN(i);
@@ -111,6 +133,7 @@ public class MeshADT{
             }
         }
     }
+
 
     public Structs.Mesh makeMesh(){
         return Structs.Mesh.newBuilder().addAllVertices(this.vertices).addAllSegments(this.segments).build();
