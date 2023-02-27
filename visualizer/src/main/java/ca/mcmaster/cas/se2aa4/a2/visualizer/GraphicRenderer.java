@@ -20,6 +20,22 @@ public class GraphicRenderer {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
+        
+        //draw segments first
+        System.out.println("Drawing segments: " + aMesh.getSegmentsCount());
+        for(Segment s : aMesh.getSegmentsList()){
+            Vertex v1 = aMesh.getVertices(s.getV1Idx());
+            Vertex v2 = aMesh.getVertices(s.getV2Idx());
+            Color segmentColor = extractColor(s.getPropertiesList());
+            Line2D line = new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY());
+            
+            Color old = canvas.getColor();
+            canvas.setColor(segmentColor);
+            canvas.draw(line);
+            canvas.setColor(old);
+        }
+
+        //draw vertices on top of segments
         for (Vertex v: aMesh.getVerticesList()) {
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
@@ -27,27 +43,6 @@ public class GraphicRenderer {
             canvas.setColor(extractColor(v.getPropertiesList()));
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
-            canvas.setColor(old);
-        }
-
-        //draw segments
-        System.out.println("Drawing segments: " + aMesh.getSegmentsCount());
-        for(Segment s : aMesh.getSegmentsList()){
-            Vertex v1 = aMesh.getVertices(s.getV1Idx());
-            Vertex v2 = aMesh.getVertices(s.getV2Idx());
-            Color v1Color = extractColor(v1.getPropertiesList());
-            Color v2Color = extractColor(v2.getPropertiesList());
-            Color segmentColor = new Color(
-                (v1Color.getRed()+v2Color.getRed()) / 2, 
-                (v1Color.getGreen()+v2Color.getGreen()) / 2, 
-                (v1Color.getBlue()+v2Color.getBlue()) / 2
-            );
-            System.out.format("Creating line at: %f %f %f %f\n", v1.getX(), v1.getY(), v2.getX(), v2.getY());
-            Line2D line = new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY());
-            
-            Color old = canvas.getColor();
-            canvas.setColor(segmentColor);
-            canvas.draw(line);
             canvas.setColor(old);
         }
     }
