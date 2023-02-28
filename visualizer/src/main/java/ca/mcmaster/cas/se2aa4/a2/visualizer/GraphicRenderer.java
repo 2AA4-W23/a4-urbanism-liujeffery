@@ -109,7 +109,8 @@ public class GraphicRenderer {
             canvas.setColor(debugColor);
         }
         else{
-            canvas.setColor(extractColor(v.getPropertiesList()));
+            Color temp = extractColor(v.getPropertiesList());
+            canvas.setColor(new Color(temp.getRed(), temp.getGreen(), temp.getBlue(), extractTransparency(v.getPropertiesList())));
         }
         Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
         canvas.fill(point);
@@ -127,7 +128,8 @@ public class GraphicRenderer {
             segmentColor = new Color(
                 (v1Color.getRed()+v2Color.getRed()) / 2, 
                 (v1Color.getGreen()+v2Color.getGreen()) / 2, 
-                (v1Color.getBlue()+v2Color.getBlue()) / 2
+                (v1Color.getBlue()+v2Color.getBlue()) / 2,
+                TRANSPARENCY
             );
         }
         
@@ -136,6 +138,7 @@ public class GraphicRenderer {
         
         Color old = canvas.getColor();
         canvas.setColor(segmentColor);
+        canvas.setStroke(new BasicStroke(THICKNESS));
         canvas.draw(line);
         canvas.setColor(old);
     }
