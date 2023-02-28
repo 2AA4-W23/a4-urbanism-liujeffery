@@ -17,7 +17,6 @@ import java.util.List;
 
 public class GraphicRenderer {
 
-    private static final int THICKNESS = 3;
     public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
@@ -31,7 +30,9 @@ public class GraphicRenderer {
         for(Segment s : aMesh.getSegmentsList()){
             Vertex v1 = aMesh.getVertices(s.getV1Idx());
             Vertex v2 = aMesh.getVertices(s.getV2Idx());
-            drawSegment(aMesh, v1, v2, debug, canvas, new Color(0, 0, 0));
+            final int THICKNESS = extractThickness(s.getPropertiesList());
+            final int TRANSPARENCY = extractTransparency(s.getPropertiesList());
+            drawSegment(aMesh, v1, v2, debug, canvas, new Color(0, 0, 0), THICKNESS, TRANSPARENCY);
         }
 
         System.out.println("Drawing neighbour relations and centroids: ");
@@ -53,8 +54,8 @@ public class GraphicRenderer {
                 //drawing segment line
                 if (!isDup){
                     Vertex v2 = aMesh.getVertices(temp.getCentroidIdx());
-                    //light grey colour for debugging
-                    drawSegment(aMesh, v1, v2, debug, canvas, new Color(178, 178, 178));
+                    //light grey colour for debugging, hardcoded thickness and transparency
+                    drawSegment(aMesh, v1, v2, debug, canvas, new Color(178, 178, 178), 1, 255);
                 }
                 
             }
@@ -79,7 +80,28 @@ public class GraphicRenderer {
         return new Color(red, green, blue);
     }
 
+    public int extractThickness(List<Property> properties){
+        String val = "";
+        for (Property p: properties){
+            if (p.getKey().equals("thickness")){
+                val = p.getValue();
+            }
+        }
+        return Integer.parseInt(val);
+    }
+
+    public int extractTransparency(List<Property> properties){
+        String val = "";
+        for (Property p: properties){
+            if (p.getKey().equals("transparency")){
+                val = p.getValue();
+            }
+        }
+        return Integer.parseInt(val);
+    }
+
     public void drawPoint(Vertex v, Graphics2D canvas, boolean debug, Color debugColor){
+        final int THICKNESS = extractThickness(v.getPropertiesList());
         double centre_x = v.getX() - (THICKNESS/2.0d);
         double centre_y = v.getY() - (THICKNESS/2.0d);
         Color old = canvas.getColor();
@@ -87,14 +109,15 @@ public class GraphicRenderer {
             canvas.setColor(debugColor);
         }
         else{
-            canvas.setColor(extractColor(v.getPropertiesList()));
+            Color temp = extractColor(v.getPropertiesList());
+            canvas.setColor(new Color(temp.getRed(), temp.getGreen(), temp.getBlue(), extractTransparency(v.getPropertiesList())));
         }
         Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
         canvas.fill(point);
         canvas.setColor(old);
     }
 
-    public void drawSegment(Mesh aMesh, Vertex v1, Vertex v2, boolean debug, Graphics2D canvas, Color debugColor){
+    public void drawSegment(Mesh aMesh, Vertex v1, Vertex v2, boolean debug, Graphics2D canvas, Color debugColor, final int THICKNESS, final int TRANSPARENCY){
         Color v1Color = extractColor(v1.getPropertiesList());
         Color v2Color = extractColor(v2.getPropertiesList());
         Color segmentColor;
@@ -105,7 +128,8 @@ public class GraphicRenderer {
             segmentColor = new Color(
                 (v1Color.getRed()+v2Color.getRed()) / 2, 
                 (v1Color.getGreen()+v2Color.getGreen()) / 2, 
-                (v1Color.getBlue()+v2Color.getBlue()) / 2
+                (v1Color.getBlue()+v2Color.getBlue()) / 2,
+                TRANSPARENCY
             );
         }
         
@@ -114,6 +138,7 @@ public class GraphicRenderer {
         
         Color old = canvas.getColor();
         canvas.setColor(segmentColor);
+        canvas.setStroke(new BasicStroke(THICKNESS));
         canvas.draw(line);
         canvas.setColor(old);
     }
