@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.locationtech.jts.algorithm.ConvexHull;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
@@ -204,8 +205,10 @@ public class MeshADT{
         //has to add polygons, add polygons that don't have neighbors for now
         for(int i = 0; i < diagram.getNumGeometries(); i++){
             Geometry g = diagram.getGeometryN(i);
+            //do reordering via convex hull
             if(g.getGeometryType().equals("Polygon")){
-                this.addPolygon(g);
+                ConvexHull cv = new ConvexHull(g);
+                this.addPolygon(cv.getConvexHull());
             }
         }
     }
