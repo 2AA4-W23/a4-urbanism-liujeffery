@@ -31,6 +31,7 @@ public class Main {
         baseMesh.addVoronoiPolygons();
         baseMesh.relaxMesh();
         baseMesh.computeNeighbours();
+        baseMesh.exportWavefrontOBJ(args[0]+".obj");
         Mesh myMesh = baseMesh.makeMesh();
 
         MeshFactory factory = new MeshFactory();
