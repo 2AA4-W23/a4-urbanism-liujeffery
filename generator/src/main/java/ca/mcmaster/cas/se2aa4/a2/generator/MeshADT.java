@@ -17,6 +17,12 @@ public class MeshADT{
     public final double width;
     public final double height;
     public final double precision;
+    public final String VERTEX_THICKNESS;
+    public final String SEGMENT_THICKNESS;
+    public final String POLYGON_THICKNESS;
+    public final String VERTEX_TRANSPARENCY;
+    public final String SEGMENT_TRANSPARENCY;
+    public final String POLYGON_TRANSPARENCY;
     public List<Structs.Vertex> vertices;
     public List<Structs.Segment> segments;
     public List<Structs.Polygon> polygons;
@@ -29,6 +35,12 @@ public class MeshADT{
         this.vertices = new ArrayList<>();
         this.segments = new ArrayList<>();
         this.polygons = new ArrayList<>();
+        this.VERTEX_THICKNESS = "3";
+        this.SEGMENT_THICKNESS = "1";
+        this.POLYGON_THICKNESS = "1";
+        this.VERTEX_TRANSPARENCY = "255";
+        this.SEGMENT_TRANSPARENCY = "255";
+        this.POLYGON_TRANSPARENCY = "255";
 
         //create points on each end to make sure our canvas is the right width and height
     }
@@ -64,7 +76,9 @@ public class MeshADT{
         }
         
         System.out.println("Added vertex at " + c1.getX() + "," + c1.getY());
-        this.vertices.add(Structs.Vertex.newBuilder().setX(c1.getX()).setY(c1.getY()).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(colorCode).build()).build());
+        this.vertices.add(Structs.Vertex.newBuilder().setX(c1.getX()).setY(c1.getY()).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(colorCode).build())
+        .addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(VERTEX_THICKNESS).build())
+        .addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(VERTEX_TRANSPARENCY).build()).build());
         return this.vertices.size()-1;
     }
 
@@ -103,7 +117,9 @@ public class MeshADT{
             return idx; //if it does, don't add but return the idx of the existing segment
         }
 
-        Structs.Segment s = Structs.Segment.newBuilder().setV1Idx(v1Idx).setV2Idx(v2Idx).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(colorCode).build()).build();
+        Structs.Segment s = Structs.Segment.newBuilder().setV1Idx(v1Idx).setV2Idx(v2Idx).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(colorCode).build())
+        .addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(SEGMENT_THICKNESS).build())
+        .addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build()).build();
         this.segments.add(s);
         return this.segments.size()-1;
     }
@@ -254,7 +270,10 @@ public class MeshADT{
                     uniqueNeighbourIdxs.add(idx);
                 }
 
-                this.polygons.set(currIdx, Structs.Polygon.newBuilder().setCentroidIdx(old.getCentroidIdx()).addAllSegmentIdxs(old.getSegmentIdxsList()).addAllNeighborIdxs(uniqueNeighbourIdxs).build());
+                this.polygons.set(currIdx, Structs.Polygon.newBuilder().setCentroidIdx(old.getCentroidIdx()).addAllSegmentIdxs(old.getSegmentIdxsList()).addAllNeighborIdxs(uniqueNeighbourIdxs)
+                .addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("0,0,0").build())
+                .addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(POLYGON_THICKNESS).build())
+                .addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(POLYGON_TRANSPARENCY).build()).build());
 
                 //add back the idx to the list of neighbors
                 neighbourIdxs.add(j, currIdx);
