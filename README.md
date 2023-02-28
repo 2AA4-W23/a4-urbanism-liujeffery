@@ -72,4 +72,4 @@ When you develop features and enrich the product, remember that you have first t
 | F05 | Order segments via Convex Hull                         | @icecapped  | 02/26/2023 | 02/27/2023 | D      |
 | F06 | Add colour and thickness properties                    | @liujeffery | 02/26/2023 | 02/27/2023 | D      |
 | F07 | Produce full meshes (compute neighbour information)    | @johnny-q   | 02/26/2023 | 02/27/2023 | D      |
-| F08 | Change parameters via command line arguments           | @icecapped  | 02/27/2023 |            |        |
+| F08 | Change parameters via command line arguments           | @icecapped  | 02/27/2023 |            | S      |
