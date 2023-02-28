@@ -32,6 +32,7 @@ the filepath of the mesh file that should be used for the SVG generation, and sv
 java -jar visualizer.jar ../generator/sample.mesh sample.svg
 ````
 would generate an SVG file from the sample.mesh file in the generator subfolder, with sample.svg as the output.
+
 ### Installation instructions
 
 This product is handled by Maven, as a multi-module project. We assume here that you have cloned the project in a directory named `A2`
