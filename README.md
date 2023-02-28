@@ -6,8 +6,32 @@
 
 ## How to run the product
 
-_This section needs to be edited to reflect how the user can interact with thefeature released in your project_
+Note that the generator.jar and visualizer.jar files are in their own folders. You will have to navigate between the two and use appropriate filepaths for the command line arguments.
 
+To run the generator.jar file (given that you are in the generator subfolder):
+````
+java -jar generator.jar -t meshType -r relaxationCycles -seed rngSeed -f filepath
+````
+All fields except ````-f filepath ```` are optional. meshType is either "grid" or "irregular", relaxationCycles is an integer specifying the number of relaxation cycles
+to perform, rngSeed is an integer if replicable analysis is desired, and filepath is the destination filepath of the mesh file. For example:
+
+````
+java -jar generator.jar -t irregular -r 100 -f sample.mesh
+````
+would generate an irregular mesh with 100 relaxation cycles, with the mesh file saved to sample.mesh.
+
+To run the visualizer.jar file (given that you are in the visualizer subfolder):
+
+````
+java -jar visualizer.jar meshFilepath svgFilepath -X
+````
+-X is the only optional field, and it is a debug flag that changes the colours of the generated vertices, segments, and neighbour relationships for readability. meshFilepath is
+the filepath of the mesh file that should be used for the SVG generation, and svgFilepath is the destination filepath of the SVG file. For example:
+
+````
+java -jar visualizer.jar ../generator/sample.mesh sample.svg
+````
+would generate an SVG file from the sample.mesh file in the generator subfolder, with sample.svg as the output.
 ### Installation instructions
 
 This product is handled by Maven, as a multi-module project. We assume here that you have cloned the project in a directory named `A2`
@@ -59,7 +83,8 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
--- Insert here your definition of done for your features --
+A feautre is considered completed when it has completed at least three tests. Each test should be unique so that the feature is tested in a holistic way.
+For example, each test should input different parameters to the program or handle an edge case.
 
 ### Product Backlog
 
