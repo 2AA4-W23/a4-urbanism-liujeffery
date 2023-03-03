@@ -1,6 +1,9 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 import java.util.List;
 import java.util.Set;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -8,7 +11,6 @@ import org.locationtech.jts.algorithm.ConvexHull;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
-import org.locationtech.jts.triangulate.quadedge.Vertex;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
@@ -307,10 +309,6 @@ public class MeshADT{
         return sites;
     }
 
-    public Structs.Mesh makeMesh(){
-        return Structs.Mesh.newBuilder().addAllVertices(this.vertices).addAllSegments(this.segments).addAllPolygons(this.polygons).build();
-    }
-
     public void relaxMesh(){
         //get centroids of every thing
         //set those as new vertices
@@ -329,5 +327,50 @@ public class MeshADT{
 
         this.polygons.clear();
         addVoronoiPolygons();
+    }
+
+
+    public Structs.Mesh makeMesh(){
+        return Structs.Mesh.newBuilder().addAllVertices(this.vertices).addAllSegments(this.segments).addAllPolygons(this.polygons).build();
+    }
+
+    public void exportWavefrontOBJ(String filename){
+        try{
+            PrintWriter writer = new PrintWriter(new FileWriter(filename));
+            //export the vertices first
+            for(Structs.Vertex v : this.vertices){
+                Coordinate c = new Coordinate(v.getX(), v.getY());
+                this.pm.makePrecise(c);
+                writer.printf("v %.2f %.2f 0.00\n", c.getX(), c.getY());
+            }
+
+            //export the polygons
+            for(Structs.Polygon p : this.polygons){
+                //get the vertices that make up the polygon
+                List<Integer> vertexIdxs = new ArrayList<>();
+                for(int segmentIdx : p.getSegmentIdxsList()){
+                    Structs.Segment s = this.segments.get(segmentIdx);
+                    //make sure we don't add a vertex more than once
+                    if(!vertexIdxs.contains(s.getV1Idx())){
+                        vertexIdxs.add(s.getV1Idx());
+                    }
+                    if(!vertexIdxs.contains(s.getV2Idx())){
+                        vertexIdxs.add(s.getV2Idx());
+                    }
+                }
+                writer.printf("f");
+                for(int idx : vertexIdxs){
+                    writer.printf(" %d", idx+1); //vertices are 1 indexed
+                }
+                writer.printf("\n");
+            }
+
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+
+        //then add the polygons
     }
 }
