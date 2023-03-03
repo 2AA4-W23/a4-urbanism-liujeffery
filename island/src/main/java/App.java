@@ -1,5 +1,3 @@
-package io.github.ace-design;
-
 /**
  * Hello world!
  *
