@@ -109,7 +109,7 @@ For example, each test should input different parameters to the program or handl
 ### A3 Features
 | Id  | Feature title                                                              | Who?    | Start | End | Status |
 | :-: | -------------------------------------------------------------------------- | ------- | ----- | --- | ------ |
-| F01 | Take mesh as input via cmdline and generate basic water/land basde island. | Michael |       |     | P      |
+| F01 | Take mesh as input via cmdline and generate basic water/land basde island. | Michael |  23/03/13     |     | S      |
 | F02 | Generate mesh with internal lagoon                                         | Jeffery |       |     | B      |
 | F03 | Generate mesh with beaches based on land proximity to water                | Johnny  |       |     | B      |
 | F04 | Generate complex shapes for land                                           | Michael |       |     | B      |
@@ -122,4 +122,4 @@ For example, each test should input different parameters to the program or handl
 | F11 | Generate mesh w/ biomes based                                              | Jeffery |       |     | B      |
 | F11 | Generate reproducible mesh based on an input seed                          | Johnny  |       |     | B      |
 | B01 | Generate resource information based on the mesh terrain                    | Michael |       |     | B      |
-| B02 | Generate heatmaps of features                                              |         |       |     | B |
+| B02 | Generate heatmaps of features                                              |         |       |     | B      |
