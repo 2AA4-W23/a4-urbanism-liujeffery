@@ -78,7 +78,10 @@ To viualize the SVG file:
 
 ## Island Generator
 
-TODO
+Required options: 
+-i
+-o
+
 
 ## How to contribute to the project
 

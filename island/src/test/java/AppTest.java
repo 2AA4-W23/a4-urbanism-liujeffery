@@ -11,8 +11,23 @@ public class AppTest
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
+    public void noParameterTest()
     {
+        try {    
+            Main.main(new String[]{""});
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        assertTrue( true );
+    }
+
+    @Test
+    public void errorTest(){
+        try {    
+            Main.main(new String[]{"-i", "test.mesh", "-o", "islandtest.mesh"});
+        } catch (Exception e) {
+            assertTrue(false);
+        }
         assertTrue( true );
     }
 }
