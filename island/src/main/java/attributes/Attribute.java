@@ -1,4 +1,4 @@
-package island;
+package attributes;
 
 public interface Attribute {
 }

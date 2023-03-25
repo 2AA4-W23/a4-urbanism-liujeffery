@@ -3,6 +3,8 @@ package island;
 import java.util.HashSet;
 import java.util.Set;
 
+import attributes.Attribute;
+
 public class Tile {
     private int id;
     private Set<Tile> neighbours;
@@ -35,5 +37,12 @@ public class Tile {
 
     public int getId(){
         return id;
+    }
+
+    public Attribute getAttribute(Class<? extends Attribute> type){
+        for(Attribute attr : attributes){
+            if(attr.getClass() == type) return attr;
+        }
+        return null;
     }
 }
