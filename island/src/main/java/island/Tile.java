@@ -8,7 +8,7 @@ import attributes.Attribute;
 public class Tile {
     private int id;
     private Set<Tile> neighbours;
-    public Set<Attribute> attributes;
+    private Set<Attribute> attributes;
 
     public Tile(int id){
         neighbours = new HashSet<Tile>();
@@ -44,5 +44,11 @@ public class Tile {
             if(attr.getClass() == type) return attr;
         }
         return null;
+    }
+
+    public Set<Attribute> getAttributes(){
+        Set<Attribute> set = new HashSet<>();
+        set.addAll(attributes);
+        return set;
     }
 }

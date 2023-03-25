@@ -5,13 +5,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import attributes.Attribute;
+
 public class Island {
     // Adj. List
-    private Set<Class> attributes; 
+    private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
 
     public Island(HashMap<Integer, ArrayList<Integer>> adjacencyMap){
-        attributes = new HashSet<Class>();
+        attributes = new HashSet<Class<? extends Attribute>>();
         tiles = new HashSet<Tile>();
 
         HashMap<Integer, Tile> idMap = new HashMap<>();
@@ -32,7 +34,7 @@ public class Island {
         }   // Assign neighbours
     }
 
-    public Set<Class> getAttributes(){
+    public Set<Class<? extends Attribute>> getAttributes(){
         return attributes;
     }
 
