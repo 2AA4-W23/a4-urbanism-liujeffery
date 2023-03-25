@@ -11,12 +11,13 @@ public class Island {
     // Adj. List
     private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
+    HashMap<Integer, Tile> idMap;
 
     public Island(HashMap<Integer, ArrayList<Integer>> adjacencyMap){
         attributes = new HashSet<Class<? extends Attribute>>();
         tiles = new HashSet<Tile>();
+        idMap = new HashMap<>();
 
-        HashMap<Integer, Tile> idMap = new HashMap<>();
         for(Integer id : adjacencyMap.keySet()){
             Tile tile = new Tile(id);
             tiles.add(tile);
@@ -44,7 +45,7 @@ public class Island {
      * Gets the neighbours of a tile by tileid.
      */
     public ArrayList<Integer> getNeighbors(Integer tileId){
-        return mesh.get(tileId);
+        return tiles.get(tileId);
     }
 
     public Set<Integer> getTiles(){
