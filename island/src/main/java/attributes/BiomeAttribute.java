@@ -5,7 +5,7 @@ package attributes;
  */
 public class BiomeAttribute implements Attribute{
     public enum Biome{
-        BEACH
+        BEACH, LAND, OCEAN
     }
     public Biome biome;
 
