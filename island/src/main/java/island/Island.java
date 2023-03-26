@@ -13,12 +13,24 @@ public class Island {
         private int id;
         private Set<Tile> neighbours;
         private Set<Attribute> attributes;
+        private double x; // Center of tile, scaled 0-1
+        private double y;
     
-        public Tile(int id){
+        public Tile(int id, double x, double y){
             neighbours = new HashSet<Tile>();
             this.attributes = new HashSet<Attribute>();
+            this.x = x;
+            this.y = y;
         }
     
+        public double getX(){
+            return x;
+        }
+        
+        public double getY(){
+            return y;
+        }
+
         /**
          * Sets the neighbours if they have not been set already. If they have been,
          * does nothing.
@@ -51,18 +63,23 @@ public class Island {
         }
     }
 
-    // Adj. List
     private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
     private HashMap<Integer, Tile> idMap;
 
-    public Island(Map<Integer, List<Integer>> adjacencyMap){
+    /**
+     * 
+     * @param adjacencyMap
+     * @param xCoords mapping of x coordinates of tiles, scaled from 0-1
+     * @param yCoords mapping of x coordinates of tiles, scaled from 0-1
+     */
+    public Island(Map<Integer, List<Integer>> adjacencyMap, Map<Integer, Double> xCoords, Map<Integer, Double> yCoords){
         this.attributes = new HashSet<Class<? extends Attribute>>();
         this.tiles = new HashSet<Tile>();
         idMap = new HashMap<>();
 
         for(Integer id : adjacencyMap.keySet()){
-            Tile tile = new Tile(id);
+            Tile tile = new Tile(id, xCoords.get(id), yCoords.get(id));
             this.tiles.add(tile);
             this.idMap.put(id, tile);
         }   // Create tile for every id
