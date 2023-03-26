@@ -23,7 +23,7 @@ would generate an irregular mesh with 100 relaxation cycles, with the mesh file 
 To run the visualizer.jar file (given that you are in the visualizer subfolder):
 
 ````
-java -jar visualizer.jar -i meshFilepath -o svgFilepath -x
+java -jar visualizer.jar meshFilepath svgFilepath -X
 ````
 -X is the only optional field, and it is a debug flag that changes the colours of the generated vertices, segments, and neighbour relationships for readability. meshFilepath is
 the filepath of the mesh file that should be used for the SVG generation, and svgFilepath is the destination filepath of the SVG file. For example:
@@ -63,7 +63,7 @@ To visualize an existing mesh, go the the `visualizer` directory, and use `java 
 
 ```
 mosser@azrael A2 % cd visualizer 
-mosser@azrael visualizer % java -jar visualizer.jar ../generator/sample.mesh sample.svg
+mosser@azrael visualizer % java -jar visualizer.jar -i ../generator/sample.mesh -o sample.svg -x
 
 ... (lots of debug information printed to stdout) ...
 
