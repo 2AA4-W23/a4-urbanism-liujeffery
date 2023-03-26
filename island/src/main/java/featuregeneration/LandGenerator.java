@@ -9,17 +9,43 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.util.GeometricShapeFactory;
 
 import attributes.Attribute;
 import attributes.LandAttribute;
 import island.Island.Tile;
 
 public class LandGenerator extends Generator {
+    public enum Shapes{
+        CIRCLE, SQAURE, LAGOON
+    }
     private final GeometryFactory gf;
     private final Geometry landGeometry;
-    public LandGenerator(Geometry landGeometry){
+    public LandGenerator(Shapes shape){
         this.gf = new GeometryFactory();
-        this.landGeometry = landGeometry;
+
+        GeometricShapeFactory gsf = new GeometricShapeFactory(this.gf);
+        gsf.setCentre(new Coordinate(0.5, 0.5));
+        
+        if (shape == Shapes.LAGOON){
+            gsf.setCentre(new Coordinate(0.5, 0.5));
+            gsf.setSize(0.8);
+            Polygon outerCircle = gsf.createCircle();
+
+            gsf.setCentre(new Coordinate(0.5, 0.5));
+            gsf.setSize(0.5);
+            Polygon innerCircle = gsf.createCircle();
+
+            this.landGeometry = outerCircle.difference(innerCircle);
+        }else if(shape == Shapes.SQAURE){
+            gsf.setSize(0.8);
+            this.landGeometry = gsf.createRectangle();
+        }else{
+            //set the default shape to be circle
+            gsf.setSize(0.8);
+            this.landGeometry = gsf.createCircle();
+        }
     }
 
     @Override

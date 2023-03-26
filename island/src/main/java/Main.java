@@ -6,6 +6,7 @@ import org.locationtech.jts.util.GeometricShapeFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import featuregeneration.BasicGenerator;
 import featuregeneration.LandGenerator;
+import featuregeneration.LandGenerator.Shapes;
 import island.Island;
 import island.IslandBuilder;
 import island.IslandBuilder.MissingAttributeError;
@@ -32,18 +33,7 @@ public class Main
         
         IslandBuilder ib = new IslandBuilder();
 
-        //TODO: remove this code from main
-        GeometryFactory gf = new GeometryFactory();
-        GeometricShapeFactory gsf = new GeometricShapeFactory(gf);
-        gsf.setCentre(new Coordinate(0.5, 0.5));
-        gsf.setSize(0.8);
-        Polygon outerCircle = gsf.createCircle();
-
-        gsf.setCentre(new Coordinate(0.5, 0.5));
-        gsf.setSize(0.5);
-        Polygon innerCircle = gsf.createCircle();
-
-        ib.addGenerator(new LandGenerator(outerCircle.difference(innerCircle)));
+        ib.addGenerator(new LandGenerator(config.shape));
 
         ib.build(island);
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);
