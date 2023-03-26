@@ -142,6 +142,13 @@ public class Island {
 
         for(Tile t : tileSet)
             t.attributes.add(attributeMap.get(t)); // Add attributes
+
+        //add the attribute type to the attributes list
+        //TODO: make this prettier
+        for(Tile t : tileSet){
+            this.attributes.add(attributeMap.get(t).getClass());
+            break;
+        }
         return true;
     }
 

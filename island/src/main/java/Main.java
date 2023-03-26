@@ -5,6 +5,7 @@ import org.locationtech.jts.util.GeometricShapeFactory;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import featuregeneration.BasicGenerator;
+import featuregeneration.BeachGenerator;
 import featuregeneration.LandGenerator;
 import island.Island;
 import island.IslandBuilder;
@@ -44,6 +45,8 @@ public class Main
         Polygon innerCircle = gsf.createCircle();
 
         ib.addGenerator(new LandGenerator(outerCircle.difference(innerCircle)));
+
+        ib.addGenerator(new BeachGenerator());
 
         ib.build(island);
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);

@@ -29,6 +29,5 @@ public class IslandBuilder {
         return island;
     }}
 
-    public class MissingAttributeError extends Exception{
-    }
+    public class MissingAttributeError extends Exception{}
 }
