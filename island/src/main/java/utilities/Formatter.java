@@ -3,11 +3,9 @@ package utilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import island.Island;
 import island.Island.Tile;
 

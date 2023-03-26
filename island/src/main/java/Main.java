@@ -4,7 +4,6 @@ import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.util.GeometricShapeFactory;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import featuregeneration.BasicGenerator;
 import featuregeneration.BeachGenerator;
 import featuregeneration.LandGenerator;
 import island.Island;
