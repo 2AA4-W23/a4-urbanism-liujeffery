@@ -74,7 +74,7 @@ public class MeshADT{
         //check the point doesn't already exist
         int idx = this.findVertex(c1);
         if(idx != -1){
-            System.out.println("trying to add duplicate vertex");
+            // System.out.println("trying to add duplicate vertex");
             return idx;
         }
         

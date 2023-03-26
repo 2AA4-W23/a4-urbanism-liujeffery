@@ -13,7 +13,6 @@ public class Reader {
     Reader(List<Structs.Property> props) {
         this.contents = new HashMap<>();
         for(Structs.Property p: props){
-            System.out.printf("%s %s\n", p.getKey(), p.getValue());
             this.contents.put(p.getKey(), p.getValue());
         }
     }
