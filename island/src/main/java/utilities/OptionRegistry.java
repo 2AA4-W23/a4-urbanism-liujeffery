@@ -13,6 +13,7 @@ public class OptionRegistry {
         options.addOption("o", null, true, "Output mesh address");
         options.addOption("s", "shape", true, "Island shape - circle, square, lagoon");
         options.addOption("h", false, "Displays this");
+        options.addOption("e", null, true, "Elevation type: hills, mountain, or plains");
         return options;
     }
 }

@@ -8,6 +8,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import featuregeneration.LandGenerator;
+import featuregeneration.ElevationGenerator.ElevationModes;
 import island.Mode;
 
 /**
@@ -24,6 +25,7 @@ public class Configuration {
 
     // Configuration information # THIS IS THE STUFF YOU WANT
     public LandGenerator.Shapes shape;
+    public ElevationModes elevation;
     public String inputAddress;
     public String outputAddress;
 
@@ -64,15 +66,29 @@ public class Configuration {
     private void objectConversion(){
         // Defaults
         shape = LandGenerator.Shapes.LAGOON;
+        elevation = ElevationModes.MOUNTAIN;
 
         // Required options
-        inputAddress = cmd.getOptionValue("i");
+        inputAddress = cmd.getOptionValue("i"); 
         outputAddress = cmd.getOptionValue("o");
 
         // Options
         if(cmd.hasOption("shape"))
             shape = LandGenerator.Shapes.valueOf(cmd.getOptionValue("shape").toUpperCase());
-            
+    
+        if (cmd.hasOption("e")){
+            switch (cmd.getOptionValue("e")){
+                case "hills":
+                    this.elevation = ElevationModes.HILLS;
+                    break;
+                case "mountain":
+                    this.elevation = ElevationModes.MOUNTAIN;
+                    break;
+                case "plains":
+                    this.elevation = ElevationModes.PLAINS;
+                    break;
+            }
+        }
     }
 
     /**

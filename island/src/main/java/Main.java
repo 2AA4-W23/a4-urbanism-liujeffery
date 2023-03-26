@@ -37,7 +37,7 @@ public class Main
         ib.addGenerator(new LandGenerator(config.shape));
 
         ib.addGenerator(new BeachGenerator());
-        ib.addGenerator(new ElevationGenerator("mountain"));
+        ib.addGenerator(new ElevationGenerator(config.elevation));
 
         ib.build(island);
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);
