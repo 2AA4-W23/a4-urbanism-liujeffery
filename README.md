@@ -116,13 +116,13 @@ For example, each test should input different parameters to the program or handl
 | F02 | Generate mesh with internal lagoon                                         | Jeffery |          |     | B      |
 | F03 | Generate mesh with beaches based on land proximity to water                | Johnny  |          |     | B      |
 | F04 | Generate complex shapes for land                                           | Michael |          |     | B      |
-| F05 | Generate mesh w/ elevations selectable via cmdline                         | Michael |          |     | B      |
+| F05 | Generate mesh w/ elevations selectable via cmdline                         | Johnny  |          |     | B      |
 | F06 | Generate mesh w/ lakes, max number selectable via cmdline                  | Jeffery |          |     | B      |
 | F07 | Generate mesh w/ rivers, max number selectable via cmdline                 | Johnny  |          |     | B      |
 | F08 | Generate mesh w/ river merging behaviour                                   | Johnny  |          |     | B      |
 | F09 | Generate mesh w/ aquifers, max number selectable via cmdline               | Jeffery |          |     | B      |
 | F10 | Generate mesh w/ biomes based on temperature and moisture                  | Michael |          |     | B      |
-| F11 | Generate mesh w/ biomes based                                              | Jeffery |          |     | B      |
+| F11 | Generate mesh w/ biomes based on whittaker diagrams                        | Jeffery |          |     | B      |
 | F11 | Generate reproducible mesh based on an input seed                          | Johnny  |          |     | B      |
 | B01 | Generate resource information based on the mesh terrain                    | Michael |          |     | B      |
 | B02 | Generate heatmaps of features                                              |         |          |     | B      |
