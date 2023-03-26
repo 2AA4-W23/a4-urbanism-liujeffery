@@ -9,6 +9,7 @@ target
 *.sh
 *.bat
 *.obj
+out/*
 
 # Eclipse stuff
 .settings
