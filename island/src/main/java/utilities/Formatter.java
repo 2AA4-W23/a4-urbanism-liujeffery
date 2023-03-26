@@ -38,7 +38,7 @@ public class Formatter {
             adjList.put(p.getCentroidIdx(), p.getNeighborIdxsList());
         }
         
-        // Mesh size
+        // find the size of the mesh
         maxX = 0;
         maxY = 0;
         List<Structs.Vertex> vertexList = mesh.getVerticesList();
@@ -52,6 +52,7 @@ public class Formatter {
         HashMap<Integer, Double> yCoords = new HashMap<Integer, Double>();
         for (Polygon p : polygonList) {
             Vertex v = mesh.getVertices(p.getCentroidIdx());
+            //normalize coordinates to be between 0 and 1
             xCoords.put(p.getCentroidIdx(), v.getX() / maxX);
             yCoords.put(p.getCentroidIdx(), v.getY() / maxY);
         }
@@ -71,7 +72,7 @@ public class Formatter {
         // TreeMap<Integer, Structs.Segment> segments = new TreeMap<>();
         // TreeMap<Integer, Structs.Vertex> vertices = new TreeMap<>();
 
-        // New Polygons
+        // convert tiles to structs.polygon
         for(int i = 0; i < mesh.getPolygonsCount(); i++){ 
             Tile t = island.getTileByID(i);
             System.out.println(t.getId());
@@ -81,7 +82,7 @@ public class Formatter {
             Structs.Polygon oldPolygon = mesh.getPolygons(i);
             Structs.Polygon.Builder pb = oldPolygon.toBuilder();
             Structs.Property.Builder tileColorPropertyBuilder = Structs.Property.newBuilder().setKey("rgb_color");
-            tileColorPropertyBuilder.setValue("0,0,0"); // default
+            tileColorPropertyBuilder.setValue("0,0,255"); // default everything is water
             // TODO CHECK FOR TILE TYPE ATTRIBUTE, COLOUR ACCORDINGLY
             pb.addProperties(tileColorPropertyBuilder.build());
             polygons.add(i, pb.build());
