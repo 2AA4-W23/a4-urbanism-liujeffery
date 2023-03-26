@@ -1,11 +1,7 @@
-import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import configuration.Configuration;
-
-import java.io.IOException;
-
-
-import island.IslandMesh;
+import island.Island;
+import utilities.Formatter;
 import utilities.IO;
 
 /**
@@ -16,8 +12,13 @@ public class Main
 {
     public static void main( String[] args ) {
         Configuration config = new Configuration(args);
+        if(!config.isValid()){
+            config.printHelp();
+            return;
+        }
         Structs.Mesh inputMesh = IO.readMesh(config.inputAddress);
-
-        IslandMesh islandMesh = new IslandMesh(inputMesh, config.mode);
+        if(inputMesh == null) return;
+        Formatter meshFormatter = new Formatter(inputMesh);
+        Island island = meshFormatter.convertAbstractMesh();
     }
 }

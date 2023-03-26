@@ -16,6 +16,7 @@ public class AppTest
         try {    
             Main.main(new String[]{""});
         } catch (Exception e) {
+            e.printStackTrace();
             assertTrue(false);
         }
         assertTrue( true );
@@ -26,6 +27,7 @@ public class AppTest
         try {    
             Main.main(new String[]{"-i", "test.mesh", "-o", "islandtest.mesh"});
         } catch (Exception e) {
+            e.printStackTrace();
             assertTrue(false);
         }
         assertTrue( true );

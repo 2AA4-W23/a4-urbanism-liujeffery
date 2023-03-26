@@ -61,9 +61,16 @@ public class Configuration {
     }
 
     private void objectConversion(){
+        // Defaults
+        mode = Mode.LAGOON;
+
+        // Required options
         inputAddress = cmd.getOptionValue("i");
         outputAddress = cmd.getOptionValue("o");
-        mode = Mode.valueOf(cmd.getOptionValue("m"));
+
+        // Options
+        if(cmd.hasOption("m"))
+            mode = Mode.valueOf(cmd.getOptionValue("m"));
     }
 
     /**
@@ -72,10 +79,13 @@ public class Configuration {
     private boolean validify() {
         // Help option ||  Missing required options
         if(cmd.hasOption("h") || !(cmd.hasOption("i") && cmd.hasOption("o"))){
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("island", OPTION_SUITE);
             return false;
         }
         return true;
+    }
+    
+    public void printHelp(){
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("island", OPTION_SUITE);
     }
 }
