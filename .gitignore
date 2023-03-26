@@ -8,10 +8,7 @@ target
 *.svg
 *.sh
 *.bat
-<<<<<<< HEAD
 *.obj
-=======
->>>>>>> 6089db3d93eadd6b91620570db2835c3fed474fa
 out/*
 
 # Eclipse stuff
