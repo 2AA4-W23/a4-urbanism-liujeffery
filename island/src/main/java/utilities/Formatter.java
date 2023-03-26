@@ -3,12 +3,10 @@ package utilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.TreeMap;
 
+import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import island.Island;
@@ -18,6 +16,9 @@ public class Formatter {
     private Structs.Mesh mesh;
     private double maxX;
     private double maxY;
+
+    static final String LAND_COLOR = "210,176,140";
+    static final String WATER_COLOR = "170,194,206";
 
     static final String VERTEX_COLOR = "255,0,0";
     static final String VERTEX_THICKNESS = "0";
@@ -66,30 +67,24 @@ public class Formatter {
         ArrayList<Structs.Segment> segments = new ArrayList<>(mesh.getSegmentsCount());
         ArrayList<Structs.Vertex> vertices = new ArrayList<>(mesh.getVerticesCount());
 
-
-        // TreeMap<Integer, Structs.Polygon> polygons = new TreeMap<>();
-        // TreeMap<Integer, Structs.Segment> segments = new TreeMap<>();
-        // TreeMap<Integer, Structs.Vertex> vertices = new TreeMap<>();
-
         // New Polygons
         for(int i = 0; i < mesh.getPolygonsCount(); i++){ 
             Tile t = island.getTileByID(i);
             System.out.println(t.getId());
 
             // for every tile, find corresponding polygon
-            // add fill colour depending on land/water
             Structs.Polygon oldPolygon = mesh.getPolygons(i);
             Structs.Polygon.Builder pb = oldPolygon.toBuilder();
             Structs.Property.Builder tileColorPropertyBuilder = Structs.Property.newBuilder().setKey("rgb_color");
-            tileColorPropertyBuilder.setValue("0,0,0"); // default
-            // TODO CHECK FOR TILE TYPE ATTRIBUTE, COLOUR ACCORDINGLY
+
+            // Tile colour logic
+            if(t.getAttribute(LandAttribute.class).isLand){
+                tileColorPropertyBuilder.setValue(LAND_COLOR);
+            }
+            else tileColorPropertyBuilder.setValue(WATER_COLOR);
+
             pb.addProperties(tileColorPropertyBuilder.build());
             polygons.add(i, pb.build());
-
-            // pb.setCentroidIdx(t.getId());
-            // New Segments
-
-            // pb.addAllNeighborIdxs(oldPolygon.getNeighborIdxsList());
         }
 
         // New Segments
@@ -101,9 +96,7 @@ public class Formatter {
             sb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build());
 
             Structs.Segment newSegment = sb.build();
-            // if(sIndex >= segments.size() || segments.get(sIndex) != null) // add segment if doesnt exist
             segments.add(i, newSegment); // copy to same index
-            // pb.addSegmentIdxs(sIndex);
         }
 
         // New Vertices (All)
@@ -120,15 +113,4 @@ public class Formatter {
         System.out.println(vertices.toString());
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
-
-    // /**
-    //  * if index would be directly appended or be pushed into the arraylist, does so.
-    //  * Otherwise, makes elements in al equal to the
-    //  * @param al
-    //  * @param index
-    //  */
-    // private static void pushFastForward(ArrayList<?> al, int index){
-    //     int sizeDiff = index - al.size();
-    //     if(sizeDiff <=)
-    // }
 }

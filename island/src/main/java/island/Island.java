@@ -57,9 +57,10 @@ public class Island {
             return id;
         }
     
-        public Attribute getAttribute(Class<? extends Attribute> type){
+        @SuppressWarnings("unchecked")
+        public <T extends Attribute> T getAttribute(Class<T> type){
             for(Attribute attr : attributes){
-                if(attr.getClass() == type) return attr;
+                if(attr.getClass() == type) return (T)attr;
             }
             return null;
         }
@@ -133,7 +134,7 @@ public class Island {
      * @param attributeMap
      * @return whether the add was successful
      */
-    protected boolean addAttributeLayer(HashMap<Tile, Attribute> attributeMap){
+    protected boolean addAttributeLayer(Map<Tile, ? extends Attribute> attributeMap){
         if(attributeMap.size() != tiles.size()) return false; // size check
         Set<Tile> tileSet = attributeMap.keySet();
         for(Tile t : tileSet)
