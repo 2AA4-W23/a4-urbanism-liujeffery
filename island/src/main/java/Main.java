@@ -32,6 +32,7 @@ public class Main
         
         IslandBuilder ib = new IslandBuilder();
 
+        //TODO: remove this code from main
         GeometryFactory gf = new GeometryFactory();
         GeometricShapeFactory gsf = new GeometricShapeFactory(gf);
         gsf.setCentre(new Coordinate(0.5, 0.5));
