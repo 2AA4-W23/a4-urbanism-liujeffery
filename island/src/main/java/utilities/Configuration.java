@@ -63,7 +63,7 @@ public class Configuration {
 
     private void objectConversion(){
         // Defaults
-        shape = LandGenerator.Shapes.CIRCLE;
+        shape = LandGenerator.Shapes.LAGOON;
 
         // Required options
         inputAddress = cmd.getOptionValue("i");

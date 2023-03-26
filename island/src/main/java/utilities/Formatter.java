@@ -81,7 +81,6 @@ public class Formatter {
             // Tile colour logic
             if(t.getAttribute(LandAttribute.class).isLand){
                 tileColorPropertyBuilder.setValue(LAND_COLOR);
-                System.out.println(t.getAttribute(BiomeAttribute.class).biome.toString());
                 if((t.getAttribute(BiomeAttribute.class) != null) && (t.getAttribute(BiomeAttribute.class).biome == BiomeAttribute.Biome.BEACH))
                     tileColorPropertyBuilder.setValue(BEACH_COLOR);
             }
