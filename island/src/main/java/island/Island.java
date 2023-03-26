@@ -1,6 +1,5 @@
 package island;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,11 +12,11 @@ public class Island {
     public class Tile {
         private int id;
         private Set<Tile> neighbours;
-        private Set<Attribute> attributes;
+        private Set<Class<? extends Attribute>> attributes;
     
         public Tile(int id){
             neighbours = new HashSet<Tile>();
-            this.attributes = new HashSet<Attribute>();
+            this.attributes = new HashSet<Class<? extends Attribute>>();
         }
     
         /**
@@ -44,16 +43,26 @@ public class Island {
             return id;
         }
     
-        public Attribute getAttribute(Class<? extends Attribute> type){
-            for(Attribute attr : attributes){
-                if(attr.getClass() == type) return attr;
-            }
-            return null;
+        public boolean hasAttribute(Class<? extends Attribute> type){
+            return attributes.contains(type);
         }
     
-        public Set<Attribute> getAttributes(){
-            Set<Attribute> set = new HashSet<>();
+        /**
+         * @return Set of attributes possessed by the island
+         */
+        public Set<Class<? extends Attribute>> getAttributes(){
+            Set<Class<? extends Attribute>> set = new HashSet<>();
             set.addAll(attributes);
+            return set;
+        }
+
+        /**
+         * 
+         * @return Set of tiles possessed by the island
+         */
+        public Set<Tile> getTiles(){
+            Set<Tile> set = new HashSet<>();
+            set.addAll(tiles);
             return set;
         }
     }
