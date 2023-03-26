@@ -1,6 +1,6 @@
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import configuration.Configuration;
 import island.Island;
+import utilities.Configuration;
 import utilities.Formatter;
 import utilities.IO;
 
@@ -19,6 +19,9 @@ public class Main
         Structs.Mesh inputMesh = IO.readMesh(config.inputAddress);
         if(inputMesh == null) return;
         Formatter meshFormatter = new Formatter(inputMesh);
-        Island island = meshFormatter.convertAbstractMesh();
+        Island island = meshFormatter.convertToIsland();
+        
+        IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);
+        System.out.println("Success");
     }
 }

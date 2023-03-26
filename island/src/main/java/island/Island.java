@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import attributes.Attribute;
 
@@ -19,6 +20,7 @@ public class Island {
         public Tile(int id, double x, double y){
             neighbours = new HashSet<Tile>();
             this.attributes = new HashSet<Attribute>();
+            this.id = id;
             this.x = x;
             this.y = y;
         }
@@ -65,7 +67,7 @@ public class Island {
 
     private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
-    private HashMap<Integer, Tile> idMap;
+    private TreeMap<Integer, Tile> idMap;
 
     /**
      * 
@@ -76,21 +78,23 @@ public class Island {
     public Island(Map<Integer, List<Integer>> adjacencyMap, Map<Integer, Double> xCoords, Map<Integer, Double> yCoords){
         this.attributes = new HashSet<Class<? extends Attribute>>();
         this.tiles = new HashSet<Tile>();
-        idMap = new HashMap<>();
+        idMap = new TreeMap<>();
 
+        Set<Integer> tileIds = adjacencyMap.keySet();
         for(Integer id : adjacencyMap.keySet()){
             Tile tile = new Tile(id, xCoords.get(id), yCoords.get(id));
-            this.tiles.add(tile);
+            tiles.add(tile);
             this.idMap.put(id, tile);
         }   // Create tile for every id
-        for(Integer id : adjacencyMap.keySet()){
+        for(Integer id : tileIds){
             Tile tile = this.idMap.get(id);
-            Set<Tile> neighbours = new HashSet<>();
-            for(Integer neighbourId : adjacencyMap.get(id)){
-                neighbours.add(this.idMap.get(neighbourId));
+            Set<Tile> neighbourTiles = new HashSet<>();
+            List<Integer> neighbourIds = adjacencyMap.get(id);
+            for(Integer neighbourId : neighbourIds){
+                neighbourTiles.add(this.idMap.get(neighbourId));
             } // Add neighbour Tile objects as a neighbour
             
-            boolean setFail = !tile.setNeighbours(neighbours);
+            boolean setFail = !tile.setNeighbours(neighbourTiles);
             if(setFail) throw new Error("Error: Tried re-setting neighbours during island construction");
         }   // Assign neighbours
     }
@@ -101,6 +105,13 @@ public class Island {
     public Set<Tile> getTiles(){
         Set<Tile> copy = new HashSet<>();
         copy.addAll(tiles);
+        System.out.println(copy.toString());
+        return copy;
+    }
+
+    public Set<Integer> getIds(){
+        Set<Integer> copy = new HashSet<>();
+        copy.addAll(idMap.keySet());
         return copy;
     }
 
@@ -124,10 +135,11 @@ public class Island {
      */
     protected boolean addAttributeLayer(HashMap<Tile, Attribute> attributeMap){
         if(attributeMap.size() != tiles.size()) return false; // size check
-        for(Tile t : attributeMap.keySet())
+        Set<Tile> tileSet = attributeMap.keySet();
+        for(Tile t : tileSet)
             if(!tiles.contains(t)) return false; // check for same objects
 
-        for(Tile t : attributeMap.keySet())
+        for(Tile t : tileSet)
             t.attributes.add(attributeMap.get(t)); // Add attributes
         return true;
     }

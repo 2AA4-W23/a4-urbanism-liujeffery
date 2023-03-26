@@ -8,6 +8,7 @@ target
 *.svg
 *.sh
 *.bat
+*.obj
 
 # Eclipse stuff
 .settings

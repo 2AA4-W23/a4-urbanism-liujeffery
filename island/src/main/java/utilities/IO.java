@@ -15,4 +15,16 @@ public class IO {
             return null;
         }
     }
+
+    public static boolean writeMesh(Structs.Mesh m, String filename){
+        try{
+            System.out.println(m.getVerticesList().toString());
+            new MeshFactory().write(m, filename);
+            return true;
+        } catch (IOException e) {
+            System.out.println("Error reading input mesh, stacktrace:");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
