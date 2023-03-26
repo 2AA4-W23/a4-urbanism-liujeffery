@@ -24,7 +24,7 @@ public class BasicGenerator extends Generator {
         HashMap<Tile, LandAttribute> attributeLayer = new HashMap<>();
         for(Tile tile : tiles){
             double dist = Math.pow(tile.getX() - 0.5, 2) + Math.pow(tile.getY() - 0.5, 2);
-            boolean isLand = dist > LAND_RADIUS;
+            boolean isLand = dist < LAND_RADIUS * LAND_RADIUS;
             attributeLayer.put(tile, new LandAttribute(isLand));
         }
         return attributeLayer;

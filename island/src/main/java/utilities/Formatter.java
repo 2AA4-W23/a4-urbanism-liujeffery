@@ -8,7 +8,6 @@ import java.util.Set;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import island.Island;
 import island.Island.Tile;
 
@@ -35,8 +34,8 @@ public class Formatter {
         // Neighbours
         HashMap<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
         List<Structs.Polygon> polygonList = mesh.getPolygonsList();
-        for(Polygon p : polygonList){
-            adjList.put(p.getCentroidIdx(), p.getNeighborIdxsList());
+        for(int i = 0; i < mesh.getPolygonsCount(); i++){
+            adjList.put(i, mesh.getPolygons(i).getNeighborIdxsList());
         }
         
         // Mesh size
@@ -52,17 +51,17 @@ public class Formatter {
         HashMap<Integer, Double> xCoords = new HashMap<Integer, Double>();
         HashMap<Integer, Double> yCoords = new HashMap<Integer, Double>();
         for (Polygon p : polygonList) {
-            Vertex v = mesh.getVertices(p.getCentroidIdx());
+            Structs.Vertex v = mesh.getVertices(p.getCentroidIdx());
             xCoords.put(p.getCentroidIdx(), v.getX() / maxX);
             yCoords.put(p.getCentroidIdx(), v.getY() / maxY);
+            System.out.println("x:" + v.getX() + " y:" + v.getY());
         }
         
-        System.out.println(adjList.keySet().toString());
+        // System.out.println(adjList.keySet().toString());
         return new Island(adjList, xCoords, yCoords);
     }
 
     public Structs.Mesh meshFromIsland(Island island){
-        Set<Tile> tiles = island.getTiles();
         ArrayList<Structs.Polygon> polygons = new ArrayList<>(mesh.getPolygonsCount());
         ArrayList<Structs.Segment> segments = new ArrayList<>(mesh.getSegmentsCount());
         ArrayList<Structs.Vertex> vertices = new ArrayList<>(mesh.getVerticesCount());
@@ -70,7 +69,7 @@ public class Formatter {
         // New Polygons
         for(int i = 0; i < mesh.getPolygonsCount(); i++){ 
             Tile t = island.getTileByID(i);
-            System.out.println(t.getId());
+            // System.out.println(t.getId());
 
             // for every tile, find corresponding polygon
             Structs.Polygon oldPolygon = mesh.getPolygons(i);
@@ -78,10 +77,14 @@ public class Formatter {
             Structs.Property.Builder tileColorPropertyBuilder = Structs.Property.newBuilder().setKey("rgb_color");
 
             // Tile colour logic
+            // double dist = Math.pow(t.getX() - 0.5, 2) + Math.pow(t.getY() - 0.5, 2);
+            // dist = Math.sqrt(dist);
+            // dist = t.getY();
             if(t.getAttribute(LandAttribute.class).isLand){
                 tileColorPropertyBuilder.setValue(LAND_COLOR);
             }
             else tileColorPropertyBuilder.setValue(WATER_COLOR);
+            // tileColorPropertyBuilder.setValue((String)((int)(dist * 255) + "," + (int)(dist * 255) + "," + (int)(dist * 255)));
 
             pb.addProperties(tileColorPropertyBuilder.build());
             polygons.add(i, pb.build());
@@ -110,7 +113,7 @@ public class Formatter {
             vertices.add(i, vb.build());
         }
 
-        System.out.println(vertices.toString());
+        // System.out.println(vertices.toString());
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 }

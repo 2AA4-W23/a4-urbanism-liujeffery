@@ -18,7 +18,7 @@ public class IO {
 
     public static boolean writeMesh(Structs.Mesh m, String filename){
         try{
-            System.out.println(m.getVerticesList().toString());
+            // System.out.println(m.getVerticesList().toString());
             new MeshFactory().write(m, filename);
             return true;
         } catch (IOException e) {
