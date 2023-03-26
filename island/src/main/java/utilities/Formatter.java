@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import attributes.BiomeAttribute;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
@@ -16,8 +17,9 @@ public class Formatter {
     private double maxX;
     private double maxY;
 
-    static final String LAND_COLOR = "210,176,140";
+    static final String LAND_COLOR = "163,134,114";
     static final String WATER_COLOR = "170,194,206";
+    static final String BEACH_COLOR = "210,176,140";
 
     static final String VERTEX_COLOR = "255,0,0";
     static final String VERTEX_THICKNESS = "0";
@@ -33,7 +35,6 @@ public class Formatter {
     public Island convertToIsland(){
         // Neighbours
         HashMap<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
-        List<Structs.Polygon> polygonList = mesh.getPolygonsList();
 
         for(int i = 0; i < mesh.getPolygonsCount(); i++){
             adjList.put(i, mesh.getPolygons(i).getNeighborIdxsList());
@@ -80,13 +81,15 @@ public class Formatter {
             Structs.Property.Builder tileColorPropertyBuilder = Structs.Property.newBuilder().setKey("rgb_color");
 
             // Tile colour logic
-            // double dist = Math.pow(t.getX() - 0.5, 2) + Math.pow(t.getY() - 0.5, 2);
-            // dist = Math.sqrt(dist);
-            // dist = t.getY();
             if(t.getAttribute(LandAttribute.class).isLand){
                 tileColorPropertyBuilder.setValue(LAND_COLOR);
+                System.out.println(t.getAttribute(BiomeAttribute.class).biome.toString());
+                if((t.getAttribute(BiomeAttribute.class) != null) && (t.getAttribute(BiomeAttribute.class).biome == BiomeAttribute.Biome.BEACH))
+                    tileColorPropertyBuilder.setValue(BEACH_COLOR);
             }
-            else tileColorPropertyBuilder.setValue(WATER_COLOR);
+            else{
+                tileColorPropertyBuilder.setValue(WATER_COLOR);
+            }
             // tileColorPropertyBuilder.setValue((String)((int)(dist * 255) + "," + (int)(dist * 255) + "," + (int)(dist * 255)));
 
             pb.addProperties(tileColorPropertyBuilder.build());

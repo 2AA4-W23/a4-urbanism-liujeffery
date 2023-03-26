@@ -24,9 +24,13 @@ public class BeachGenerator extends Generator {
         HashMap<Tile, BiomeAttribute> attributeLayer = new HashMap<>();
         for(Tile tile : tiles){
             if(tile.getAttribute(LandAttribute.class).isLand){
+                if(attributeLayer.get(tile) == null)
+                    attributeLayer.put(tile, new BiomeAttribute(Biome.LAND));
                 continue;
             }
-            
+
+            attributeLayer.put(tile, new BiomeAttribute(Biome.OCEAN));
+
             //if it's a water tile, mark the surrounding land tiles as beach
             for(Tile neighbor : tile.getNeighbours()){
                 if(neighbor.getAttribute(LandAttribute.class).isLand){
