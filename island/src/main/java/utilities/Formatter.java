@@ -34,6 +34,7 @@ public class Formatter {
         // Neighbours
         HashMap<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
         List<Structs.Polygon> polygonList = mesh.getPolygonsList();
+
         for(int i = 0; i < mesh.getPolygonsCount(); i++){
             adjList.put(i, mesh.getPolygons(i).getNeighborIdxsList());
         }
@@ -43,18 +44,20 @@ public class Formatter {
         maxY = 0;
         List<Structs.Vertex> vertexList = mesh.getVerticesList();
         for (Structs.Vertex v: vertexList) {
-            maxX = (Double.compare(maxX, v.getX()) < 0? v.getX(): maxX);
-            maxY = (Double.compare(maxY, v.getY()) < 0? v.getY(): maxY);
+            maxX = (Double.compare(maxX, v.getX()) < 0 ? v.getX(): maxX);
+            maxY = (Double.compare(maxY, v.getY()) < 0 ? v.getY(): maxY);
         }
         
         // Coordinates
         HashMap<Integer, Double> xCoords = new HashMap<Integer, Double>();
         HashMap<Integer, Double> yCoords = new HashMap<Integer, Double>();
-        for (Polygon p : polygonList) {
+        for(int i = 0; i < mesh.getPolygonsCount(); i++){
+            Structs.Polygon p = mesh.getPolygons(i);
             Structs.Vertex v = mesh.getVertices(p.getCentroidIdx());
-            xCoords.put(p.getCentroidIdx(), v.getX() / maxX);
-            yCoords.put(p.getCentroidIdx(), v.getY() / maxY);
-            System.out.println("x:" + v.getX() + " y:" + v.getY());
+            xCoords.put(i, v.getX() / maxX);
+            yCoords.put(i, v.getY() / maxY);
+            // System.out.println("x:" + v.getX() + " y:" + v.getY());
+            // System.out.println("x:" + v.getX() / maxX + " y:" + v.getY() / maxY);
         }
         
         // System.out.println(adjList.keySet().toString());
