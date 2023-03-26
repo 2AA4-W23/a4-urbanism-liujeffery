@@ -5,6 +5,7 @@ import org.locationtech.jts.util.GeometricShapeFactory;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import featuregeneration.BeachGenerator;
+import featuregeneration.ElevationGenerator;
 import featuregeneration.LandGenerator;
 import featuregeneration.LandGenerator.Shapes;
 import island.Island;
@@ -36,6 +37,7 @@ public class Main
         ib.addGenerator(new LandGenerator(config.shape));
 
         ib.addGenerator(new BeachGenerator());
+        ib.addGenerator(new ElevationGenerator("mountain"));
 
         ib.build(island);
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);

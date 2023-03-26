@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import attributes.BiomeAttribute;
+import attributes.ElevationAttribute;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Island;
