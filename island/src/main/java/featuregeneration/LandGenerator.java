@@ -18,7 +18,7 @@ import island.Island.Tile;
 
 public class LandGenerator extends Generator {
     public enum Shapes{
-        CIRCLE, SQAURE, LAGOON
+        CIRCLE, SQUARE, LAGOON
     }
     private final GeometryFactory gf;
     private final Geometry landGeometry;
@@ -27,25 +27,16 @@ public class LandGenerator extends Generator {
 
         GeometricShapeFactory gsf = new GeometricShapeFactory(this.gf);
         gsf.setCentre(new Coordinate(0.5, 0.5));
-        
-        if (shape == Shapes.LAGOON){
-            gsf.setCentre(new Coordinate(0.5, 0.5));
-            gsf.setSize(0.8);
-            Polygon outerCircle = gsf.createCircle();
-
-            gsf.setCentre(new Coordinate(0.5, 0.5));
-            gsf.setSize(0.5);
-            Polygon innerCircle = gsf.createCircle();
-
-            this.landGeometry = outerCircle.difference(innerCircle);
-        }else if(shape == Shapes.SQAURE){
-            gsf.setSize(0.8);
-            this.landGeometry = gsf.createRectangle();
-        }else{
-            //set the default shape to be circle
-            gsf.setSize(0.8);
-            this.landGeometry = gsf.createCircle();
+        Geometry geom = null;
+        switch(shape){
+            case CIRCLE: geom = shapeCircle(gsf);
+                break;
+            case SQUARE: geom = shapeSquare(gsf);
+                break;
+            case LAGOON:
+            default:  geom = shapeLagoon(gsf);
         }
+        this.landGeometry = geom;
     }
 
     @Override
@@ -66,5 +57,27 @@ public class LandGenerator extends Generator {
             attributeLayer.put(tile, new LandAttribute(isLand));
         }
         return attributeLayer;
+    }
+
+    private Geometry shapeLagoon(GeometricShapeFactory gsf){
+        gsf.setCentre(new Coordinate(0.5, 0.5));
+        gsf.setSize(0.8);
+        Polygon outerCircle = gsf.createCircle();
+
+        gsf.setCentre(new Coordinate(0.5, 0.5));
+        gsf.setSize(0.5);
+        Polygon innerCircle = gsf.createCircle();
+
+        return outerCircle.difference(innerCircle);
+    }
+    
+    private Geometry shapeSquare(GeometricShapeFactory gsf){
+        gsf.setSize(0.8);
+        return gsf.createRectangle();
+    }
+
+    private Geometry shapeCircle(GeometricShapeFactory gsf){
+        gsf.setSize(0.8);
+        return gsf.createCircle();
     }
 }

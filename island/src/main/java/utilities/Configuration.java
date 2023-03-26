@@ -71,7 +71,7 @@ public class Configuration {
 
         // Options
         if(cmd.hasOption("m"))
-            shape = LandGenerator.Shapes.valueOf(cmd.getOptionValue("shape"));
+            shape = LandGenerator.Shapes.valueOf(cmd.getOptionValue("m"));
     }
 
     /**
