@@ -7,6 +7,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import featuregeneration.LandGenerator;
 import island.Mode;
 
 /**
@@ -22,7 +23,7 @@ public class Configuration {
     private boolean valid = true;
 
     // Configuration information # THIS IS THE STUFF YOU WANT
-    public island.Mode mode;
+    public LandGenerator.Shapes shape;
     public String inputAddress;
     public String outputAddress;
 
@@ -62,15 +63,16 @@ public class Configuration {
 
     private void objectConversion(){
         // Defaults
-        mode = Mode.LAGOON;
+        shape = LandGenerator.Shapes.CIRCLE;
 
         // Required options
         inputAddress = cmd.getOptionValue("i");
         outputAddress = cmd.getOptionValue("o");
 
         // Options
-        if(cmd.hasOption("m"))
-            mode = Mode.valueOf(cmd.getOptionValue("m"));
+        if(cmd.hasOption("shape"))
+            shape = LandGenerator.Shapes.valueOf(cmd.getOptionValue("shape").toUpperCase());
+            
     }
 
     /**
