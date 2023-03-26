@@ -1,5 +1,11 @@
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.util.GeometricShapeFactory;
+
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import featuregeneration.BasicGenerator;
+import featuregeneration.LandGenerator;
 import island.Island;
 import island.IslandBuilder;
 import island.IslandBuilder.MissingAttributeError;
@@ -25,7 +31,18 @@ public class Main
         Island island = meshFormatter.convertToIsland();
         
         IslandBuilder ib = new IslandBuilder();
-        ib.addGenerator(new BasicGenerator());
+
+        GeometryFactory gf = new GeometryFactory();
+        GeometricShapeFactory gsf = new GeometricShapeFactory(gf);
+        gsf.setCentre(new Coordinate(0.5, 0.5));
+        gsf.setSize(0.8);
+        Polygon outerCircle = gsf.createCircle();
+
+        gsf.setCentre(new Coordinate(0.5, 0.5));
+        gsf.setSize(0.5);
+        Polygon innerCircle = gsf.createCircle();
+
+        ib.addGenerator(new LandGenerator(outerCircle.difference(innerCircle)));
 
         ib.build(island);
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);

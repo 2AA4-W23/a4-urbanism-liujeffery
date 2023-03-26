@@ -115,7 +115,7 @@ For example, each test should input different parameters to the program or handl
 | F01 | Take mesh as input via cmdline and generate basic water/land basde island. | Michael | 23/03/13 |     | S      |
 | F02 | Generate mesh with internal lagoon                                         | Jeffery |          |     | B      |
 | F03 | Generate mesh with beaches based on land proximity to water                | Johnny  |          |     | B      |
-| F04 | Generate complex shapes for land                                           | Johnny  |          |     | B      |
+| F04 | Generate complex shapes for land                                           | Johnny  | 23/03/26 |     | S      |
 | F05 | Generate mesh w/ elevations selectable via cmdline                         | Michael |          |     | B      |
 | F06 | Generate mesh w/ lakes, max number selectable via cmdline                  | Jeffery |          |     | B      |
 | F07 | Generate mesh w/ rivers, max number selectable via cmdline                 | Johnny  |          |     | B      |
