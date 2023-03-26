@@ -70,8 +70,9 @@ public class Configuration {
         outputAddress = cmd.getOptionValue("o");
 
         // Options
-        if(cmd.hasOption("m"))
-            shape = LandGenerator.Shapes.valueOf(cmd.getOptionValue("m"));
+        if(cmd.hasOption("shape"))
+            shape = LandGenerator.Shapes.valueOf(cmd.getOptionValue("shape").toUpperCase());
+            
     }
 
     /**

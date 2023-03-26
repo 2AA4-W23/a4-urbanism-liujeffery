@@ -11,7 +11,7 @@ public class OptionRegistry {
         Options options = new Options();
         options.addOption("i", null, true, "Input mesh address");
         options.addOption("o", null, true, "Output mesh address");
-        options.addOption("m", "mode", true, "Island generation mode");
+        options.addOption("s", "shape", true, "Island shape - circle, square, lagoon");
         options.addOption("h", false, "Displays this");
         return options;
     }
