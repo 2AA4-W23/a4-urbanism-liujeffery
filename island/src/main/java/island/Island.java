@@ -106,7 +106,6 @@ public class Island {
     public Set<Tile> getTiles(){
         Set<Tile> copy = new HashSet<>();
         copy.addAll(tiles);
-        System.out.println(copy.toString());
         return copy;
     }
 

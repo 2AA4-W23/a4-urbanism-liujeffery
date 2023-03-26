@@ -16,6 +16,7 @@ public class ElevationGenerator extends Generator{
     private ElevationModes mode;
 
     public ElevationGenerator(ElevationModes mode){
+        this.mode = mode;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class ElevationGenerator extends Generator{
         }
 
         else if(mode.equals(ElevationModes.HILLS)){
-            determineElevation(20, 0.7, 1, tiles, attributeLayer);
+            determineElevation(20, 0.7, 3, tiles, attributeLayer);
         }
 
         else if (mode.equals(ElevationModes.PLAINS)){

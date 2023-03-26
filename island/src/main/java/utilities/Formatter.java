@@ -84,7 +84,7 @@ public class Formatter {
             // dist = t.getY();
             if(t.getAttribute(LandAttribute.class).isLand){
                 tileColorPropertyBuilder.setValue(LAND_COLOR);
-                //tileColorPropertyBuilder.setValue((int)(t.getAttribute(ElevationAttribute.class).elevation * 100) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 100) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 100));
+                //tileColorPropertyBuilder.setValue((int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255));
             }
             else tileColorPropertyBuilder.setValue(WATER_COLOR);
             // tileColorPropertyBuilder.setValue((String)((int)(dist * 255) + "," + (int)(dist * 255) + "," + (int)(dist * 255)));
