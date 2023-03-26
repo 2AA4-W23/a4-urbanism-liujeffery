@@ -12,11 +12,11 @@ public class Island {
     public class Tile {
         private int id;
         private Set<Tile> neighbours;
-        private Set<Class<? extends Attribute>> attributes;
+        private Set<Attribute> attributes;
     
         public Tile(int id){
             neighbours = new HashSet<Tile>();
-            this.attributes = new HashSet<Class<? extends Attribute>>();
+            this.attributes = new HashSet<Attribute>();
         }
     
         /**
@@ -43,27 +43,11 @@ public class Island {
             return id;
         }
     
-        public boolean hasAttribute(Class<? extends Attribute> type){
-            return attributes.contains(type);
-        }
-    
-        /**
-         * @return Set of attributes possessed by the island
-         */
-        public Set<Class<? extends Attribute>> getAttributes(){
-            Set<Class<? extends Attribute>> set = new HashSet<>();
-            set.addAll(attributes);
-            return set;
-        }
-
-        /**
-         * 
-         * @return Set of tiles possessed by the island
-         */
-        public Set<Tile> getTiles(){
-            Set<Tile> set = new HashSet<>();
-            set.addAll(tiles);
-            return set;
+        public Attribute getAttribute(Class<? extends Attribute> type){
+            for(Attribute attr : attributes){
+                if(attr.getClass() == type) return attr;
+            }
+            return null;
         }
     }
 
@@ -94,16 +78,24 @@ public class Island {
         }   // Assign neighbours
     }
 
-    public Set<Class<? extends Attribute>> getAttributes(){
-        return attributes;
-    }
-
+    /**
+     * @return Set of tiles possessed by the island
+     */
     public Set<Tile> getTiles(){
         Set<Tile> copy = new HashSet<>();
         copy.addAll(tiles);
         return copy;
     }
-    
+
+    /**
+     * @return Set of attributes possessed by the island
+     */
+    public Set<Class<? extends Attribute>> getAttributes(){
+        Set<Class<? extends Attribute>> set = new HashSet<>();
+        set.addAll(attributes);
+        return set;
+    }
+
     public Tile getTileByID(int id){
         return idMap.get(id);
     }
