@@ -6,6 +6,7 @@ import org.locationtech.jts.util.GeometricShapeFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import featuregeneration.BeachGenerator;
 import featuregeneration.ElevationGenerator;
+import featuregeneration.LakeGenerator;
 import featuregeneration.LandGenerator;
 import featuregeneration.LandGenerator.Shapes;
 import island.Island;
@@ -35,9 +36,9 @@ public class Main
         IslandBuilder ib = new IslandBuilder();
 
         ib.addGenerator(new LandGenerator(config.shape));
-
         ib.addGenerator(new BeachGenerator());
         ib.addGenerator(new ElevationGenerator(config.elevation));
+        ib.addGenerator(new LakeGenerator(config.lakes));
 
         ib.build(island);
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);

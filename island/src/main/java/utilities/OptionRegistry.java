@@ -14,6 +14,7 @@ public class OptionRegistry {
         options.addOption("s", "shape", true, "Island shape - circle, square, lagoon");
         options.addOption("h", false, "Displays this");
         options.addOption("e", null, true, "Elevation type: hills, mountain, or plains");
+        options.addOption("l", null, true, "Number of lakes");
         return options;
     }
 }

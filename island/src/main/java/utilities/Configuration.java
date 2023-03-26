@@ -9,7 +9,6 @@ import org.apache.commons.cli.ParseException;
 
 import featuregeneration.LandGenerator;
 import featuregeneration.ElevationGenerator.ElevationModes;
-import island.Mode;
 
 /**
  * Parses, validates, and stores information related to program configuration.
@@ -26,6 +25,7 @@ public class Configuration {
     // Configuration information # THIS IS THE STUFF YOU WANT
     public LandGenerator.Shapes shape;
     public ElevationModes elevation;
+    public int lakes;
     public String inputAddress;
     public String outputAddress;
 
@@ -67,6 +67,7 @@ public class Configuration {
         // Defaults
         shape = LandGenerator.Shapes.LAGOON;
         elevation = ElevationModes.MOUNTAIN;
+        lakes = 2;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 
@@ -88,6 +89,10 @@ public class Configuration {
                     this.elevation = ElevationModes.PLAINS;
                     break;
             }
+        }
+
+        if (cmd.hasOption("l")){
+            lakes = Integer.parseInt(cmd.getOptionValue("l"));
         }
     }
 

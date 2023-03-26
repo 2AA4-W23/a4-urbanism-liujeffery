@@ -22,6 +22,7 @@ public class ElevationGenerator extends Generator{
     @Override
     public Set<Class<? extends Attribute>> preRequisiteAttributes() {
         Set<Class<? extends Attribute>> set = new HashSet<>();
+        set.add(LandAttribute.class);
         return set;
     }
 
@@ -31,21 +32,21 @@ public class ElevationGenerator extends Generator{
         
         
         if(mode.equals(ElevationModes.MOUNTAIN)){
-            determineElevation(1, 1, 1.35, tiles, attributeLayer);
+            determineElevation(1, 1, 1.35, 0.2, tiles, attributeLayer);
         }
 
         else if(mode.equals(ElevationModes.HILLS)){
-            determineElevation(20, 0.7, 3, tiles, attributeLayer);
+            determineElevation(20, 0.7, 3, 0.1, tiles, attributeLayer);
         }
 
         else if (mode.equals(ElevationModes.PLAINS)){
-            determineElevation(30, 0.4, 0.7, tiles, attributeLayer);
+            determineElevation(30, 0.4, 0.7, 0.05, tiles, attributeLayer);
         }
 
         return attributeLayer;
     }
 
-    private void determineElevation(int peaksNum, double maxHeight, double slopeOff, Set <Tile> tiles, HashMap<Tile, ElevationAttribute> attributeLayer){
+    private void determineElevation(int peaksNum, double maxHeight, double slopeOff, double randomness, Set <Tile> tiles, HashMap<Tile, ElevationAttribute> attributeLayer){
         Random bag = new Random();
         Set <Tile> hills = new HashSet<>();
         for (int j = 0; j < peaksNum; j++){
@@ -61,7 +62,7 @@ public class ElevationGenerator extends Generator{
                     i++;
                 }
             }
-            while(hill.getAttribute(LandAttribute.class).isLand && !hills.contains(hill));
+            while(!hill.getAttribute(LandAttribute.class).isLand && !hills.contains(hill));
             hills.add(hill);
         }
 
@@ -70,9 +71,11 @@ public class ElevationGenerator extends Generator{
             for (Tile hill : hills){
                 minDistance = Math.sqrt(Math.pow(tile.getX() - hill.getX(), 2) + Math.pow(tile.getY() - hill.getY(), 2)) < minDistance ? Math.sqrt(Math.pow(tile.getX() - hill.getX(), 2) + Math.pow(tile.getY() - hill.getY(), 2)) : minDistance;
             }
-
-            double elevation = Math.max(maxHeight - minDistance * slopeOff, 0);
-            System.out.println(elevation);
+            double elevation = (bag.nextDouble() * randomness) - randomness / 2;
+            elevation = maxHeight - minDistance * slopeOff + elevation * (1 - minDistance);
+            elevation = Math.min(elevation, 1);
+            elevation = Math.max(elevation, 0);
+            
             attributeLayer.put(tile, new ElevationAttribute(elevation));
         }
     }
