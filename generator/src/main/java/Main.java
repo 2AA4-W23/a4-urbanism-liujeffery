@@ -56,7 +56,7 @@ public class Main {
             Random bag = new Random(69);
             if(cmd.hasOption("seed"))
                 bag = new Random(Integer.parseInt(cmd.getOptionValue("seed")));
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 2500; i++){
                 int x = bag.nextInt(width);
                 int y = bag.nextInt(height);
                 baseMesh.addVertex(x, y, "255,0,0");

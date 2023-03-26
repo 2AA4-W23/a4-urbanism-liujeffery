@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import attributes.ElevationAttribute;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Island;
@@ -83,6 +84,7 @@ public class Formatter {
             // dist = t.getY();
             if(t.getAttribute(LandAttribute.class).isLand){
                 tileColorPropertyBuilder.setValue(LAND_COLOR);
+                //tileColorPropertyBuilder.setValue((int)(t.getAttribute(ElevationAttribute.class).elevation * 100) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 100) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 100));
             }
             else tileColorPropertyBuilder.setValue(WATER_COLOR);
             // tileColorPropertyBuilder.setValue((String)((int)(dist * 255) + "," + (int)(dist * 255) + "," + (int)(dist * 255)));

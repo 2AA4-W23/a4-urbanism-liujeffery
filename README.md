@@ -116,7 +116,7 @@ For example, each test should input different parameters to the program or handl
 | F02 | Generate mesh with internal lagoon                                        | Johnny  | 23/03/26 | 23/03/26 | D      |
 | F03 | Generate mesh with beaches based on land proximity to water               | Johnny  | 23/03/26 | 23/03/26 | D      |
 | F04 | Generate complex shapes for land                                          | Johnny  | 23/03/26 |          | S      |
-| F05 | Generate mesh w/ elevations selectable via cmdline                        | Jeffery |          |          | B      |
+| F05 | Generate mesh w/ elevations selectable via cmdline                        | Jeffery | 23/03/26 |          | S      |
 | F06 | Generate mesh w/ lakes, max number selectable via cmdline                 | Jeffery |          |          | B      |
 | F07 | Generate mesh w/ rivers, max number selectable via cmdline                | Johnny  |          |          | B      |
 | F08 | Generate mesh w/ river merging behaviour                                  | Johnny  |          |          | B      |
