@@ -115,8 +115,8 @@ For example, each test should input different parameters to the program or handl
 | F01 | Take mesh as input via cmdline and generate basic water/land basde island. | Michael | 23/03/13 |     | S      |
 | F02 | Generate mesh with internal lagoon                                         | Jeffery |          |     | B      |
 | F03 | Generate mesh with beaches based on land proximity to water                | Johnny  |          |     | B      |
-| F04 | Generate complex shapes for land                                           | Michael |          |     | B      |
-| F05 | Generate mesh w/ elevations selectable via cmdline                         | Johnny  |          |     | B      |
+| F04 | Generate complex shapes for land                                           | Johnny  |          |     | B      |
+| F05 | Generate mesh w/ elevations selectable via cmdline                         | Michael |          |     | B      |
 | F06 | Generate mesh w/ lakes, max number selectable via cmdline                  | Jeffery |          |     | B      |
 | F07 | Generate mesh w/ rivers, max number selectable via cmdline                 | Johnny  |          |     | B      |
 | F08 | Generate mesh w/ river merging behaviour                                   | Johnny  |          |     | B      |
@@ -124,5 +124,10 @@ For example, each test should input different parameters to the program or handl
 | F10 | Generate mesh w/ biomes based on temperature and moisture                  | Michael |          |     | B      |
 | F11 | Generate mesh w/ biomes based on whittaker diagrams                        | Jeffery |          |     | B      |
 | F11 | Generate reproducible mesh based on an input seed                          | Johnny  |          |     | B      |
-| B01 | Generate resource information based on the mesh terrain                    | Michael |          |     | B      |
+| B01 | Generate resource information based on the mesh terrain                    |         |          |     | B      |
 | B02 | Generate heatmaps of features                                              |         |          |     | B      |
+
+
+## Appendix
+### Backlog changes:
+f04: transfer responsibility from Michael -> Johnny
