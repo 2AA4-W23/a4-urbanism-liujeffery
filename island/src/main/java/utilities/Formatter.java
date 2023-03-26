@@ -39,7 +39,7 @@ public class Formatter {
             adjList.put(i, mesh.getPolygons(i).getNeighborIdxsList());
         }
         
-        // Mesh size
+        // find the size of the mesh
         maxX = 0;
         maxY = 0;
         List<Structs.Vertex> vertexList = mesh.getVerticesList();
