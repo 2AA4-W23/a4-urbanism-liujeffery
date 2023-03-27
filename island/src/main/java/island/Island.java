@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import attributes.Attribute;
 
 public class Island {
-    public class Tile {
+    static public class Tile {
         private int id;
         private Set<Tile> neighbours;
         private Set<Attribute> attributes;

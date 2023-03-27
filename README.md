@@ -123,7 +123,7 @@ For example, each test should input different parameters to the program or handl
 | F09 | Generate mesh w/ aquifers, max number selectable via cmdline              | Jeffery | 23/03/26 |          | S      |
 | F10 | Generate mesh w/ biomes based on temperature and moisture                 | Michael |          |          | P      |
 | F11 | Generate mesh w/ biomes based on whittaker diagrams                       | Jeffery |          |          | B      |
-| F11 | Generate reproducible mesh based on an input seed                         | Michael |          |          | B      |
+| F12 | Generate reproducible mesh based on an input seed                         | Jeffery |          |          | B      |
 | B01 | Generate resource information based on the mesh terrain                   |         |          |          | B      |
 | B02 | Generate heatmaps of features                                             |         |          |          | B      |
 
@@ -134,3 +134,4 @@ f04: transfer from Michael -> Johnny
 f02: transfer from Jeffery -> Johnny
 f05: transfer form Michael -> Jeffery
 f11: transfer from Johnny -> Michael
+f11: transfer from Michael -> Jeffery
