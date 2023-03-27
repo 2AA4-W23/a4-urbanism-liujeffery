@@ -27,7 +27,7 @@ public class ElevationGenerator extends Generator{
     }
 
     @Override
-    public Map<Tile, ? extends Attribute> generate(Set<Tile> tiles) {
+    public Map<Tile, ElevationAttribute> generate(Set<Tile> tiles) {
         HashMap<Tile, ElevationAttribute> attributeLayer = new HashMap<>();
         
         

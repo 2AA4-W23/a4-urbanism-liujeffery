@@ -15,6 +15,7 @@ public class OptionRegistry {
         options.addOption("h", false, "Displays this");
         options.addOption("e", null, true, "Elevation type: hills, mountain, or plains");
         options.addOption("l", null, true, "Number of lakes");
+        options.addOption("a", null, true, "Number of aquifers");
         return options;
     }
 }

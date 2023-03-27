@@ -4,6 +4,7 @@ import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.util.GeometricShapeFactory;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import featuregeneration.AquiferGenerator;
 import featuregeneration.BeachGenerator;
 import featuregeneration.ElevationGenerator;
 import featuregeneration.LakeGenerator;
@@ -39,6 +40,7 @@ public class Main
         ib.addGenerator(new BeachGenerator());
         ib.addGenerator(new ElevationGenerator(config.elevation));
         ib.addGenerator(new LakeGenerator(config.lakes));
+        ib.addGenerator(new AquiferGenerator(config.aquifers));
 
         ib.build(island);
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);

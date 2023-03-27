@@ -26,6 +26,7 @@ public class Configuration {
     public LandGenerator.Shapes shape;
     public ElevationModes elevation;
     public int lakes;
+    public int aquifers;
     public String inputAddress;
     public String outputAddress;
 
@@ -68,6 +69,7 @@ public class Configuration {
         shape = LandGenerator.Shapes.LAGOON;
         elevation = ElevationModes.MOUNTAIN;
         lakes = 2;
+        aquifers = 2;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 
@@ -93,6 +95,9 @@ public class Configuration {
 
         if (cmd.hasOption("l")){
             lakes = Integer.parseInt(cmd.getOptionValue("l"));
+        }
+        if (cmd.hasOption("a")){
+            aquifers = Integer.parseInt(cmd.getOptionValue("a"));
         }
     }
 

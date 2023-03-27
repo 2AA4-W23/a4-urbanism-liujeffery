@@ -1,6 +1,5 @@
 package island;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,7 @@ import java.util.TreeMap;
 import attributes.Attribute;
 
 public class Island {
-    public class Tile {
+    public static class Tile {
         private int id;
         private Set<Tile> neighbours;
         private Set<Attribute> attributes;
