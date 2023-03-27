@@ -74,7 +74,7 @@ public class LakeGenerator extends Generator{
 
     public boolean checkIfCoastal(Tile tile){
         for (Tile t : tile.getNeighbours()){
-            if (t.getAttribute(LandAttribute.class).isLand){
+            if (!t.getAttribute(LandAttribute.class).isLand){
                 return true;
             }
         }
