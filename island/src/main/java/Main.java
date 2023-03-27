@@ -1,4 +1,5 @@
-import configuration.Configuration;
+import utilities.Configuration;
+import featuregeneration.AquiferGenerator;
 import featuregeneration.BeachGenerator;
 import featuregeneration.ElevationGenerator;
 import featuregeneration.LakeGenerator;
@@ -27,6 +28,7 @@ public class Main
         ib.addGenerator(new BeachGenerator());
         ib.addGenerator(new ElevationGenerator(config.elevation));
         ib.addGenerator(new LakeGenerator(config.lakes));
+        ib.addGenerator(new AquiferGenerator(config.aquifers));
 
         IO.writeMesh(meshFormatter.meshFromIsland(ib.build(meshFormatter.convertToIsland())), config.outputAddress);
         System.out.println("Success");

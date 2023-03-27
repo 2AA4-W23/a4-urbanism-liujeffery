@@ -26,7 +26,7 @@ public class LakeGenerator extends Generator{
     }
 
     @Override
-    public Map<Tile, ? extends Attribute> generate(Set<Tile> tiles) {
+    public Map<Tile, LakeAttribute> generate(Set<Tile> tiles) {
         HashMap<Tile, LakeAttribute> attributeLayer = new HashMap<>();
         Set <Tile> lakesList = new HashSet<>();
 
@@ -50,13 +50,10 @@ public class LakeGenerator extends Generator{
 
             //expanding lake based on if it is land and elevation is lower
             expandLake(lakesList, lake);
-            
-            System.out.println(lakesList.size());
         }
 
         for (Tile tile : tiles){
             attributeLayer.put(tile, new LakeAttribute(lakesList.contains(tile)));
-
         }
 
         return attributeLayer;
