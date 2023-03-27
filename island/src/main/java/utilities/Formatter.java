@@ -22,6 +22,10 @@ public class Formatter {
     static final String WATER_COLOR = "170,194,206";
     static final String BEACH_COLOR = "210,176,140";
     static final String LAKE_COLOUR = "19,163,235";
+    static final String SNOW_COLOUR = "255,255,255";
+    static final String DESERT_COLOUR = "200, 200, 50";
+    static final String TUNDRA = "163,134,114";
+    static final String GRASSLAND_COLOUR = "100,200,100";
 
     static final String VERTEX_COLOR = "255,0,0";
     static final String VERTEX_THICKNESS = "0";
