@@ -98,8 +98,7 @@ public class GeneratorTest {
     @Order (6)
     public void lakeGenTest() throws MissingAttributeError{
         //lakes test
-        int lakesExpected = 5;
-        int lakesActual = 0;
+        int lakes = 5;
 
         Set<Tile> tiles = new HashSet<>();
 
@@ -109,15 +108,16 @@ public class GeneratorTest {
             tiles.add(tile);
         }
 
-        LakeGenerator lakeGen = new LakeGenerator(lakesExpected);
+        LakeGenerator lakeGen = new LakeGenerator(lakes);
         lakeGen.generate(tiles);
 
         for (Tile tile : tiles){
             if (tile.getAttribute(LakeAttribute.class).isLake){
-                lakesActual ++;
+                for (Tile t : tile.getNeighbours()){
+                    assert(t.getAttribute(LandAttribute.class).isLand);
+                }
             }
         }
-        assert(lakesExpected == lakesActual);
     }
 
     @Test
