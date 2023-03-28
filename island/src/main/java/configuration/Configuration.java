@@ -27,7 +27,7 @@ public class Configuration {
     public ElevationModes elevation;
     public int lakes;
     public int aquifers;
-    public int seed;
+    public static int seed;
     public String inputAddress;
     public String outputAddress;
 
