@@ -24,7 +24,7 @@ public class IslandBuilder {
             // Prerequisite verification
             for(Class<? extends Attribute> attributeType : g.preRequisiteAttributes())
                 if(!island.getAttributes().contains(attributeType)) throw new MissingAttributeError();
-            island.addAttributeLayer(g.generate(island.getTiles()));
+            island.addAttribute(g.generate(island.getTiles()));
         }
         return island;
     }}

@@ -9,61 +9,6 @@ import java.util.TreeMap;
 import attributes.Attribute;
 
 public class Island {
-    public static class Tile {
-        private int id;
-        private Set<Tile> neighbours;
-        private Set<Attribute> attributes;
-        private double x; // Center of tile, scaled 0-1
-        private double y;
-    
-        public Tile(int id, double x, double y){
-            neighbours = new HashSet<Tile>();
-            this.attributes = new HashSet<Attribute>();
-            this.id = id;
-            this.x = x;
-            this.y = y;
-        }
-    
-        public double getX(){
-            return x;
-        }
-        
-        public double getY(){
-            return y;
-        }
-
-        /**
-         * Sets the neighbours if they have not been set already. If they have been,
-         * does nothing.
-         * @return if neighbours were set in this call
-         */
-        public boolean setNeighbours(Set<Tile> neighbours){
-            if(this.neighbours.isEmpty()){
-                for(Tile t : neighbours)
-                    this.neighbours.add(t);
-                return true;
-            }
-            else return false;
-        }
-    
-        public Set<Tile> getNeighbours(){
-            Set<Tile> copy = new HashSet<Tile>(neighbours.size());
-            copy.addAll(neighbours);
-            return copy;
-        }
-    
-        public int getId(){
-            return id;
-        }
-    
-        @SuppressWarnings("unchecked")
-        public <T extends Attribute> T getAttribute(Class<T> type){
-            for(Attribute attr : attributes){
-                if(attr.getClass() == type) return (T)attr;
-            }
-            return null;
-        }
-    }
 
     private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
@@ -132,22 +77,8 @@ public class Island {
      * @param attributeMap
      * @return whether the add was successful
      */
-    protected boolean addAttributeLayer(Map<Tile, ? extends Attribute> attributeMap){
-        if(attributeMap.size() != tiles.size()) return false; // size check
-        Set<Tile> tileSet = attributeMap.keySet();
-        for(Tile t : tileSet)
-            if(!tiles.contains(t)) return false; // check for same objects
-
-        for(Tile t : tileSet)
-            t.attributes.add(attributeMap.get(t)); // Add attributes
-
-        //add the attribute type to the attributes list
-        //TODO: make this prettier
-        for(Tile t : tileSet){
-            this.attributes.add(attributeMap.get(t).getClass());
-            break;
-        }
-        return true;
+    protected void addAttribute(Attribute attribute){
+        this.attributes.add(attribute.getClass());
     }
 
 }

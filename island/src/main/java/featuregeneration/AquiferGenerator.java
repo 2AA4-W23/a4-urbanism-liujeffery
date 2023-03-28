@@ -1,15 +1,13 @@
 package featuregeneration;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
 import attributes.AquiferAttribute;
 import attributes.Attribute;
 import attributes.LandAttribute;
-import island.Island.Tile;
+import island.Tile;
 
 public class AquiferGenerator extends Generator{
     int aquifers;
@@ -26,8 +24,8 @@ public class AquiferGenerator extends Generator{
     }
 
     @Override
-    public Map<Tile, AquiferAttribute> generate(Set<Tile> tiles) {
-        HashMap<Tile, AquiferAttribute> attributeLayer = new HashMap<>();
+    public AquiferAttribute generate(Set<Tile> tiles) {
+        AquiferAttribute attribute = new AquiferAttribute(false);
         Set <Tile> aquifersList = new HashSet<>();
         Random bag = new Random();
 
@@ -50,9 +48,9 @@ public class AquiferGenerator extends Generator{
         }
 
         for (Tile tile : tiles){
-            attributeLayer.put(tile, new AquiferAttribute(aquifersList.contains(tile)));
+            tile.addAttribute(new AquiferAttribute(aquifersList.contains(tile)));
         }
 
-        return attributeLayer;
+        return attribute;
     }
 }

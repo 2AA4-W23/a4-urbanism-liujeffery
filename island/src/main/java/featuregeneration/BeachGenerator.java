@@ -1,15 +1,13 @@
 package featuregeneration;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import attributes.Attribute;
 import attributes.LandAttribute;
 import attributes.BiomeAttribute;
 import attributes.BiomeAttribute.Biome;
-import island.Island.Tile;
+import island.Tile;
 
 public class BeachGenerator extends Generator {
     @Override
@@ -20,24 +18,24 @@ public class BeachGenerator extends Generator {
     }
 
     @Override
-    public Map<Tile, BiomeAttribute> generate(Set<Tile> tiles) {
-        HashMap<Tile, BiomeAttribute> attributeLayer = new HashMap<>();
+    public BiomeAttribute generate(Set<Tile> tiles) {
+        BiomeAttribute attribute = new BiomeAttribute(Biome.BEACH);
         for(Tile tile : tiles){
             if(tile.getAttribute(LandAttribute.class).isLand){
-                if(attributeLayer.get(tile) == null)
-                    attributeLayer.put(tile, new BiomeAttribute(Biome.LAND));
+                if(tile.getAttribute(BiomeAttribute.class) == null)
+                    tile.addAttribute(new BiomeAttribute(Biome.LAND));
                 continue;
             }
 
-            attributeLayer.put(tile, new BiomeAttribute(Biome.OCEAN));
+            tile.addAttribute(new BiomeAttribute(Biome.OCEAN));
 
             //if it's a water tile, mark the surrounding land tiles as beach
             for(Tile neighbor : tile.getNeighbours()){
                 if(neighbor.getAttribute(LandAttribute.class).isLand){
-                    attributeLayer.put(neighbor, new BiomeAttribute(Biome.BEACH));
+                    tile.addAttribute(new BiomeAttribute(Biome.BEACH));
                 }
             }
         }
-        return attributeLayer;
+        return attribute;
     }
 }
