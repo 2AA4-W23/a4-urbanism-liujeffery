@@ -9,10 +9,6 @@ import island.IslandBuilder.MissingAttributeError;
 import utilities.Formatter;
 import utilities.IO;
 
-/**
- * Hello world!
- *
- */
 public class Main 
 {
     public static void main( String[] args ) throws MissingAttributeError {

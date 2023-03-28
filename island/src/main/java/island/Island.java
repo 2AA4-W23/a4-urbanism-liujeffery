@@ -14,34 +14,27 @@ public class Island {
     private Set<Tile> tiles;
     private TreeMap<Integer, Tile> idMap;
 
-    /**
-     * 
-     * @param adjacencyMap
-     * @param xCoords mapping of x coordinates of tiles, scaled from 0-1
-     * @param yCoords mapping of x coordinates of tiles, scaled from 0-1
-     */
-    public Island(Map<Integer, List<Integer>> adjacencyMap, Map<Integer, Double> xCoords, Map<Integer, Double> yCoords){
+    public Island(Set<Tile> tiles, Map<Integer, List<Integer>> tileAdjList){
+        this.tiles = tiles;
         this.attributes = new HashSet<Class<? extends Attribute>>();
-        this.tiles = new HashSet<Tile>();
-        idMap = new TreeMap<>();
+        this.idMap = new TreeMap<>();
 
-        Set<Integer> tileIds = adjacencyMap.keySet();
-        for(Integer id : adjacencyMap.keySet()){
-            Tile tile = new Tile(id, xCoords.get(id), yCoords.get(id));
-            tiles.add(tile);
-            this.idMap.put(id, tile);
-        }   // Create tile for every id
-        for(Integer id : tileIds){
-            Tile tile = this.idMap.get(id);
+        //create the mapping from id to tile object
+        for(Tile t : this.tiles){
+            this.idMap.put(t.getId(), t);
+        }
+
+        //set the neighbors for each tile
+        for(Tile t : this.tiles){
             Set<Tile> neighbourTiles = new HashSet<>();
-            List<Integer> neighbourIds = adjacencyMap.get(id);
+            List<Integer> neighbourIds = tileAdjList.get(t.getId());
             for(Integer neighbourId : neighbourIds){
                 neighbourTiles.add(this.idMap.get(neighbourId));
-            } // Add neighbour Tile objects as a neighbour
+            } 
             
-            boolean setFail = !tile.setNeighbours(neighbourTiles);
+            boolean setFail = !t.setNeighbours(neighbourTiles);
             if(setFail) throw new Error("Error: Tried re-setting neighbours during island construction");
-        }   // Assign neighbours
+        }
     }
 
     /**
