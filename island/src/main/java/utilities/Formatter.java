@@ -12,6 +12,7 @@ import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import island.Edge;
 import island.Island;
 import island.Tile;
 
@@ -46,7 +47,7 @@ public class Formatter {
         }
 
         //create tiles from mesh
-        Set<Tile> tiles = new HashSet<>();
+        Map<Integer, Tile> tiles = new HashMap<>();
         for(int i = 0;i < mesh.getPolygonsCount(); i++){
             Structs.Polygon p = mesh.getPolygons(i);
 
@@ -55,17 +56,31 @@ public class Formatter {
             double x = v.getX() / maxX;
             double y = v.getY() / maxY;
 
-            Tile t = new Tile(i, x, y);
-            tiles.add(t);
+            tiles.put(i, new Tile(i, x, y));
         }
 
-        //create adjacency list
-        Map<Integer, List<Integer>> tileAdjList = new HashMap<>();
+        //set the neighbors for each tile
         for(int i = 0;i < mesh.getPolygonsCount(); i++){
-            tileAdjList.put(i, mesh.getPolygons(i).getNeighborIdxsList());
+            Structs.Polygon p = mesh.getPolygons(i);
+            List<Integer> neighbourIds = p.getNeighborIdxsList();
+            Set<Tile> neighbourTiles = new HashSet<>();
+            for(Integer neighbourId : neighbourIds){
+                neighbourTiles.add(tiles.get(neighbourId));
+            } 
+
+            boolean setFail = !tiles.get(i).setNeighbours(neighbourTiles);
+            if(setFail) throw new Error("Error: Tried re-setting neighbours during island construction");
+        }
+        
+
+        //create segments
+        Map<Integer, Edge> edges = new HashMap<>();
+        for(int i = 0;i < mesh.getSegmentsCount(); i++){
+            Structs.Segment s = mesh.getSegments(i);
+            edges.put(i, new Edge(i, s.getV1Idx(), s.getV2Idx()));
         }
 
-        return new Island(tiles, tileAdjList);
+        return new Island(tiles, edges);
     }
 
     public Structs.Mesh meshFromIsland(Island island){

@@ -12,29 +12,15 @@ public class Island {
 
     private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
-    private TreeMap<Integer, Tile> idMap;
+    private Map<Integer, Tile> tilesById;
+    private Map<Integer, Edge> edgesById;
 
-    public Island(Set<Tile> tiles, Map<Integer, List<Integer>> tileAdjList){
-        this.tiles = tiles;
+
+    public Island(Map<Integer, Tile> tiles, Map<Integer, Edge> edges){
+        this.tilesById = tiles;
+        this.edgesById = edges;
+        this.tiles = new HashSet<>(tiles.values());
         this.attributes = new HashSet<Class<? extends Attribute>>();
-        this.idMap = new TreeMap<>();
-
-        //create the mapping from id to tile object
-        for(Tile t : this.tiles){
-            this.idMap.put(t.getId(), t);
-        }
-
-        //set the neighbors for each tile
-        for(Tile t : this.tiles){
-            Set<Tile> neighbourTiles = new HashSet<>();
-            List<Integer> neighbourIds = tileAdjList.get(t.getId());
-            for(Integer neighbourId : neighbourIds){
-                neighbourTiles.add(this.idMap.get(neighbourId));
-            } 
-            
-            boolean setFail = !t.setNeighbours(neighbourTiles);
-            if(setFail) throw new Error("Error: Tried re-setting neighbours during island construction");
-        }
     }
 
     /**
@@ -48,7 +34,7 @@ public class Island {
 
     public Set<Integer> getIds(){
         Set<Integer> copy = new HashSet<>();
-        copy.addAll(idMap.keySet());
+        copy.addAll(tilesById.keySet());
         return copy;
     }
 
@@ -62,7 +48,7 @@ public class Island {
     }
 
     public Tile getTileByID(int id){
-        return idMap.get(id);
+        return tilesById.get(id);
     }
 
     /**
