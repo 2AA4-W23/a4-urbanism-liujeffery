@@ -13,6 +13,14 @@ public class Tile {
     private Set<Edge> edges;
     private Set<Tile> neighbours;
     private Set<Attribute> attributes;
+    public Tile(int id, double x, double y){
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.edges = new HashSet<Edge>();
+        this.neighbours = new HashSet<Tile>();
+        this.attributes = new HashSet<Attribute>();
+    }
 
     public Tile(int id, double x, double y, Set<Edge> edges){
         this.id = id;
@@ -48,6 +56,12 @@ public class Tile {
     public Set<Tile> getNeighbours(){
         Set<Tile> copy = new HashSet<Tile>(neighbours.size());
         copy.addAll(neighbours);
+        return copy;
+    }
+
+    public Set<Edge> getEdges(){
+        Set<Edge> copy = new HashSet<Edge>(this.edges.size());
+        copy.addAll(this.edges);
         return copy;
     }
 
