@@ -46,17 +46,31 @@ public class Formatter {
             maxY = (Double.compare(maxY, v.getY()) < 0 ? v.getY(): maxY);
         }
 
+
+        //create segments
+        Map<Integer, Edge> edges = new HashMap<>();
+        for(int i = 0;i < mesh.getSegmentsCount(); i++){
+            Structs.Segment s = mesh.getSegments(i);
+            edges.put(i, new Edge(i, s.getV1Idx(), s.getV2Idx()));
+        }
+
         //create tiles from mesh
         Map<Integer, Tile> tiles = new HashMap<>();
         for(int i = 0;i < mesh.getPolygonsCount(); i++){
             Structs.Polygon p = mesh.getPolygons(i);
 
-            //normalize centroid coordinates
+            //get and normalize centroid coordinates
             Structs.Vertex v = mesh.getVertices(p.getCentroidIdx());
             double x = v.getX() / maxX;
             double y = v.getY() / maxY;
 
-            tiles.put(i, new Tile(i, x, y));
+            //add the edges that make up the tile
+            Set<Edge> pEdges = new HashSet<>();
+            for(Integer segmentId : p.getSegmentIdxsList()){
+                pEdges.add(edges.get(segmentId));
+            }
+
+            tiles.put(i, new Tile(i, x, y, pEdges));
         }
 
         //set the neighbors for each tile
@@ -70,14 +84,6 @@ public class Formatter {
 
             boolean setFail = !tiles.get(i).setNeighbours(neighbourTiles);
             if(setFail) throw new Error("Error: Tried re-setting neighbours during island construction");
-        }
-        
-
-        //create segments
-        Map<Integer, Edge> edges = new HashMap<>();
-        for(int i = 0;i < mesh.getSegmentsCount(); i++){
-            Structs.Segment s = mesh.getSegments(i);
-            edges.put(i, new Edge(i, s.getV1Idx(), s.getV2Idx()));
         }
 
         return new Island(tiles, edges);
