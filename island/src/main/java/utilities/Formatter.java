@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import attributes.AquiferAttribute;
 import attributes.BiomeAttribute;
 import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Island;
-import island.Island.Tile;
+import island.Tile;
 
 public class Formatter {
     private Structs.Mesh mesh;
@@ -59,11 +58,8 @@ public class Formatter {
             Structs.Vertex v = mesh.getVertices(p.getCentroidIdx());
             xCoords.put(i, v.getX() / maxX);
             yCoords.put(i, v.getY() / maxY);
-            // System.out.println("x:" + v.getX() + " y:" + v.getY());
-            // System.out.println("x:" + v.getX() / maxX + " y:" + v.getY() / maxY);
         }
         
-        // System.out.println(adjList.keySet().toString());
         return new Island(adjList, xCoords, yCoords);
     }
 
@@ -75,7 +71,6 @@ public class Formatter {
         // New Polygons
         for(int i = 0; i < mesh.getPolygonsCount(); i++){ 
             Tile t = island.getTileByID(i);
-            // System.out.println(t.getId());
 
             // for every tile, find corresponding polygon
             Structs.Polygon oldPolygon = mesh.getPolygons(i);
@@ -125,7 +120,6 @@ public class Formatter {
             vertices.add(i, vb.build());
         }
 
-        // System.out.println(vertices.toString());
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 }

@@ -1,8 +1,6 @@
 package featuregeneration;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -10,7 +8,7 @@ import attributes.Attribute;
 import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
-import island.Island.Tile;
+import island.Tile;
 
 public class LakeGenerator extends Generator{
     int lakes;
@@ -26,8 +24,8 @@ public class LakeGenerator extends Generator{
     }
 
     @Override
-    public Map<Tile, LakeAttribute> generate(Set<Tile> tiles) {
-        HashMap<Tile, LakeAttribute> attributeLayer = new HashMap<>();
+    public LakeAttribute generate(Set<Tile> tiles) {
+        LakeAttribute attribute = new LakeAttribute(false);
         Set <Tile> lakesList = new HashSet<>();
 
         Random bag = new Random();
@@ -53,10 +51,10 @@ public class LakeGenerator extends Generator{
         }
 
         for (Tile tile : tiles){
-            attributeLayer.put(tile, new LakeAttribute(lakesList.contains(tile)));
+            tile.addAttribute(new LakeAttribute(lakesList.contains(tile)));
         }
 
-        return attributeLayer;
+        return attribute;
     }
     
     public void expandLake(Set <Tile> lakesList, Tile lake){

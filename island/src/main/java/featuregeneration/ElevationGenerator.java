@@ -1,15 +1,13 @@
 package featuregeneration;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.Random;
 
 import attributes.Attribute;
 import attributes.ElevationAttribute;
 import attributes.LandAttribute;
-import island.Island.Tile;
+import island.Tile;
 
 public class ElevationGenerator extends Generator{
 
@@ -27,26 +25,26 @@ public class ElevationGenerator extends Generator{
     }
 
     @Override
-    public Map<Tile, ElevationAttribute> generate(Set<Tile> tiles) {
-        HashMap<Tile, ElevationAttribute> attributeLayer = new HashMap<>();
+    public ElevationAttribute generate(Set<Tile> tiles) {
+        ElevationAttribute attribute = new ElevationAttribute(0);
         
         
         if(mode.equals(ElevationModes.MOUNTAIN)){
-            determineElevation(1, 1, 1.35, 0.2, tiles, attributeLayer);
+            determineElevation(1, 1, 1.35, 0.2, tiles);
         }
 
         else if(mode.equals(ElevationModes.HILLS)){
-            determineElevation(20, 0.7, 3, 0.1, tiles, attributeLayer);
+            determineElevation(20, 0.7, 3, 0.1, tiles);
         }
 
         else if (mode.equals(ElevationModes.PLAINS)){
-            determineElevation(30, 0.4, 0.7, 0.05, tiles, attributeLayer);
+            determineElevation(30, 0.4, 0.7, 0.05, tiles);
         }
 
-        return attributeLayer;
+        return attribute;
     }
 
-    private void determineElevation(int peaksNum, double maxHeight, double slopeOff, double randomness, Set <Tile> tiles, HashMap<Tile, ElevationAttribute> attributeLayer){
+    private void determineElevation(int peaksNum, double maxHeight, double slopeOff, double randomness, Set <Tile> tiles){
         Random bag = new Random();
         Set <Tile> hills = new HashSet<>();
         for (int j = 0; j < peaksNum; j++){
@@ -76,7 +74,7 @@ public class ElevationGenerator extends Generator{
             elevation = Math.min(elevation, 1);
             elevation = Math.max(elevation, 0);
             
-            attributeLayer.put(tile, new ElevationAttribute(elevation));
+            tile.addAttribute(new ElevationAttribute(elevation));
         }
     }
     

@@ -1,13 +1,11 @@
 package featuregeneration;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import attributes.Attribute;
 import attributes.LandAttribute;
-import island.Island.Tile;
+import island.Tile;
 
 public class BasicGenerator extends Generator {
 
@@ -20,13 +18,14 @@ public class BasicGenerator extends Generator {
     }
 
     @Override
-    public Map<Tile, LandAttribute> generate(Set<Tile> tiles) {
-        HashMap<Tile, LandAttribute> attributeLayer = new HashMap<>();
+    public LandAttribute generate(Set<Tile> tiles) {
+        LandAttribute attribute = new LandAttribute(false);
         for(Tile tile : tiles){
             double dist = Math.pow(tile.getX() - 0.5, 2) + Math.pow(tile.getY() - 0.5, 2);
             boolean isLand = dist < LAND_RADIUS * LAND_RADIUS;
-            attributeLayer.put(tile, new LandAttribute(isLand));
+            tile.addAttribute(new LandAttribute(isLand));
         }
-        return attributeLayer;
+
+        return attribute;
     }
 }
