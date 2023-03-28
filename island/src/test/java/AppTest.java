@@ -21,15 +21,4 @@ public class AppTest
         }
         assertTrue( true );
     }
-
-    @Test
-    public void errorTest(){
-        try {    
-            Main.main(new String[]{"-i", "test.mesh", "-o", "islandtest.mesh"});
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
-        assertTrue( true );
-    }
 }

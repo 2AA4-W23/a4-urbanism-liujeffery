@@ -1,4 +1,4 @@
-import utilities.Configuration;
+import configuration.Configuration;
 import featuregeneration.AquiferGenerator;
 import featuregeneration.BeachGenerator;
 import featuregeneration.ElevationGenerator;
