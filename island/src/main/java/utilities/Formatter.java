@@ -6,10 +6,11 @@ import java.util.List;
 
 import attributes.BiomeAttribute;
 import attributes.ElevationAttribute;
+import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Island;
-import island.Island.Tile;
+import island.Tile;
 
 public class Formatter {
     private Structs.Mesh mesh;
@@ -19,6 +20,7 @@ public class Formatter {
     static final String LAND_COLOR = "163,134,114";
     static final String WATER_COLOR = "170,194,206";
     static final String BEACH_COLOR = "210,176,140";
+    static final String LAKE_COLOUR = "19,163,235";
 
     static final String VERTEX_COLOR = "255,0,0";
     static final String VERTEX_THICKNESS = "0";
@@ -56,11 +58,8 @@ public class Formatter {
             Structs.Vertex v = mesh.getVertices(p.getCentroidIdx());
             xCoords.put(i, v.getX() / maxX);
             yCoords.put(i, v.getY() / maxY);
-            // System.out.println("x:" + v.getX() + " y:" + v.getY());
-            // System.out.println("x:" + v.getX() / maxX + " y:" + v.getY() / maxY);
         }
         
-        // System.out.println(adjList.keySet().toString());
         return new Island(adjList, xCoords, yCoords);
     }
 
@@ -72,7 +71,6 @@ public class Formatter {
         // New Polygons
         for(int i = 0; i < mesh.getPolygonsCount(); i++){ 
             Tile t = island.getTileByID(i);
-            // System.out.println(t.getId());
 
             // for every tile, find corresponding polygon
             Structs.Polygon oldPolygon = mesh.getPolygons(i);
@@ -82,13 +80,18 @@ public class Formatter {
             // Tile colour logic
             if(t.getAttribute(LandAttribute.class).isLand){
                 tileColorPropertyBuilder.setValue(LAND_COLOR);
-                if((t.getAttribute(BiomeAttribute.class) != null) && (t.getAttribute(BiomeAttribute.class).biome == BiomeAttribute.Biome.BEACH))
+                tileColorPropertyBuilder.setValue((String)((int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255)));
+                if((t.getAttribute(BiomeAttribute.class) != null) && (t.getAttribute(BiomeAttribute.class).biome == BiomeAttribute.Biome.BEACH)){
                     tileColorPropertyBuilder.setValue(BEACH_COLOR);
+                }
+                if (t.getAttribute(LakeAttribute.class).isLake){
+                    tileColorPropertyBuilder.setValue(LAKE_COLOUR);
+                }
             }
             else{
                 tileColorPropertyBuilder.setValue(WATER_COLOR);
             }
-            // tileColorPropertyBuilder.setValue((String)((int)(dist * 255) + "," + (int)(dist * 255) + "," + (int)(dist * 255)));
+            
 
             pb.addProperties(tileColorPropertyBuilder.build());
             polygons.add(i, pb.build());
@@ -117,7 +120,6 @@ public class Formatter {
             vertices.add(i, vb.build());
         }
 
-        // System.out.println(vertices.toString());
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 }

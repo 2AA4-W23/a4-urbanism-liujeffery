@@ -11,8 +11,11 @@ public class OptionRegistry {
         Options options = new Options();
         options.addOption("i", null, true, "Input mesh address");
         options.addOption("o", null, true, "Output mesh address");
-        options.addOption("m", "mode", true, "Island generation mode");
+        options.addOption("s", "shape", true, "Island shape - circle, square, lagoon");
         options.addOption("h", false, "Displays this");
+        options.addOption("e", null, true, "Elevation type: hills, mountain, or plains");
+        options.addOption("l", null, true, "Number of lakes");
+        options.addOption("a", null, true, "Number of aquifers");
         return options;
     }
 }

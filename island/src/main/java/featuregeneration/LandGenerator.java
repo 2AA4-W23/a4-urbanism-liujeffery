@@ -1,8 +1,6 @@
 package featuregeneration;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.locationtech.jts.geom.Coordinate;
@@ -14,7 +12,7 @@ import org.locationtech.jts.util.GeometricShapeFactory;
 
 import attributes.Attribute;
 import attributes.LandAttribute;
-import island.Island.Tile;
+import island.Tile;
 
 public class LandGenerator extends Generator {
     public enum Shapes{
@@ -46,17 +44,17 @@ public class LandGenerator extends Generator {
     }
 
     @Override
-    public Map<Tile, LandAttribute> generate(Set<Tile> tiles) {
-        HashMap<Tile, LandAttribute> attributeLayer = new HashMap<>();
+    public LandAttribute generate(Set<Tile> tiles) {
+        LandAttribute attribute = new LandAttribute(false);
         for(Tile tile : tiles){
             //turn the tile centroid into a jts Point object
             Point tileCentroid = this.gf.createPoint(new Coordinate(tile.getX(), tile.getY()));
             
             //mark whether or not it is within the land region
             boolean isLand = this.landGeometry.intersects(tileCentroid);
-            attributeLayer.put(tile, new LandAttribute(isLand));
+            tile.addAttribute(new LandAttribute(isLand));
         }
-        return attributeLayer;
+        return attribute;
     }
 
     private Geometry shapeLagoon(GeometricShapeFactory gsf){

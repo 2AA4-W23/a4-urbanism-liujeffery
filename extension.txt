@@ -1,0 +1,2 @@
+all features assigned to johnny and jeffery as defined in the readme
+sequence diagram
