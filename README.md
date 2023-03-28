@@ -121,8 +121,8 @@ For example, each test should input different parameters to the program or handl
 | F07 | Generate mesh w/ rivers, max number selectable via cmdline                | Johnny  | 23/03/26 |          | S      |
 | F08 | Generate mesh w/ river merging behaviour                                  | Johnny  |          |          | B      |
 | F09 | Generate mesh w/ aquifers, max number selectable via cmdline              | Jeffery | 23/03/26 | 23/03/26 | D      |
-| F10 | Generate mesh w/ biomes based on temperature and moisture                 | Michael |          |          | P      |
-| F11 | Generate mesh w/ biomes based on whittaker diagrams                       | Michael |          |          | B      |
+| F10 | Generate mesh w/ biomes based on temperature and moisture                 | Jeffery | 23/03/26 |          | S      |
+| F11 | Generate mesh w/ biomes based on whittaker diagrams                       | Jeffery | 23/03/26 |          | S      |
 | F12 | Generate reproducible mesh based on an input seed                         | Jeffery | 23/03/28 | 23/03/28 | D      |
 | B01 | Generate resource information based on the mesh terrain                   |         |          |          | B      |
 | B02 | Generate heatmaps of features                                             |         |          |          | B      |
@@ -130,8 +130,10 @@ For example, each test should input different parameters to the program or handl
 
 ## Appendix
 ### Backlog changes:
-f04: transfer from Michael -> Johnny
-f02: transfer from Jeffery -> Johnny
-f05: transfer form Michael -> Jeffery
-f12: transfer from Johnny -> Michael
-f12: transfer from Michael -> Jeffery
+f04: transfer from Michael -> Johnny <br>
+f02: transfer from Jeffery -> Johnny <br>
+f05: transfer from Michael -> Jeffery <br>
+f10: transfer from Michael -> Jeffery <br>
+f11: transfer from Michael -> Jeffery <br>
+f12: transfer from Johnny -> Michael <br>
+f12: transfer from Michael -> Jeffery <br>
