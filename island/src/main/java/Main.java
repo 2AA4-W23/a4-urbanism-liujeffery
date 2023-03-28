@@ -4,6 +4,7 @@ import featuregeneration.BeachGenerator;
 import featuregeneration.ElevationGenerator;
 import featuregeneration.LakeGenerator;
 import featuregeneration.LandGenerator;
+import featuregeneration.RiverGenerator;
 import island.IslandBuilder;
 import island.IslandBuilder.MissingAttributeError;
 import utilities.Formatter;
@@ -25,6 +26,7 @@ public class Main
         ib.addGenerator(new ElevationGenerator(config.elevation));
         ib.addGenerator(new LakeGenerator(config.lakes));
         ib.addGenerator(new AquiferGenerator(config.aquifers));
+        ib.addGenerator(new RiverGenerator(config.rivers));
 
         IO.writeMesh(meshFormatter.meshFromIsland(ib.build(meshFormatter.convertToIsland())), config.outputAddress);
         System.out.println("Success");
