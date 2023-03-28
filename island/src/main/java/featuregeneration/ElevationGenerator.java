@@ -8,6 +8,7 @@ import attributes.Attribute;
 import attributes.ElevationAttribute;
 import attributes.LandAttribute;
 import island.Tile;
+import utilities.RandomSingleton;
 
 public class ElevationGenerator extends Generator{
 
@@ -45,7 +46,7 @@ public class ElevationGenerator extends Generator{
     }
 
     private void determineElevation(int peaksNum, double maxHeight, double slopeOff, double randomness, Set <Tile> tiles){
-        Random bag = new Random();
+        Random bag = RandomSingleton.getInstance();
         Set <Tile> hills = new HashSet<>();
         for (int j = 0; j < peaksNum; j++){
             Tile hill = null;

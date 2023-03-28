@@ -8,6 +8,7 @@ import island.IslandBuilder;
 import island.IslandBuilder.MissingAttributeError;
 import utilities.Formatter;
 import utilities.IO;
+import utilities.RandomSingleton;
 
 /**
  * Hello world!
@@ -21,6 +22,8 @@ public class Main
             config.printHelp();
             return;
         }
+        new RandomSingleton(config.seed);
+
         Formatter meshFormatter = new Formatter(IO.readMesh(config.inputAddress));
         
         IslandBuilder ib = new IslandBuilder();

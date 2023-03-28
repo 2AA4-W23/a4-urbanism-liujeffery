@@ -7,6 +7,7 @@ import java.util.Set;
 import attributes.AquiferAttribute;
 import attributes.Attribute;
 import attributes.LandAttribute;
+import utilities.RandomSingleton;
 import island.Tile;
 
 public class AquiferGenerator extends Generator{
@@ -27,7 +28,7 @@ public class AquiferGenerator extends Generator{
     public AquiferAttribute generate(Set<Tile> tiles) {
         AquiferAttribute attribute = new AquiferAttribute(false);
         Set <Tile> aquifersList = new HashSet<>();
-        Random bag = new Random();
+        Random bag = RandomSingleton.getInstance();
 
         for (int j = 0; j < aquifers; j++){
             Tile aquifer = null;

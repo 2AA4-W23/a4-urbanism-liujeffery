@@ -16,6 +16,7 @@ public class OptionRegistry {
         options.addOption("e", null, true, "Elevation type: hills, mountain, or plains");
         options.addOption("l", null, true, "Number of lakes");
         options.addOption("a", null, true, "Number of aquifers");
+        options.addOption("r", null, true, "Integer to specify a seed for reproducability");
         return options;
     }
 }

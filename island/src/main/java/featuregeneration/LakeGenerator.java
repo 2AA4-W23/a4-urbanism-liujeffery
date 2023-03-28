@@ -9,6 +9,7 @@ import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import island.Tile;
+import utilities.RandomSingleton;
 
 public class LakeGenerator extends Generator{
     int lakes;
@@ -28,7 +29,7 @@ public class LakeGenerator extends Generator{
         LakeAttribute attribute = new LakeAttribute(false);
         Set <Tile> lakesList = new HashSet<>();
 
-        Random bag = new Random();
+        Random bag = RandomSingleton.getInstance();
         
         for (int j = 0; j < lakes; j++){
             Tile lake = null;

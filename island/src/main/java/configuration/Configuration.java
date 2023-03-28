@@ -27,6 +27,7 @@ public class Configuration {
     public ElevationModes elevation;
     public int lakes;
     public int aquifers;
+    public int seed;
     public String inputAddress;
     public String outputAddress;
 
@@ -70,6 +71,7 @@ public class Configuration {
         elevation = ElevationModes.MOUNTAIN;
         lakes = 2;
         aquifers = 2;
+        seed = -1;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 
@@ -98,6 +100,9 @@ public class Configuration {
         }
         if (cmd.hasOption("a")){
             aquifers = Integer.parseInt(cmd.getOptionValue("a"));
+        }
+        if (cmd.hasOption("r")){
+            seed = Integer.parseInt(cmd.getOptionValue("r"));
         }
     }
 
