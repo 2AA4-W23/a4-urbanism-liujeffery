@@ -33,9 +33,8 @@ public class Main
         ib.addGenerator(new AquiferGenerator(config.aquifers));
         ib.addGenerator(new TemperatureGenerator(1, 0));
         ib.addGenerator(new MoistureGenerator(1, 0));
-        ib.addGenerator(new BiomeGenerator());
+        ib.addGenerator(new BiomeGenerator(config.whittaker));
 
         IO.writeMesh(meshFormatter.meshFromIsland(ib.build(meshFormatter.convertToIsland())), config.outputAddress);
-        System.out.println("Success");
     }
 }

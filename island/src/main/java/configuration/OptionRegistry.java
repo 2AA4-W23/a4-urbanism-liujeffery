@@ -17,6 +17,7 @@ public class OptionRegistry {
         options.addOption("l", null, true, "Number of lakes");
         options.addOption("a", null, true, "Number of aquifers");
         options.addOption("r", null, true, "Integer to specify a seed for reproducability");
+        options.addOption("w", null, true, "Whittaker diagram to use");
         return options;
     }
 }

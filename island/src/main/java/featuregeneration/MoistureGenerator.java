@@ -47,7 +47,6 @@ public class MoistureGenerator extends Generator{
             if(t.getAttribute(AquiferAttribute.class).isAquifer) minDistance = 0;
 
             double moisture = Math.max(0, (1 - SCALING_FACTOR * minDistance) * moistureRange) + minMoisture;
-            System.out.println(moisture);
             
             t.addAttribute(new MoistureAttribute(moisture));
         }

@@ -11,9 +11,16 @@ import attributes.LandAttribute;
 import attributes.MoistureAttribute;
 import attributes.TemperatureAttribute;
 import attributes.BiomeAttribute.Biome;
+import attributes.BiomeAttribute.Whittaker;
 import island.Tile;
 
 public class BiomeGenerator extends Generator{
+
+    Whittaker whittaker;
+
+    public BiomeGenerator(Whittaker whittaker){
+        this.whittaker = whittaker;
+    }
 
     @Override
     public Set<Class<? extends Attribute>> preRequisiteAttributes() {
@@ -39,15 +46,43 @@ public class BiomeGenerator extends Generator{
     }
     
     private BiomeAttribute.Biome selectBiome(double moisture, double temperature){
-        if(moisture > 0.5 && temperature > 0.8)
-            return Biome.BEACH;
-        else if(moisture > 0.5 && temperature > 0.4)
-            return Biome.GRASSLAND;
-        else if(temperature > 0.8)
-            return Biome.DESERT;
-        else if(temperature > 0.2)
-            return Biome.TUNDRA;
-        else
-            return Biome.SNOW;
+        switch (whittaker){
+            case TEMPERATE:
+                if(moisture > 0.6 && temperature > 0.7)
+                    return Biome.BEACH;
+                else if(moisture > 0.3 && temperature > 0.4)
+                    return Biome.GRASSLAND;
+                else if(temperature > 0.2)
+                    return Biome.FIELD;
+                else if(temperature > 0.1)
+                    return Biome.ROCKY_LIGHT;
+                else
+                    return Biome.ROCKY_DARK;
+            case ARCTIC:
+                if(moisture > 0.6 && temperature > 0.7)
+                    return Biome.SHRUBS;
+                else if(moisture > 0.3 && temperature > 0.4)
+                    return Biome.ICE;
+                else if(temperature > 0.2)
+                    return Biome.SNOW;
+                else if (temperature > 0.1)
+                    return Biome.ROCKY_LIGHT;
+                else
+                    return Biome.SNOW;
+            case TROPICAL:
+                if(moisture > 0.6 && temperature > 0.7)
+                    return Biome.BEACH;
+                else if(moisture > 0.3 && temperature > 0.4)
+                    return Biome.SWAMP;
+                else if(temperature > 0.2)
+                    return Biome.RAINFOREST;
+                else if(temperature > 0.1)
+                    return Biome.GRASSLAND;
+                else
+                    return Biome.SHRUBS;
+            default:
+                return Biome.BEACH;
+        }
+        
     }
 }

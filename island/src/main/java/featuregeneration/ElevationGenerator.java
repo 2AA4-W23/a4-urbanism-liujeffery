@@ -39,7 +39,7 @@ public class ElevationGenerator extends Generator{
         }
 
         else if (mode.equals(ElevationModes.PLAINS)){
-            determineElevation(30, 0.4, 0.7, 0.05, tiles);
+            determineElevation(30, 0.4, 1.5, 0.05, tiles);
         }
 
         return attribute;

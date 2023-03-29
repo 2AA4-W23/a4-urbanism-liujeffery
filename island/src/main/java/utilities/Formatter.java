@@ -21,7 +21,13 @@ public class Formatter {
     static final String BEACH_COLOR = "210,176,140";
     static final String LAKE_COLOUR = "19,163,235";
     static final String SNOW_COLOUR = "255,255,255";
-    static final String DESERT_COLOUR = "200,200,50";
+    static final String FIELD_COLOUR = "250,225,115";
+    static final String ROCKY_LIGHT_COLOUR = "125,125,125";
+    static final String ROCKY_DARK_COLOUR = "55,55,55";
+    static final String ICE_COLOUR = "177,252,252";
+    static final String SWAMP_COLOUR = "11,51,1";
+    static final String RAINFOREST_COLOUR = "39,143,10";
+    static final String SHRUBS_COLOUR = "216,247,208";
     static final String TUNDRA_COLOUR = "163,134,114";
     static final String GRASSLAND_COLOUR = "100,200,100";
     static final String FOREST_COLOUR = "50,150,50";
@@ -88,8 +94,26 @@ public class Formatter {
                     case BEACH:
                         landColour = BEACH_COLOR;
                         break;
-                    case DESERT:
-                        landColour = DESERT_COLOUR;
+                    case FIELD:
+                        landColour = FIELD_COLOUR;
+                        break;
+                    case ROCKY_LIGHT:
+                        landColour = ROCKY_LIGHT_COLOUR;
+                        break;
+                    case ROCKY_DARK:
+                        landColour = ROCKY_DARK_COLOUR;
+                        break;
+                    case SHRUBS:
+                        landColour = SHRUBS_COLOUR;
+                        break;
+                    case ICE:
+                        landColour = ICE_COLOUR;
+                        break;
+                    case SWAMP:
+                        landColour = SWAMP_COLOUR;
+                        break;
+                    case RAINFOREST:
+                        landColour = RAINFOREST_COLOUR;
                         break;
                     case GRASSLAND:
                         landColour = GRASSLAND_COLOUR;

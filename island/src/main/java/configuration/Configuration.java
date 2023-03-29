@@ -7,6 +7,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import attributes.BiomeAttribute.Whittaker;
 import featuregeneration.LandGenerator;
 import featuregeneration.ElevationGenerator.ElevationModes;
 
@@ -30,6 +31,7 @@ public class Configuration {
     public static int seed;
     public String inputAddress;
     public String outputAddress;
+    public Whittaker whittaker;
 
     public Configuration(String[] args){
         if(!parseArgs(args, OPTION_SUITE)){
@@ -72,29 +74,19 @@ public class Configuration {
         lakes = 2;
         aquifers = 2;
         seed = -1;
+        whittaker = Whittaker.TEMPERATE;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 
         outputAddress = cmd.getOptionValue("o");
 
         // Options
-        if(cmd.hasOption("shape"))
+        if(cmd.hasOption("shape")){
             shape = LandGenerator.Shapes.valueOf(cmd.getOptionValue("shape").toUpperCase());
-    
-        if (cmd.hasOption("e")){
-            switch (cmd.getOptionValue("e")){
-                case "hills":
-                    this.elevation = ElevationModes.HILLS;
-                    break;
-                case "mountain":
-                    this.elevation = ElevationModes.MOUNTAIN;
-                    break;
-                case "plains":
-                    this.elevation = ElevationModes.PLAINS;
-                    break;
-            }
         }
-
+        if (cmd.hasOption("e")){
+            elevation = ElevationModes.valueOf(cmd.getOptionValue("e").toUpperCase());
+        }
         if (cmd.hasOption("l")){
             lakes = Integer.parseInt(cmd.getOptionValue("l"));
         }
@@ -103,6 +95,9 @@ public class Configuration {
         }
         if (cmd.hasOption("r")){
             seed = Integer.parseInt(cmd.getOptionValue("r"));
+        }
+        if (cmd.hasOption("w")){
+            whittaker = Whittaker.valueOf(cmd.getOptionValue("w").toUpperCase());
         }
     }
 
