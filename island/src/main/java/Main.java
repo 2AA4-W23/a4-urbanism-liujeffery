@@ -1,9 +1,11 @@
 import configuration.Configuration;
 import featuregeneration.AquiferGenerator;
-import featuregeneration.BeachGenerator;
+import featuregeneration.BiomeGenerator;
 import featuregeneration.ElevationGenerator;
 import featuregeneration.LakeGenerator;
 import featuregeneration.LandGenerator;
+import featuregeneration.MoistureGenerator;
+import featuregeneration.TemperatureGenerator;
 import island.IslandBuilder;
 import island.IslandBuilder.MissingAttributeError;
 import utilities.Formatter;
@@ -26,10 +28,12 @@ public class Main
         
         IslandBuilder ib = new IslandBuilder();
         ib.addGenerator(new LandGenerator(config.shape));
-        ib.addGenerator(new BeachGenerator());
         ib.addGenerator(new ElevationGenerator(config.elevation));
         ib.addGenerator(new LakeGenerator(config.lakes));
         ib.addGenerator(new AquiferGenerator(config.aquifers));
+        ib.addGenerator(new TemperatureGenerator(1, 0));
+        ib.addGenerator(new MoistureGenerator(1, 0));
+        ib.addGenerator(new BiomeGenerator());
 
         IO.writeMesh(meshFormatter.meshFromIsland(ib.build(meshFormatter.convertToIsland())), config.outputAddress);
         System.out.println("Success");

@@ -5,12 +5,12 @@ package attributes;
  */
 public class BiomeAttribute implements Attribute{
     public enum Biome{
-        BEACH, LAND, OCEAN
+        BEACH, LAND, OCEAN, GRASSLAND, TUNDRA, SNOW, DESERT, FOREST
     }
     public Biome biome;
 
     /**
-     * @param isLand Whether the tile is land
+     * @param biome the biome of the tile
      */
     public BiomeAttribute(Biome biome){
         this.biome = biome;

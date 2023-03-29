@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import attributes.BiomeAttribute;
-import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -16,11 +15,16 @@ public class Formatter {
     private Structs.Mesh mesh;
     private double maxX;
     private double maxY;
-
+    
     static final String LAND_COLOR = "163,134,114";
     static final String WATER_COLOR = "170,194,206";
     static final String BEACH_COLOR = "210,176,140";
     static final String LAKE_COLOUR = "19,163,235";
+    static final String SNOW_COLOUR = "255,255,255";
+    static final String DESERT_COLOUR = "200,200,50";
+    static final String TUNDRA_COLOUR = "163,134,114";
+    static final String GRASSLAND_COLOUR = "100,200,100";
+    static final String FOREST_COLOUR = "50,150,50";
 
     static final String VERTEX_COLOR = "255,0,0";
     static final String VERTEX_THICKNESS = "0";
@@ -79,14 +83,39 @@ public class Formatter {
 
             // Tile colour logic
             if(t.getAttribute(LandAttribute.class).isLand){
-                tileColorPropertyBuilder.setValue(LAND_COLOR);
-                tileColorPropertyBuilder.setValue((String)((int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255)));
-                if((t.getAttribute(BiomeAttribute.class) != null) && (t.getAttribute(BiomeAttribute.class).biome == BiomeAttribute.Biome.BEACH)){
-                    tileColorPropertyBuilder.setValue(BEACH_COLOR);
+                String landColour;
+                switch(t.getAttribute(BiomeAttribute.class).biome){
+                    case BEACH:
+                        landColour = BEACH_COLOR;
+                        break;
+                    case DESERT:
+                        landColour = DESERT_COLOUR;
+                        break;
+                    case GRASSLAND:
+                        landColour = GRASSLAND_COLOUR;
+                        break;
+                    case LAND:
+                        landColour = LAND_COLOR;
+                        break;
+                    case OCEAN:
+                        landColour = WATER_COLOR;
+                        break;
+                    case SNOW:
+                        landColour = SNOW_COLOUR;
+                        break;
+                    case FOREST:
+                        landColour = FOREST_COLOUR;
+                        break;
+                    case TUNDRA:
+                        landColour = TUNDRA_COLOUR;
+                        break;
+                    default:
+                        landColour = "0,0,0";
                 }
-                if (t.getAttribute(LakeAttribute.class).isLake){
+                if(t.getAttribute(LakeAttribute.class).isLake) 
                     tileColorPropertyBuilder.setValue(LAKE_COLOUR);
-                }
+                else 
+                    tileColorPropertyBuilder.setValue(landColour);
             }
             else{
                 tileColorPropertyBuilder.setValue(WATER_COLOR);
