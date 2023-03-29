@@ -68,14 +68,14 @@ public class GraphicRenderer implements Renderer {
             return;
         }
 
+        Color oldColor = canvas.getColor();
+        canvas.setColor(color.get());
+
         //create the line to draw
         Structs.Vertex v1 = aMesh.getVertices(s.getV1Idx());
         Structs.Vertex v2 = aMesh.getVertices(s.getV2Idx());
         Line2D line = new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY());
 
-        
-
-        Color oldColor = canvas.getColor();
         Stroke oldStroke = canvas.getStroke();
         //apply the segments specified width
 

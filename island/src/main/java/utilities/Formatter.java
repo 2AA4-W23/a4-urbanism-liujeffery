@@ -11,7 +11,9 @@ import attributes.BiomeAttribute;
 import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
+import attributes.RiverAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import featuregeneration.RiverGenerator;
 import island.Edge;
 import island.Island;
 import island.Tile;
@@ -95,7 +97,7 @@ public class Formatter {
         ArrayList<Structs.Vertex> vertices = new ArrayList<>(mesh.getVerticesCount());
 
         // New Polygons
-        for(int i = 0; i < mesh.getPolygonsCount(); i++){ 
+        for(int i = 0; i < mesh.getPolygonsCount(); i++){
             Tile t = island.getTileByID(i);
 
             // for every tile, find corresponding polygon
@@ -113,6 +115,9 @@ public class Formatter {
                 if (t.getAttribute(LakeAttribute.class).isLake){
                     tileColorPropertyBuilder.setValue(LAKE_COLOUR);
                 }
+                if(t.getAttribute(RiverAttribute.class).isEndorheic){
+                    tileColorPropertyBuilder.setValue("0,0,255");
+                }
             }
             else{
                 tileColorPropertyBuilder.setValue(WATER_COLOR);
@@ -127,7 +132,7 @@ public class Formatter {
         for(int i = 0; i < mesh.getSegmentsCount(); i++){
             Structs.Segment oldSegment = mesh.getSegments(i);
             Structs.Segment.Builder sb = oldSegment.toBuilder().clearProperties();
-            sb.addProperties(Structs.Property.newBuilder().setKey("rgba_color").setValue("0,0,255,255").build());
+            sb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("255,255,255").build());
             sb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(SEGMENT_THICKNESS).build());
             sb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build());
 
@@ -146,7 +151,21 @@ public class Formatter {
             vertices.add(i, vb.build());
         }
 
-        // add rivers here
+        // create river segments here, shouldn't matter too much if we create duplicates
+        for(Tile tile : island.getTiles()){
+            RiverAttribute attr = tile.getAttribute(RiverAttribute.class);
+            for(Edge e : attr.riverEdges.keySet()){
+                Structs.Segment oldSegment = segments.get(e.id);
+                Integer _SEGMENT_THICKNESS = Integer.parseInt(SEGMENT_THICKNESS)*attr.riverEdges.get(e);;
+
+                Structs.Segment.Builder sb = oldSegment.toBuilder().clearProperties();
+                sb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("0,0,255").build());
+                sb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(_SEGMENT_THICKNESS.toString()).build());
+                sb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build());
+                
+                segments.add(sb.build());
+            }
+        }
 
         // System.out.println(vertices.toString());
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();

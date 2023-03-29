@@ -47,7 +47,7 @@ public class LakeGenerator extends Generator{
             while(!lake.getAttribute(LandAttribute.class).isLand || checkIfCoastal(lake));
 
             //expanding lake based on if it is land and elevation is lower
-            expandLake(lakesList, lake);
+            expandLake(lakesList, lake, 0);
         }
 
         for (Tile tile : tiles){
@@ -57,11 +57,13 @@ public class LakeGenerator extends Generator{
         return attribute;
     }
     
-    public void expandLake(Set <Tile> lakesList, Tile lake){
-        for (Tile tile : lake.getNeighbours()){
-            if (!checkIfCoastal(tile) && tile.getAttribute(ElevationAttribute.class).elevation < lake.getAttribute(ElevationAttribute.class).elevation){
-                lakesList.add(tile);
-                expandLake(lakesList, tile);
+    public void expandLake(Set <Tile> lakesList, Tile lake, int depth){
+        if(depth < 3){
+            for (Tile tile : lake.getNeighbours()){
+                if (!checkIfCoastal(tile) && tile.getAttribute(ElevationAttribute.class).elevation < lake.getAttribute(ElevationAttribute.class).elevation){
+                    lakesList.add(tile);
+                    expandLake(lakesList, tile, depth+1);
+                }
             }
         }
         lakesList.add(lake);

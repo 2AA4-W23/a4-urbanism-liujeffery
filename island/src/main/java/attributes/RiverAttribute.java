@@ -9,13 +9,15 @@ import island.Edge;
  * Whether a tile is land or water.
  */
 public class RiverAttribute implements Attribute{
-    private Map<Edge, Integer> riverEdges;
+    public Map<Edge, Integer> riverEdges;
+    public boolean isEndorheic;
 
     /**
      * @param isLand Whether the tile is land
      */
-    public RiverAttribute(){
+    public RiverAttribute(boolean isEndorheic){
         this.riverEdges = new HashMap<>();
+        this.isEndorheic = isEndorheic;
     }
 
     public void addRiver(Edge e){

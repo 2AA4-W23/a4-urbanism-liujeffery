@@ -1,7 +1,6 @@
 package featuregeneration;
 
 import java.util.List;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,12 +8,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.locationtech.jts.util.Stopwatch;
-
 import attributes.Attribute;
 import attributes.LandAttribute;
 import attributes.RiverAttribute;
-import attributes.BiomeAttribute;
 import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import island.Edge;
@@ -84,43 +80,17 @@ public class RiverGenerator extends Generator {
 
     @Override
     public RiverAttribute generate(Set<Tile> tiles) {
-        HashMap<Tile, RiverAttribute> attributeLayer = new HashMap<>();
         //first create vertices
         initializeVerticesFromTiles(tiles);
 
-        // compute valid vertex to start a lake from
-        // valid vertices are defined by a vertex shared by a land and water tile
-        Set<Vertex> validStartVertices = new HashSet<>();
-        for(Tile t : tiles){
-            if(!isWaterTile(t)) continue;
-            for(Tile neighbor : t.getNeighbours()){
-                if(isWaterTile(neighbor)) continue;
-
-                Set<Vertex> waterTileVertices = getVerticesFromEdges(t.getEdges());
-                Set<Vertex> landTileVertices = getVerticesFromEdges(neighbor.getEdges());
-
-                //find shared vertices
-                for(Vertex v1 : waterTileVertices){
-                    for(Vertex v2 : landTileVertices){
-                        if(v1.equals(v2)){
-                            validStartVertices.add(v1);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        System.out.println("number of valid start vertices: " + validStartVertices.size());
-
         //TODO: get this away from here
         Random bag = new Random();
+        List<Integer> choices = new ArrayList<>(this.vertices.keySet());
         //while the start point doesn't work, pick a new start point
         int count = 0;
         while(count < numLakes){
             //pick random start vertex
-            List<Vertex> choices = new ArrayList<>(validStartVertices);
-            Vertex startV = choices.get(bag.nextInt(choices.size()));
+            Vertex startV = this.vertices.get(choices.get(bag.nextInt(choices.size())));
 
             List<Vertex> path = generateRiver(startV);
             if(path.size()<3){ //make sure we actually generated a river
@@ -139,8 +109,15 @@ public class RiverGenerator extends Generator {
             count++;
         }
 
+        //apply empty river attribute to every other tile
+        for(Tile t: tiles){
+            if(t.getAttribute(RiverAttribute.class) == null){
+                t.addAttribute(new RiverAttribute(false));
+            }
+        }
 
-        return new RiverAttribute();
+
+        return new RiverAttribute(false);
     }
 
     void initializeVerticesFromTiles(Set<Tile> tiles){
@@ -190,7 +167,7 @@ public class RiverGenerator extends Generator {
 
             //currV was already the lowest, river generation ended
             if(nextV.equals(currV)){
-                System.out.println("river ended due to elevation");
+                // System.out.println("river ended due to elevation");
                 genRiver = false;
                 return path;
             }
@@ -200,7 +177,7 @@ public class RiverGenerator extends Generator {
             //river touches another water tile, end river generation
             for(Tile t : nextV.tilesWithin){
                 if(isWaterTile(t)){
-                    System.out.println("river ended due to water");
+                    // System.out.println("river ended due to water");
                     genRiver = false;
                     return path;
                 }
@@ -226,16 +203,6 @@ public class RiverGenerator extends Generator {
                     }
                 }
             }
-            System.out.print(prevV.getId() + " tiles: ");
-            for(Tile t1: prevV.tilesWithin){
-                System.out.print(t1.getId() + " ");
-            }
-            System.out.println();
-            System.out.print(currV.getId() + " tiles: ");
-            for(Tile t2: currV.tilesWithin){
-                System.out.print(t2.getId() + " ");
-            }
-            System.out.println();
 
             //assert the size is 2
             if(common.size() != 2){
@@ -262,13 +229,33 @@ public class RiverGenerator extends Generator {
 
             //apply the attributes to the tiles
             if(t1.getAttribute(RiverAttribute.class) == null){
-                t1.addAttribute(new RiverAttribute());
+                t1.addAttribute(new RiverAttribute(false));
             }
             if(t2.getAttribute(RiverAttribute.class) == null){
-                t2.addAttribute(new RiverAttribute());
+                t2.addAttribute(new RiverAttribute(false));
             }
             t1.getAttribute(RiverAttribute.class).addRiver(sharedEdge);
             t2.getAttribute(RiverAttribute.class).addRiver(sharedEdge);
+
+            //create the endoheric lake - the tile that touches the last vertex in the river path, but doesn't have an edge in the river
+            Vertex lastV = path.get(path.size()-1);
+            Vertex last2V = path.get(path.size()-2);
+            Tile endoheicTile = null;
+            for(Tile _t : lastV.tilesWithin){
+                boolean found = true;
+                for(Tile __t : last2V.tilesWithin){
+                    if(_t.equals(__t)){
+                        found = false;
+                    }
+                }
+                if(found){
+                    endoheicTile = _t;
+                    break;
+                }
+            }
+            if(endoheicTile.getAttribute(LandAttribute.class).isLand){
+                endoheicTile.addAttribute(new RiverAttribute(true));
+            }
         }
     }
 }
