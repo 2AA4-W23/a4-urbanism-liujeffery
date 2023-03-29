@@ -220,8 +220,6 @@ public class Formatter {
                 segments.add(sb.build());
             }
         }
-
-        // System.out.println(vertices.toString());
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 }

@@ -1,10 +1,8 @@
 package island;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import attributes.Attribute;
 
@@ -13,12 +11,10 @@ public class Island {
     private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
     private Map<Integer, Tile> tilesById;
-    private Map<Integer, Edge> edgesById;
 
 
     public Island(Map<Integer, Tile> tiles, Map<Integer, Edge> edges){
         this.tilesById = tiles;
-        this.edgesById = edges;
         this.tiles = new HashSet<>(tiles.values());
         this.attributes = new HashSet<Class<? extends Attribute>>();
     }
