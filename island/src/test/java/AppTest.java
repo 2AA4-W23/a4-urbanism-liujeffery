@@ -11,6 +11,7 @@ import island.Island;
 import island.Tile;
 import utilities.Formatter;
 import utilities.IO;
+import utilities.Formatter.Heatmap;
 
 /**
  * Unit test for simple App.
@@ -50,7 +51,7 @@ public class AppTest
     @Order (2)
     public void testFormatter(){
         Structs.Mesh mesh = IO.readMesh("../generator/test.mesh");
-        Formatter meshFormatter = new Formatter(mesh);
+        Formatter meshFormatter = new Formatter(mesh, Heatmap.NONE);
         Island island = meshFormatter.convertToIsland();
 
         for (int i = 0; i < mesh.getPolygonsCount(); i++){

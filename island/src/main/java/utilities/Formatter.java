@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import attributes.BiomeAttribute;
+import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
+import attributes.MoistureAttribute;
 import attributes.RiverAttribute;
+import attributes.TemperatureAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import island.Edge;
 import island.Island;
@@ -20,6 +23,7 @@ public class Formatter {
     private Structs.Mesh mesh;
     private double maxX;
     private double maxY;
+    private final Heatmap HEATMAP;
     
     static final String LAND_COLOR = "163,134,114";
     static final String WATER_COLOR = "170,194,206";
@@ -44,8 +48,13 @@ public class Formatter {
     static final String SEGMENT_TRANSPARENCY = "100";
     
 
-    public Formatter(Structs.Mesh inputMesh){
+    public Formatter(Structs.Mesh inputMesh, Heatmap heatmap){
         this.mesh = inputMesh;
+        this.HEATMAP = heatmap;
+    }
+
+    public enum Heatmap{
+        NONE, ELEVATION, MOISTURE, TEMPERATURE
     }
 
     public Island convertToIsland(){
@@ -163,15 +172,25 @@ public class Formatter {
                     default:
                         landColour = "0,0,0";
                 }
-                if(t.getAttribute(LakeAttribute.class).isLake){
-                    tileColorPropertyBuilder.setValue(LAKE_COLOUR);
+                if(t.getAttribute(LakeAttribute.class).isLake || t.getAttribute(RiverAttribute.class).isEndorheic){
+                    landColour = LAKE_COLOUR;
                 }
-                else if(t.getAttribute(RiverAttribute.class).isEndorheic){
-                    tileColorPropertyBuilder.setValue("0,0,255");
+                if (!HEATMAP.equals(Heatmap.NONE)){
+                    switch (HEATMAP){
+                        case ELEVATION:
+                            landColour = (int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255) + "," + (int)(t.getAttribute(ElevationAttribute.class).elevation * 255);
+                            break;
+                        case TEMPERATURE:
+                            landColour = (int)(t.getAttribute(TemperatureAttribute.class).temperature * 255) + "," + (int)(t.getAttribute(TemperatureAttribute.class).temperature * 255) + "," + (int)(t.getAttribute(TemperatureAttribute.class).temperature * 255);
+                            break;
+                        case MOISTURE:
+                            landColour = (int)(t.getAttribute(MoistureAttribute.class).moisture * 255) + "," + (int)(t.getAttribute(MoistureAttribute.class).moisture * 255) + "," + (int)(t.getAttribute(MoistureAttribute.class).moisture * 255);
+                            break;
+                        default:
+                            landColour = "0,0,0";
+                    }
                 }
-                else {
-                    tileColorPropertyBuilder.setValue(landColour);
-                }
+                tileColorPropertyBuilder.setValue(landColour);
             }
             else {
                 tileColorPropertyBuilder.setValue(WATER_COLOR);

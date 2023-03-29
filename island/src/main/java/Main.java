@@ -21,7 +21,7 @@ public class Main
             return;
         }
 
-        Formatter meshFormatter = new Formatter(IO.readMesh(config.inputAddress));
+        Formatter meshFormatter = new Formatter(IO.readMesh(config.inputAddress), config.heatmap);
         
         IslandBuilder ib = new IslandBuilder();
         ib.addGenerator(new LandGenerator(config.shape));

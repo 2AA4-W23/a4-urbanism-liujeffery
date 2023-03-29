@@ -11,6 +11,7 @@ import attributes.BiomeAttribute.Whittaker;
 import attributes.MoistureAttribute.Soil;
 import featuregeneration.LandGenerator;
 import featuregeneration.ElevationGenerator.ElevationModes;
+import utilities.Formatter.Heatmap;
 
 /**
  * Parses, validates, and stores information related to program configuration.
@@ -35,6 +36,7 @@ public class Configuration {
     public String outputAddress;
     public Whittaker whittaker;
     public Soil soil;
+    public Heatmap heatmap;
 
     public Configuration(String[] args){
         if(!parseArgs(args, OPTION_SUITE)){
@@ -80,6 +82,7 @@ public class Configuration {
         seed = -1;
         whittaker = Whittaker.TEMPERATE;
         soil = Soil.STANDARD;
+        heatmap = Heatmap.NONE;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 
@@ -109,6 +112,9 @@ public class Configuration {
         }
         if(cmd.hasOption("soil")){
             soil = Soil.valueOf(cmd.getOptionValue("soil").toUpperCase());
+        }
+        if(cmd.hasOption("heat")){
+            heatmap = Heatmap.valueOf(cmd.getOptionValue("heat").toUpperCase());
         }
     }
 

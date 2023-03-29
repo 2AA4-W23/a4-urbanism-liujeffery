@@ -84,7 +84,6 @@ public class RiverGenerator extends Generator {
         //first create vertices
         initializeVerticesFromTiles(tiles);
 
-        //TODO: get this away from here
         Random bag = RandomSingleton.getInstance();
         List<Integer> choices = new ArrayList<>(this.vertices.keySet());
         //while the start point doesn't work, pick a new start point

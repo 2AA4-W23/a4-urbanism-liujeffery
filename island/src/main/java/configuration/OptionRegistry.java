@@ -20,6 +20,7 @@ public class OptionRegistry {
         options.addOption("w", null, true, "Whittaker diagram to use");
         options.addOption("r", null, true, "Number of rivers");
         options.addOption("soil", "soil", true, "Soil profile: absorbant, standard, or parched");
+        options.addOption("heat", "heatmap", true, "Draw heatmap of specified attribute: elevation, moisture or temperature");
         return options;
     }
 }
