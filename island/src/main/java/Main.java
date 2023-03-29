@@ -29,7 +29,7 @@ public class Main
         ib.addGenerator(new LakeGenerator(config.lakes));
         ib.addGenerator(new AquiferGenerator(config.aquifers));
         ib.addGenerator(new TemperatureGenerator(1, 0));
-        ib.addGenerator(new MoistureGenerator(1, 0));
+        ib.addGenerator(new MoistureGenerator(1, 0, config.soil));
         ib.addGenerator(new RiverGenerator(config.rivers));
         ib.addGenerator(new BiomeGenerator(config.whittaker));
 

@@ -15,6 +15,7 @@ import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import island.Edge;
 import island.Tile;
+import utilities.RandomSingleton;
 
 public class RiverGenerator extends Generator {
     class Vertex{
@@ -84,7 +85,7 @@ public class RiverGenerator extends Generator {
         initializeVerticesFromTiles(tiles);
 
         //TODO: get this away from here
-        Random bag = new Random();
+        Random bag = RandomSingleton.getInstance();
         List<Integer> choices = new ArrayList<>(this.vertices.keySet());
         //while the start point doesn't work, pick a new start point
         int count = 0;

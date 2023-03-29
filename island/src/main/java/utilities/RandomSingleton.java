@@ -16,6 +16,11 @@ public final class RandomSingleton {
             if (Configuration.seed != -1){
                 bag = new Random(Configuration.seed);
             }
+            else{
+                int generateSeed = bag.nextInt(Integer.MAX_VALUE);
+                bag = new Random(generateSeed);
+                System.out.println("Seed used to generate this island: " + generateSeed);
+            }
         }
         return bag;
     }

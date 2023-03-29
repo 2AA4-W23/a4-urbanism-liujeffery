@@ -12,7 +12,6 @@ import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import attributes.RiverAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import featuregeneration.RiverGenerator;
 import island.Edge;
 import island.Island;
 import island.Tile;

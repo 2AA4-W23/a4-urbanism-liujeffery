@@ -59,9 +59,9 @@ public class BiomeGenerator extends Generator{
                 else
                     return Biome.ROCKY_DARK;
             case ARCTIC:
-                if(moisture > 0.6 && temperature > 0.7)
+                if(moisture > 0.8 && temperature > 0.75)
                     return Biome.SHRUBS;
-                else if(moisture > 0.3 && temperature > 0.4)
+                else if(moisture > 0.7 && temperature > 0.4)
                     return Biome.ICE;
                 else if(temperature > 0.2)
                     return Biome.SNOW;
@@ -70,13 +70,13 @@ public class BiomeGenerator extends Generator{
                 else
                     return Biome.SNOW;
             case TROPICAL:
-                if(moisture > 0.6 && temperature > 0.7)
+                if(moisture > 0.7 && temperature > 0.7)
                     return Biome.BEACH;
-                else if(moisture > 0.3 && temperature > 0.4)
+                else if(moisture > 0.6 && temperature > 0.5)
                     return Biome.SWAMP;
-                else if(temperature > 0.2)
+                else if(temperature > 0.4)
                     return Biome.RAINFOREST;
-                else if(temperature > 0.1)
+                else if(temperature > 0.15)
                     return Biome.GRASSLAND;
                 else
                     return Biome.SHRUBS;

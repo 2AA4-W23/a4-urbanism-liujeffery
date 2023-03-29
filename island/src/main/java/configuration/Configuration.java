@@ -8,6 +8,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import attributes.BiomeAttribute.Whittaker;
+import attributes.MoistureAttribute.Soil;
 import featuregeneration.LandGenerator;
 import featuregeneration.ElevationGenerator.ElevationModes;
 
@@ -33,6 +34,7 @@ public class Configuration {
     public String inputAddress;
     public String outputAddress;
     public Whittaker whittaker;
+    public Soil soil;
 
     public Configuration(String[] args){
         if(!parseArgs(args, OPTION_SUITE)){
@@ -77,6 +79,7 @@ public class Configuration {
         rivers = 2;
         seed = -1;
         whittaker = Whittaker.TEMPERATE;
+        soil = Soil.STANDARD;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 
@@ -103,6 +106,9 @@ public class Configuration {
         }
         if (cmd.hasOption("w")){
             whittaker = Whittaker.valueOf(cmd.getOptionValue("w").toUpperCase());
+        }
+        if(cmd.hasOption("soil")){
+            soil = Soil.valueOf(cmd.getOptionValue("soil").toUpperCase());
         }
     }
 

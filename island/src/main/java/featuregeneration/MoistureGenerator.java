@@ -8,17 +8,30 @@ import attributes.Attribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import attributes.MoistureAttribute;
+import attributes.MoistureAttribute.Soil;
 import island.Tile;
 
 public class MoistureGenerator extends Generator{
 
     private double minMoisture;
     private double moistureRange;
-    private static final double SCALING_FACTOR = 4;
+    private double scalingFactor = 4;
 
-    public MoistureGenerator(double maxMoisture, double minMoisture){
+    public MoistureGenerator(double maxMoisture, double minMoisture, Soil soil){
         this.minMoisture = minMoisture;
         this.moistureRange = maxMoisture - minMoisture;
+        
+        switch(soil){
+            case ABSORBANT:
+                this.scalingFactor = 2;
+                break;
+            case STANDARD:
+                this.scalingFactor = 4;
+                break;
+            case PARCHED:
+                this.scalingFactor = 6;
+                break;
+        }
     }
 
     @Override
@@ -46,7 +59,7 @@ public class MoistureGenerator extends Generator{
             }
             if(t.getAttribute(AquiferAttribute.class).isAquifer) minDistance = 0;
 
-            double moisture = Math.max(0, (1 - SCALING_FACTOR * minDistance) * moistureRange) + minMoisture;
+            double moisture = Math.max(0, (1 - scalingFactor * minDistance) * moistureRange) + minMoisture;
             
             t.addAttribute(new MoistureAttribute(moisture));
         }
