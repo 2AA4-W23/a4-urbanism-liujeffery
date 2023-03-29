@@ -121,11 +121,11 @@ For example, each test should input different parameters to the program or handl
 | F07 | Generate mesh w/ rivers, max number selectable via cmdline                | Johnny  | 23/03/26 |          | S      |
 | F08 | Generate mesh w/ river merging behaviour                                  | Johnny  |          |          | B      |
 | F09 | Generate mesh w/ aquifers, max number selectable via cmdline              | Jeffery | 23/03/26 | 23/03/26 | D      |
-| F10 | Generate mesh w/ biomes based on temperature and moisture                 | Jeffery | 23/03/26 |          | S      |
-| F11 | Generate mesh w/ biomes based on whittaker diagrams                       | Jeffery | 23/03/26 |          | S      |
+| F10 | Generate mesh w/ biomes based on temperature and moisture                 | Jeffery | 23/03/26 | 23/03/29 | D      |
+| F11 | Generate mesh w/ biomes based on whittaker diagrams                       | Jeffery | 23/03/26 | 23/03/29 | D      |
 | F12 | Generate reproducible mesh based on an input seed                         | Jeffery | 23/03/28 | 23/03/28 | D      |
 | B01 | Generate resource information based on the mesh terrain                   |         |          |          | B      |
-| B02 | Generate heatmaps of features                                             |         |          |          | B      |
+| B02 | Generate heatmaps of features                                             | Jeffery | 23/03/29 |          | S      |
 
 
 ## Appendix
