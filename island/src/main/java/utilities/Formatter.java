@@ -2,12 +2,18 @@ package utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import attributes.BiomeAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
+import attributes.RiverAttribute;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import featuregeneration.RiverGenerator;
+import island.Edge;
 import island.Island;
 import island.Tile;
 
@@ -44,33 +50,55 @@ public class Formatter {
     }
 
     public Island convertToIsland(){
-        // Neighbours
-        HashMap<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
-
-        for(int i = 0; i < mesh.getPolygonsCount(); i++){
-            adjList.put(i, mesh.getPolygons(i).getNeighborIdxsList());
-        }
-        
         // find the size of the mesh
-        maxX = 0;
-        maxY = 0;
-        List<Structs.Vertex> vertexList = mesh.getVerticesList();
-        for (Structs.Vertex v: vertexList) {
+        this.maxX = 0;
+        this.maxY = 0;
+        for (Structs.Vertex v: mesh.getVerticesList()) {
             maxX = (Double.compare(maxX, v.getX()) < 0 ? v.getX(): maxX);
             maxY = (Double.compare(maxY, v.getY()) < 0 ? v.getY(): maxY);
         }
-        
-        // Coordinates
-        HashMap<Integer, Double> xCoords = new HashMap<Integer, Double>();
-        HashMap<Integer, Double> yCoords = new HashMap<Integer, Double>();
-        for(int i = 0; i < mesh.getPolygonsCount(); i++){
-            Structs.Polygon p = mesh.getPolygons(i);
-            Structs.Vertex v = mesh.getVertices(p.getCentroidIdx());
-            xCoords.put(i, v.getX() / maxX);
-            yCoords.put(i, v.getY() / maxY);
+
+
+        //create segments
+        Map<Integer, Edge> edges = new HashMap<>();
+        for(int i = 0;i < mesh.getSegmentsCount(); i++){
+            Structs.Segment s = mesh.getSegments(i);
+            edges.put(i, new Edge(i, s.getV1Idx(), s.getV2Idx()));
         }
-        
-        return new Island(adjList, xCoords, yCoords);
+
+        //create tiles from mesh
+        Map<Integer, Tile> tiles = new HashMap<>();
+        for(int i = 0;i < mesh.getPolygonsCount(); i++){
+            Structs.Polygon p = mesh.getPolygons(i);
+
+            //get and normalize centroid coordinates
+            Structs.Vertex v = mesh.getVertices(p.getCentroidIdx());
+            double x = v.getX() / maxX;
+            double y = v.getY() / maxY;
+
+            //add the edges that make up the tile
+            Set<Edge> pEdges = new HashSet<>();
+            for(Integer segmentId : p.getSegmentIdxsList()){
+                pEdges.add(edges.get(segmentId));
+            }
+
+            tiles.put(i, new Tile(i, x, y, pEdges));
+        }
+
+        //set the neighbors for each tile
+        for(int i = 0;i < mesh.getPolygonsCount(); i++){
+            Structs.Polygon p = mesh.getPolygons(i);
+            List<Integer> neighbourIds = p.getNeighborIdxsList();
+            Set<Tile> neighbourTiles = new HashSet<>();
+            for(Integer neighbourId : neighbourIds){
+                neighbourTiles.add(tiles.get(neighbourId));
+            } 
+
+            boolean setFail = !tiles.get(i).setNeighbours(neighbourTiles);
+            if(setFail) throw new Error("Error: Tried re-setting neighbours during island construction");
+        }
+
+        return new Island(tiles, edges);
     }
 
     public Structs.Mesh meshFromIsland(Island island){
@@ -79,7 +107,7 @@ public class Formatter {
         ArrayList<Structs.Vertex> vertices = new ArrayList<>(mesh.getVerticesCount());
 
         // New Polygons
-        for(int i = 0; i < mesh.getPolygonsCount(); i++){ 
+        for(int i = 0; i < mesh.getPolygonsCount(); i++){
             Tile t = island.getTileByID(i);
 
             // for every tile, find corresponding polygon
@@ -136,12 +164,17 @@ public class Formatter {
                     default:
                         landColour = "0,0,0";
                 }
-                if(t.getAttribute(LakeAttribute.class).isLake) 
+                if(t.getAttribute(LakeAttribute.class).isLake){
                     tileColorPropertyBuilder.setValue(LAKE_COLOUR);
-                else 
+                }
+                else if(t.getAttribute(RiverAttribute.class).isEndorheic){
+                    tileColorPropertyBuilder.setValue("0,0,255");
+                }
+                else {
                     tileColorPropertyBuilder.setValue(landColour);
+                }
             }
-            else{
+            else {
                 tileColorPropertyBuilder.setValue(WATER_COLOR);
             }
             
@@ -154,7 +187,7 @@ public class Formatter {
         for(int i = 0; i < mesh.getSegmentsCount(); i++){
             Structs.Segment oldSegment = mesh.getSegments(i);
             Structs.Segment.Builder sb = oldSegment.toBuilder().clearProperties();
-            sb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("255,0,0").build());
+            sb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("255,255,255").build());
             sb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(SEGMENT_THICKNESS).build());
             sb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build());
 
@@ -173,6 +206,23 @@ public class Formatter {
             vertices.add(i, vb.build());
         }
 
+        // create river segments here, shouldn't matter too much if we create duplicates
+        for(Tile tile : island.getTiles()){
+            RiverAttribute attr = tile.getAttribute(RiverAttribute.class);
+            for(Edge e : attr.riverEdges.keySet()){
+                Structs.Segment oldSegment = segments.get(e.id);
+                Integer _SEGMENT_THICKNESS = Integer.parseInt(SEGMENT_THICKNESS)*attr.riverEdges.get(e);;
+
+                Structs.Segment.Builder sb = oldSegment.toBuilder().clearProperties();
+                sb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("0,0,255").build());
+                sb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(_SEGMENT_THICKNESS.toString()).build());
+                sb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build());
+                
+                segments.add(sb.build());
+            }
+        }
+
+        // System.out.println(vertices.toString());
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 }

@@ -29,6 +29,7 @@ public class Configuration {
     public int lakes;
     public int aquifers;
     public static int seed;
+    public int rivers;
     public String inputAddress;
     public String outputAddress;
     public Whittaker whittaker;
@@ -73,6 +74,7 @@ public class Configuration {
         elevation = ElevationModes.MOUNTAIN;
         lakes = 2;
         aquifers = 2;
+        rivers = 2;
         seed = -1;
         whittaker = Whittaker.TEMPERATE;
 
@@ -93,8 +95,11 @@ public class Configuration {
         if (cmd.hasOption("a")){
             aquifers = Integer.parseInt(cmd.getOptionValue("a"));
         }
-        if (cmd.hasOption("r")){
-            seed = Integer.parseInt(cmd.getOptionValue("r"));
+        if(cmd.hasOption("r")){
+            rivers = Integer.parseInt(cmd.getOptionValue("r"));
+        }
+        if (cmd.hasOption("seed")){
+            seed = Integer.parseInt(cmd.getOptionValue("seed"));
         }
         if (cmd.hasOption("w")){
             whittaker = Whittaker.valueOf(cmd.getOptionValue("w").toUpperCase());

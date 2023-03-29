@@ -7,17 +7,28 @@ import attributes.Attribute;
 
 public class Tile {
     private int id;
-    private Set<Tile> neighbours;
-    private Set<Attribute> attributes;
     private double x; // Center of tile, scaled 0-1
     private double y;
 
+    private Set<Edge> edges;
+    private Set<Tile> neighbours;
+    private Set<Attribute> attributes;
     public Tile(int id, double x, double y){
-        neighbours = new HashSet<Tile>();
-        this.attributes = new HashSet<Attribute>();
         this.id = id;
         this.x = x;
         this.y = y;
+        this.edges = new HashSet<Edge>();
+        this.neighbours = new HashSet<Tile>();
+        this.attributes = new HashSet<Attribute>();
+    }
+
+    public Tile(int id, double x, double y, Set<Edge> edges){
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.edges = edges;
+        this.neighbours = new HashSet<Tile>();
+        this.attributes = new HashSet<Attribute>();
     }
 
     public double getX(){
@@ -45,6 +56,12 @@ public class Tile {
     public Set<Tile> getNeighbours(){
         Set<Tile> copy = new HashSet<Tile>(neighbours.size());
         copy.addAll(neighbours);
+        return copy;
+    }
+
+    public Set<Edge> getEdges(){
+        Set<Edge> copy = new HashSet<Edge>(this.edges.size());
+        copy.addAll(this.edges);
         return copy;
     }
 

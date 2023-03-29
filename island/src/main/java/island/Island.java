@@ -12,36 +12,15 @@ public class Island {
 
     private Set<Class<? extends Attribute>> attributes; 
     private Set<Tile> tiles;
-    private TreeMap<Integer, Tile> idMap;
+    private Map<Integer, Tile> tilesById;
+    private Map<Integer, Edge> edgesById;
 
-    /**
-     * 
-     * @param adjacencyMap
-     * @param xCoords mapping of x coordinates of tiles, scaled from 0-1
-     * @param yCoords mapping of x coordinates of tiles, scaled from 0-1
-     */
-    public Island(Map<Integer, List<Integer>> adjacencyMap, Map<Integer, Double> xCoords, Map<Integer, Double> yCoords){
+
+    public Island(Map<Integer, Tile> tiles, Map<Integer, Edge> edges){
+        this.tilesById = tiles;
+        this.edgesById = edges;
+        this.tiles = new HashSet<>(tiles.values());
         this.attributes = new HashSet<Class<? extends Attribute>>();
-        this.tiles = new HashSet<Tile>();
-        idMap = new TreeMap<>();
-
-        Set<Integer> tileIds = adjacencyMap.keySet();
-        for(Integer id : adjacencyMap.keySet()){
-            Tile tile = new Tile(id, xCoords.get(id), yCoords.get(id));
-            tiles.add(tile);
-            this.idMap.put(id, tile);
-        }   // Create tile for every id
-        for(Integer id : tileIds){
-            Tile tile = this.idMap.get(id);
-            Set<Tile> neighbourTiles = new HashSet<>();
-            List<Integer> neighbourIds = adjacencyMap.get(id);
-            for(Integer neighbourId : neighbourIds){
-                neighbourTiles.add(this.idMap.get(neighbourId));
-            } // Add neighbour Tile objects as a neighbour
-            
-            boolean setFail = !tile.setNeighbours(neighbourTiles);
-            if(setFail) throw new Error("Error: Tried re-setting neighbours during island construction");
-        }   // Assign neighbours
     }
 
     /**
@@ -55,7 +34,7 @@ public class Island {
 
     public Set<Integer> getIds(){
         Set<Integer> copy = new HashSet<>();
-        copy.addAll(idMap.keySet());
+        copy.addAll(tilesById.keySet());
         return copy;
     }
 
@@ -69,7 +48,7 @@ public class Island {
     }
 
     public Tile getTileByID(int id){
-        return idMap.get(id);
+        return tilesById.get(id);
     }
 
     /**

@@ -6,15 +6,12 @@ import featuregeneration.LakeGenerator;
 import featuregeneration.LandGenerator;
 import featuregeneration.MoistureGenerator;
 import featuregeneration.TemperatureGenerator;
+import featuregeneration.RiverGenerator;
 import island.IslandBuilder;
 import island.IslandBuilder.MissingAttributeError;
 import utilities.Formatter;
 import utilities.IO;
 
-/**
- * Hello world!
- *
- */
 public class Main 
 {
     public static void main( String[] args ) throws MissingAttributeError {
@@ -33,6 +30,7 @@ public class Main
         ib.addGenerator(new AquiferGenerator(config.aquifers));
         ib.addGenerator(new TemperatureGenerator(1, 0));
         ib.addGenerator(new MoistureGenerator(1, 0));
+        ib.addGenerator(new RiverGenerator(config.rivers));
         ib.addGenerator(new BiomeGenerator(config.whittaker));
 
         IO.writeMesh(meshFormatter.meshFromIsland(ib.build(meshFormatter.convertToIsland())), config.outputAddress);

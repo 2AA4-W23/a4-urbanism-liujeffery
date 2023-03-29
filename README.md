@@ -118,8 +118,8 @@ For example, each test should input different parameters to the program or handl
 | F04 | Generate complex shapes for land                                          | Johnny  | 23/03/26 | 23/03/26 | D      |
 | F05 | Generate mesh w/ elevations selectable via cmdline                        | Jeffery | 23/03/26 | 23/03/26 | D      |
 | F06 | Generate mesh w/ lakes, max number selectable via cmdline                 | Jeffery | 23/03/26 | 23/03/26 | D      |
-| F07 | Generate mesh w/ rivers, max number selectable via cmdline                | Johnny  | 23/03/26 |          | S      |
-| F08 | Generate mesh w/ river merging behaviour                                  | Johnny  |          |          | B      |
+| F07 | Generate mesh w/ rivers, max number selectable via cmdline                | Johnny  | 23/03/26 | 23/03/29 | D      |
+| F08 | Generate mesh w/ river merging behaviour                                  | Johnny  | 23/03/29 | 23/03/29 | D      |
 | F09 | Generate mesh w/ aquifers, max number selectable via cmdline              | Jeffery | 23/03/26 | 23/03/26 | D      |
 | F10 | Generate mesh w/ biomes based on temperature and moisture                 | Jeffery | 23/03/26 | 23/03/29 | D      |
 | F11 | Generate mesh w/ biomes based on whittaker diagrams                       | Jeffery | 23/03/26 | 23/03/29 | D      |

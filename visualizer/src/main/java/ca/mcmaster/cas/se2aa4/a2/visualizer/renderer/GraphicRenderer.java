@@ -4,23 +4,26 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.ColorProperty;
+import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.ThicknessProperty;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.Iterator;
 import java.util.Optional;
 
 public class GraphicRenderer implements Renderer {
 
-    private static final int THICKNESS = 3;
+    private static final float THICKNESS = 0.2f;
     public void render(Mesh aMesh, Graphics2D canvas) {
         canvas.setColor(Color.WHITE);
-        Stroke stroke = new BasicStroke(0.2f);
+        Stroke stroke = new BasicStroke(THICKNESS);
         canvas.setStroke(stroke);
         drawPolygons(aMesh,canvas);
+        drawSegments(aMesh, canvas);
     }
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
@@ -52,5 +55,37 @@ public class GraphicRenderer implements Renderer {
             canvas.setColor(old);
         }
     }
+    private void drawSegments(Mesh aMesh, Graphics2D canvas){
+        for(Structs.Segment s: aMesh.getSegmentsList()){
+            drawASegment(s, aMesh, canvas);
+        }
 
+    }
+    private void drawASegment(Structs.Segment s, Mesh aMesh, Graphics2D canvas){
+        //only draw a segment if it was specifically given a colour
+        Optional<Color> color = new ColorProperty().extract(s.getPropertiesList());
+        if(!color.isPresent()){
+            return;
+        }
+
+        Color oldColor = canvas.getColor();
+        canvas.setColor(color.get());
+
+        //create the line to draw
+        Structs.Vertex v1 = aMesh.getVertices(s.getV1Idx());
+        Structs.Vertex v2 = aMesh.getVertices(s.getV2Idx());
+        Line2D line = new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY());
+
+        Stroke oldStroke = canvas.getStroke();
+        //apply the segments specified width
+
+        Optional<Double> thickness = new ThicknessProperty().extract(s.getPropertiesList());
+        if(thickness.isPresent()){
+            canvas.setStroke(new BasicStroke(thickness.get().floatValue())); //update the stroke width to match desired thickness
+        }
+        
+        canvas.draw(line);
+        canvas.setColor(oldColor);
+        canvas.setStroke(oldStroke);
+    }
 }
