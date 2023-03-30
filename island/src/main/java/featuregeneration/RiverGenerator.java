@@ -97,12 +97,6 @@ public class RiverGenerator extends Generator {
                 continue;
             }
 
-            System.out.print("River: ");
-            for(Vertex v : path){
-                System.out.print(v.getId() + " ");
-            }
-            System.out.println();
-
             //now apply the attributes to tile the rivers are connected to
             applyRiverAttributes(path);
 
