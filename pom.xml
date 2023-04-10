@@ -24,7 +24,10 @@
     <module>visualizer</module>
           
     <module>island</module>
-      
+    
+    <module>pathfinder</module>
+    <module>pathfinder</module>
+
   </modules>
       
   <properties>
