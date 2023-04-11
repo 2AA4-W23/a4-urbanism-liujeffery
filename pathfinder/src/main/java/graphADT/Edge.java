@@ -5,7 +5,7 @@ import java.util.Set;
 
 import attributes.Attribute;
 
-public class Edge {
+public class Edge{
     private double distance;
     private Node node1;
     private Node node2;
@@ -25,10 +25,26 @@ public class Edge {
     }
 
     public double calculateDistance(){
-        return Math.sqrt(Math.pow(node1.getX() - node2.getY(), 2) + Math.pow(node1.getY() - node2.getY(), 2));
+        return Math.sqrt(Math.pow(node1.getX() - node2.getX(), 2) + Math.pow(node1.getY() - node2.getY(), 2));
     }
 
     public double getDistance(){
         return distance;
+    }
+
+    public boolean startsWith(Node node){
+        return node.equals(node1);
+    }
+
+    public boolean endsWith(Node node){
+        return node.equals(node2);
+    }
+
+    public boolean matches(Node node1, Node node2){
+        return startsWith(node1) && endsWith(node2);
+    }
+
+    public Node getEnd(){
+        return node2;
     }
 }

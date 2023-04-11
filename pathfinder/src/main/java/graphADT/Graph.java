@@ -1,5 +1,6 @@
 package graphADT;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,5 +25,16 @@ public class Graph {
 
     public void addNode(Node node){
         nodes.add(node);
+    }
+
+    public ArrayList<Edge> calculatePath(Node node1, Node node2){
+        Pathfinding pathfinder = new Pathfinding();
+        pathfinder.setNode1(node1);
+        pathfinder.setNode2(node2);
+        pathfinder.setEdges(edges);
+        pathfinder.setNodes(nodes);
+        
+        ArrayList<Edge> path = pathfinder.calculatePath();
+        return path;
     }
 }
