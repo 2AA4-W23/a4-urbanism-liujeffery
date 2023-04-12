@@ -38,8 +38,6 @@ public class Main
         ib.addGenerator(new CityGenerator(config.cities));
 
         Island island = ib.build(meshFormatter.convertToIsland());
-        Graph graph = meshFormatter.graphFromIsland(island);
-        
 
         IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);
     }

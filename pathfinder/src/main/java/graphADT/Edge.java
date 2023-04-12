@@ -1,7 +1,7 @@
 package graphADT;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import attributes.Attribute;
 
@@ -10,14 +10,14 @@ public class Edge{
     private Node node1;
     private Node node2;
 
-    private Set<Attribute> attributes;
+    private List<Attribute> attributes;
 
     public Edge(Node node1, Node node2){
         this.node1 = node1;
         this.node2 = node2;
 
         this.distance = calculateDistance();
-        this.attributes = new HashSet<>();
+        this.attributes = new ArrayList<>();
     }
 
     public Edge(Node node1, Node node2, double distance){
@@ -25,11 +25,18 @@ public class Edge{
         this.node2 = node2;
 
         this.distance = distance;
-        this.attributes = new HashSet<>();
+        this.attributes = new ArrayList<>();
     }
 
     public void addAttribute(Attribute attribute){
         attributes.add(attribute);
+    }
+
+    public <T extends Attribute> T getAttribute(Class<T> type){
+        for(Attribute attr : attributes){
+            if(attr.getClass() == type) return (T)attr;
+        }
+        return null;
     }
 
     private double calculateDistance(){
@@ -50,6 +57,10 @@ public class Edge{
 
     public boolean matches(Node node1, Node node2){
         return startsWith(node1) && endsWith(node2);
+    }
+
+    public Node getStart(){
+        return node1;
     }
 
     public Node getEnd(){

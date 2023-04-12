@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import attributes.UsableAttribute;
+
 public class PathfindingTest {
 
     @Test
@@ -27,12 +29,16 @@ public class PathfindingTest {
         assert(listEdges.size() == 0);
 
         Edge edge1 = new Edge(node1, tempNode);
+        edge1.addAttribute(new UsableAttribute(true));
         g.addEdge(edge1);
         Edge edge3 = new Edge(node1, tempNode1);
+        edge3.addAttribute(new UsableAttribute(true));
         g.addEdge(edge3);
         Edge edge4 = new Edge(tempNode1, tempNode);
+        edge4.addAttribute(new UsableAttribute(true));
         g.addEdge(edge4);
         Edge edge5 = new Edge(tempNode1, node2);
+        edge5.addAttribute(new UsableAttribute(true));
         g.addEdge(edge5);
 
         listEdges = g.calculatePath(node1, node2, path);
@@ -44,6 +50,7 @@ public class PathfindingTest {
         assert(sumOfEnd == 5);
 
         Edge edge2 = new Edge(tempNode, node2);
+        edge2.addAttribute(new UsableAttribute(true));
         g.addEdge(edge2);
 
 

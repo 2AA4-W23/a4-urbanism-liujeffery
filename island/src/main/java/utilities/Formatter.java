@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import attributes.BiomeAttribute;
 import attributes.CityAttribute;
@@ -15,10 +16,12 @@ import attributes.LandAttribute;
 import attributes.MoistureAttribute;
 import attributes.RiverAttribute;
 import attributes.TemperatureAttribute;
+import attributes.UsableAttribute;
 import attributes.CityAttribute.Cities;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import graphADT.Graph;
 import graphADT.Node;
+import graphADT.Pathfinding;
 import island.Edge;
 import island.Island;
 import island.Tile;
@@ -119,12 +122,28 @@ public class Formatter {
             Tile tile = island.getTileByID(id);
 
             graph.addNode(new Node(tile.getX(), tile.getY(), id));
+            if (!tile.getAttribute(LandAttribute.class).isLand || tile.getAttribute(LakeAttribute.class).isLake){
+                graph.getNodeByID(id).addAttribute(new UsableAttribute(false));
+            }
+            else{
+                graph.getNodeByID(id).addAttribute(new UsableAttribute(true));
+            }
         }
         for (Tile tile : island.getTiles()){
             for (Tile neighbour : tile.getNeighbours()){
-                graph.addEdge(graph.getNodeByID(tile.getId()), graph.getNodeByID(neighbour.getId()));
+
+                graphADT.Edge edge = new graphADT.Edge(graph.getNodeByID(tile.getId()), graph.getNodeByID(neighbour.getId()));
+                if (!tile.getAttribute(LandAttribute.class).isLand || tile.getAttribute(LakeAttribute.class).isLake || 
+                    !neighbour.getAttribute(LandAttribute.class).isLand || neighbour.getAttribute(LakeAttribute.class).isLake){
+                    edge.addAttribute(new UsableAttribute(false));
+                }
+                else{
+                    edge.addAttribute(new UsableAttribute(true));
+                }
+                graph.addEdge(edge);
             }
         }
+
         return graph;
     }
 
@@ -258,6 +277,7 @@ public class Formatter {
             }
         }
         
+        List<Node> cityNodes = new ArrayList<>();
         for (Tile tile : island.getTiles()){
             if (!tile.getAttribute(CityAttribute.class).city.equals(Cities.NONE)){
                 Structs.Vertex.Builder vb = Structs.Vertex.newBuilder();
@@ -286,6 +306,28 @@ public class Formatter {
                 vb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue("100").build());
                 
                 vertices.add(vb.build());
+
+                cityNodes.add(new Node(tile.getX(), tile.getY(), tile.getId()));
+            }
+        }
+
+        Random bag = RandomSingleton.getInstance();
+        Node central = cityNodes.get(bag.nextInt(cityNodes.size()));
+
+        Graph graph = graphFromIsland(island);
+        Pathfinding path = new Pathfinding();
+        for (int i = 0; i < cityNodes.size(); i++){
+            if (cityNodes.get(i) != central){
+                
+                ArrayList<graphADT.Edge> toAdd = graph.calculatePath(central, cityNodes.get(i), path);
+
+                for (graphADT.Edge edge : toAdd){
+                    Structs.Segment s = Structs.Segment.newBuilder().setV1Idx(mesh.getPolygons(edge.getStart().getId()).getCentroidIdx()).setV2Idx(mesh.getPolygons(edge.getEnd().getId()).getCentroidIdx()).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("0,0,0").build())
+                    .addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(SEGMENT_THICKNESS).build())
+                    .addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build()).build();
+
+                    segments.add(s);
+                }
             }
         }
         

@@ -5,6 +5,8 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 
+import attributes.UsableAttribute;
+
 public class Pathfinding implements PathfindingInterface{
 
     private Node node1;
@@ -49,7 +51,7 @@ public class Pathfinding implements PathfindingInterface{
         while (!queue.isEmpty()){
             Node start = queue.poll();
             for (Edge edge : edges){
-                if (edge.startsWith(start)){
+                if (edge.startsWith(start) && edge.getAttribute(UsableAttribute.class).isUsable){
                     Node end = edge.getEnd();
                     if (cost[end.getId()] == -1 || cost[start.getId()] + edge.getDistance() < cost[end.getId()]){
                         path[end.getId()] = start;
