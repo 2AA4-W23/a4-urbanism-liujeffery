@@ -322,7 +322,7 @@ public class Formatter {
                 ArrayList<graphADT.Edge> toAdd = graph.calculatePath(central, cityNodes.get(i), path);
 
                 for (graphADT.Edge edge : toAdd){
-                    Structs.Segment s = Structs.Segment.newBuilder().setV1Idx(mesh.getPolygons(edge.getStart().getId()).getCentroidIdx()).setV2Idx(mesh.getPolygons(edge.getEnd().getId()).getCentroidIdx()).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("0,0,0").build())
+                    Structs.Segment s = Structs.Segment.newBuilder().setV1Idx(mesh.getPolygons(edge.getStart().getId()).getCentroidIdx()).setV2Idx(mesh.getPolygons(edge.getEnd().getId()).getCentroidIdx()).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("46,31,0").build())
                     .addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(SEGMENT_THICKNESS).build())
                     .addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(SEGMENT_TRANSPARENCY).build()).build();
 
