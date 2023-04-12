@@ -27,8 +27,7 @@ public class Graph {
         nodes.add(node);
     }
 
-    public ArrayList<Edge> calculatePath(Node node1, Node node2){
-        Pathfinding pathfinder = new Pathfinding();
+    public ArrayList<Edge> calculatePath(Node node1, Node node2, PathfindingInterface pathfinder){
         pathfinder.setNode1(node1);
         pathfinder.setNode2(node2);
         pathfinder.setEdges(edges);

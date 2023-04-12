@@ -61,6 +61,10 @@ public class Pathfinding implements PathfindingInterface{
             }
         }
 
+        if(cost[node2.getId()] == -1){
+            return result;
+        }
+
         Stack<Edge> edgesStack = new Stack<>();
         Node tempNode = path[node2.getId()];
         while (!tempNode.equals(node1)){
