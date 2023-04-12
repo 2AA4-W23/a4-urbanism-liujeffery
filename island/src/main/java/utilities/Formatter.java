@@ -47,6 +47,11 @@ public class Formatter {
     static final String TUNDRA_COLOUR = "163,134,114";
     static final String GRASSLAND_COLOUR = "100,200,100";
     static final String FOREST_COLOUR = "50,150,50";
+    static final String VILLAGE_COLOUR = "7,84,117";
+    static final String HAMLET_COLOUR = "242,91,41";
+    static final String TOWN_COLOUR = "71,35,24";
+    static final String CITY_COLOUR  = "75,75,75";
+    static final String METROPOLIS_COLOUR = "149,255,107";
 
     static final String VERTEX_COLOR = "255,0,0";
     static final String VERTEX_THICKNESS = "0";
@@ -251,6 +256,7 @@ public class Formatter {
         }
 
         // New Vertices (All)
+        //do not want these vertices to show since theey are not part of island generation
         for(int i = 0; i < mesh.getVerticesCount(); i++){
             Structs.Vertex oldVertex = mesh.getVertices(i);
             if(oldVertex == null)  continue;
@@ -287,19 +293,19 @@ public class Formatter {
                 String cityColour = "";
                 switch(tile.getAttribute(CityAttribute.class).city){
                     case VILLAGE:
-                        cityColour = "7,84,117";
+                        cityColour = VILLAGE_COLOUR;
                         break;
                     case HAMLET:
-                        cityColour = "242,91,41";
+                        cityColour = HAMLET_COLOUR;
                         break;
                     case TOWN:
-                        cityColour = "71,35,24";
+                        cityColour = TOWN_COLOUR;
                         break;
                     case CITY:
-                        cityColour = "75,75,75";
+                        cityColour = CITY_COLOUR;
                         break;
                     case METROPOLIS:
-                        cityColour = "149,255,107";
+                        cityColour = METROPOLIS_COLOUR;
                         break;
                     case NONE:
                         cityColour = "0,0,0,0";
