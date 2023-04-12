@@ -78,9 +78,24 @@ To viualize the SVG file:
 
 ## Island Generator
 
-Required options: 
--i
--o
+To run the generator, go to the `island` directory, and use `java -jar` to run the product. The product takes two required options as parameters, and a host of other optional ones.
+The jar will take a mesh file as input and output another mesh file.
+
+Required parameters: 
+ - -i (input filename)
+ - -o (output filename)
+
+Optional paramters:
+ - -a (int) (number of aquifiers)
+ - -e (hills, mountain, plains) (elevation type)
+ - -h (displays help options)
+ - -heat (elevation, moisture, temperature) (heatmap of specified attribute)
+ - -l (int) (number of lakes)
+ - -r (int) (number of rivers)
+ - -s (circle, square, lagoon) (island shape)
+ - -seed (int) (integer to specify seed for reproducability)
+ - -soil (absorbant, standard, parched) (soil profile)
+ - -w (arctic, temperate, tropical) (whittaker diagram to use) 
 
 
 ## How to contribute to the project

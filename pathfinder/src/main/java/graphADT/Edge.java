@@ -20,11 +20,19 @@ public class Edge{
         this.attributes = new HashSet<>();
     }
 
+    public Edge(Node node1, Node node2, double distance){
+        this.node1 = node1;
+        this.node2 = node2;
+
+        this.distance = distance;
+        this.attributes = new HashSet<>();
+    }
+
     public void addAttribute(Attribute attribute){
         attributes.add(attribute);
     }
 
-    public double calculateDistance(){
+    private double calculateDistance(){
         return Math.sqrt(Math.pow(node1.getX() - node2.getX(), 2) + Math.pow(node1.getY() - node2.getY(), 2));
     }
 
