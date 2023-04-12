@@ -57,7 +57,11 @@ public class CityGenerator extends Generator{
         for (Tile tile: tiles){
             CityAttribute isCity;
             if (citiesList.contains(tile)){
-                isCity = new CityAttribute(Cities.CITY);
+                Cities randomAtt = Cities.NONE;
+                while (randomAtt.equals(Cities.NONE)){
+                    randomAtt = Cities.values()[bag.nextInt(Cities.values().length)];
+                }
+                isCity = new CityAttribute(randomAtt);
             }
             else{
                 isCity = new CityAttribute(Cities.NONE);

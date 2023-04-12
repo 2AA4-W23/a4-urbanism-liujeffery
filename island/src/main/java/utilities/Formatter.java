@@ -257,13 +257,31 @@ public class Formatter {
                 segments.add(sb.build());
             }
         }
-
         
         for (Tile tile : island.getTiles()){
             if (!tile.getAttribute(CityAttribute.class).city.equals(Cities.NONE)){
                 Structs.Vertex.Builder vb = Structs.Vertex.newBuilder();
                 vb.setX(tile.getX() * maxX).setY(tile.getY() * maxY);
-                vb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("15,15,15,255").build());
+
+                String cityColour = "";
+                switch(tile.getAttribute(CityAttribute.class).city){
+                    case VILLAGE:
+                        cityColour = "7,84,117";
+                        break;
+                    case HAMLET:
+                        cityColour = "242,91,41";
+                        break;
+                    case TOWN:
+                        cityColour = "71,35,24";
+                        break;
+                    case CITY:
+                        cityColour = "75,75,75";
+                        break;
+                    case METROPOLIS:
+                        cityColour = "149,255,107";
+                        break;
+                }
+                vb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(cityColour).build());
                 vb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(VERTEX_THICKNESS).build());
                 vb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue("100").build());
                 
