@@ -81,7 +81,7 @@ public class GraphicRenderer implements Renderer {
         Color oldColor = canvas.getColor();
         canvas.setColor(color.get());
 
-        Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-1.5f, (float) v.getY()-1.5f, 9, 9);
+        Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-4.5f, (float) v.getY()-4.5f, 9, 9);
         canvas.fill(circle);
 
         canvas.setColor(oldColor);
