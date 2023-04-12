@@ -277,6 +277,7 @@ public class Formatter {
             }
         }
         
+        //process cities, add to list of vertices for mesh, and retain list for pathfinding
         List<Node> cityNodes = new ArrayList<>();
         for (Tile tile : island.getTiles()){
             if (!tile.getAttribute(CityAttribute.class).city.equals(Cities.NONE)){
@@ -300,6 +301,9 @@ public class Formatter {
                     case METROPOLIS:
                         cityColour = "149,255,107";
                         break;
+                    case NONE:
+                        cityColour = "0,0,0,0";
+                        break;
                 }
                 vb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(cityColour).build());
                 vb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(VERTEX_THICKNESS).build());
@@ -311,9 +315,11 @@ public class Formatter {
             }
         }
 
+        //designate random city as the central one
         Random bag = RandomSingleton.getInstance();
         Node central = cityNodes.get(bag.nextInt(cityNodes.size()));
 
+        //get graph from island and use pathfinding algorithm
         Graph graph = graphFromIsland(island);
         Pathfinding path = new Pathfinding();
         for (int i = 0; i < cityNodes.size(); i++){
@@ -321,6 +327,7 @@ public class Formatter {
                 
                 ArrayList<graphADT.Edge> toAdd = graph.calculatePath(central, cityNodes.get(i), path);
 
+                //add segments that illustrate path to mesh
                 for (graphADT.Edge edge : toAdd){
                     Structs.Segment s = Structs.Segment.newBuilder().setV1Idx(mesh.getPolygons(edge.getStart().getId()).getCentroidIdx()).setV2Idx(mesh.getPolygons(edge.getEnd().getId()).getCentroidIdx()).addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("46,31,0").build())
                     .addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(SEGMENT_THICKNESS).build())

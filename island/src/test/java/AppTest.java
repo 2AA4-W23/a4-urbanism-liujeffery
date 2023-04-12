@@ -7,6 +7,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import configuration.Configuration;
+import graphADT.Graph;
+import graphADT.Node;
 import island.Island;
 import island.Tile;
 import utilities.Formatter;
@@ -47,7 +49,7 @@ public class AppTest
         assertTrue(inCorrect && outCorrect);
     }
 
-    //@Test
+    @Test
     @Order (2)
     public void testFormatter(){
         Structs.Mesh mesh = IO.readMesh("../generator/test.mesh");
@@ -61,6 +63,12 @@ public class AppTest
             Tile tile = island.getTileByID(i);
 
             assert(center.getX() == tile.getX() && center.getY() == tile.getY());
+        }
+
+        Graph graph = meshFormatter.graphFromIsland(island);
+        for (Tile tile : island.getTiles()){
+            Node node = graph.getNodeByID(tile.getId());
+            assert(node.getX() == tile.getX() && node.getY() == tile.getY());
         }
     }
 }

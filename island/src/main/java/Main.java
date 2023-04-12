@@ -7,7 +7,6 @@ import featuregeneration.LakeGenerator;
 import featuregeneration.LandGenerator;
 import featuregeneration.MoistureGenerator;
 import featuregeneration.TemperatureGenerator;
-import graphADT.Graph;
 import featuregeneration.RiverGenerator;
 import island.Island;
 import island.IslandBuilder;

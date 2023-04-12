@@ -25,6 +25,7 @@ public class Node implements Comparable<Node>{
         attributes.add(attribute);
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Attribute> T getAttribute(Class<T> type){
         for(Attribute attr : attributes){
             if(attr.getClass() == type) return (T)attr;
