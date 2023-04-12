@@ -23,8 +23,21 @@ public class Graph {
         edges.add(edge);
     }
 
+    public void addEdge(Node node1, Node node2){
+        addEdge(new Edge(node1, node2));
+    }
+
     public void addNode(Node node){
         nodes.add(node);
+    }
+
+    public Node getNodeByID(int id){
+        for (Node node : nodes){
+            if (node.getId() == id){
+                return node;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Edge> calculatePath(Node node1, Node node2, PathfindingInterface pathfinder){

@@ -8,13 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 import attributes.BiomeAttribute;
+import attributes.CityAttribute;
 import attributes.ElevationAttribute;
 import attributes.LakeAttribute;
 import attributes.LandAttribute;
 import attributes.MoistureAttribute;
 import attributes.RiverAttribute;
 import attributes.TemperatureAttribute;
+import attributes.CityAttribute.Cities;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import graphADT.Graph;
+import graphADT.Node;
 import island.Edge;
 import island.Island;
 import island.Tile;
@@ -43,7 +47,7 @@ public class Formatter {
 
     static final String VERTEX_COLOR = "255,0,0";
     static final String VERTEX_THICKNESS = "0";
-    static final String VERTEX_TRANSPARENCY = "100";
+    static final String VERTEX_TRANSPARENCY = "0";
     static final String SEGMENT_THICKNESS = "1";
     static final String SEGMENT_TRANSPARENCY = "100";
     
@@ -107,6 +111,21 @@ public class Formatter {
         }
 
         return new Island(tiles, edges);
+    }
+
+    public Graph graphFromIsland(Island island){
+        Graph graph = new Graph(maxX, maxY);
+        for (int id : island.getIds()){
+            Tile tile = island.getTileByID(id);
+
+            graph.addNode(new Node(tile.getX(), tile.getY(), id));
+        }
+        for (Tile tile : island.getTiles()){
+            for (Tile neighbour : tile.getNeighbours()){
+                graph.addEdge(graph.getNodeByID(tile.getId()), graph.getNodeByID(neighbour.getId()));
+            }
+        }
+        return graph;
     }
 
     public Structs.Mesh meshFromIsland(Island island){
@@ -195,7 +214,6 @@ public class Formatter {
             else {
                 tileColorPropertyBuilder.setValue(WATER_COLOR);
             }
-            
 
             pb.addProperties(tileColorPropertyBuilder.build());
             polygons.add(i, pb.build());
@@ -218,7 +236,7 @@ public class Formatter {
             Structs.Vertex oldVertex = mesh.getVertices(i);
             if(oldVertex == null)  continue;
             Structs.Vertex.Builder vb = oldVertex.toBuilder().clearProperties();
-            vb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(VERTEX_COLOR).build());
+            vb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue(VERTEX_COLOR + ",0").build());
             vb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(VERTEX_THICKNESS).build());
             vb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue(VERTEX_TRANSPARENCY).build());
             vertices.add(i, vb.build());
@@ -239,6 +257,20 @@ public class Formatter {
                 segments.add(sb.build());
             }
         }
+
+        
+        for (Tile tile : island.getTiles()){
+            if (!tile.getAttribute(CityAttribute.class).city.equals(Cities.NONE)){
+                Structs.Vertex.Builder vb = Structs.Vertex.newBuilder();
+                vb.setX(tile.getX() * maxX).setY(tile.getY() * maxY);
+                vb.addProperties(Structs.Property.newBuilder().setKey("rgb_color").setValue("15,15,15,255").build());
+                vb.addProperties(Structs.Property.newBuilder().setKey("thickness").setValue(VERTEX_THICKNESS).build());
+                vb.addProperties(Structs.Property.newBuilder().setKey("transparency").setValue("100").build());
+                
+                vertices.add(vb.build());
+            }
+        }
+        
         return Structs.Mesh.newBuilder().addAllVertices(vertices).addAllSegments(segments).addAllPolygons(polygons).build();
     }
 }

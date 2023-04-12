@@ -84,7 +84,7 @@ public class Configuration {
         whittaker = Whittaker.TEMPERATE;
         soil = Soil.STANDARD;
         heatmap = Heatmap.NONE;
-        cities = 3;
+        cities = 10;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 

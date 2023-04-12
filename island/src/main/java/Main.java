@@ -1,12 +1,15 @@
 import configuration.Configuration;
 import featuregeneration.AquiferGenerator;
 import featuregeneration.BiomeGenerator;
+import featuregeneration.CityGenerator;
 import featuregeneration.ElevationGenerator;
 import featuregeneration.LakeGenerator;
 import featuregeneration.LandGenerator;
 import featuregeneration.MoistureGenerator;
 import featuregeneration.TemperatureGenerator;
+import graphADT.Graph;
 import featuregeneration.RiverGenerator;
+import island.Island;
 import island.IslandBuilder;
 import island.IslandBuilder.MissingAttributeError;
 import utilities.Formatter;
@@ -32,7 +35,12 @@ public class Main
         ib.addGenerator(new MoistureGenerator(1, 0, config.soil));
         ib.addGenerator(new RiverGenerator(config.rivers));
         ib.addGenerator(new BiomeGenerator(config.whittaker));
+        ib.addGenerator(new CityGenerator(config.cities));
 
-        IO.writeMesh(meshFormatter.meshFromIsland(ib.build(meshFormatter.convertToIsland())), config.outputAddress);
+        Island island = ib.build(meshFormatter.convertToIsland());
+        Graph graph = meshFormatter.graphFromIsland(island);
+        
+
+        IO.writeMesh(meshFormatter.meshFromIsland(island), config.outputAddress);
     }
 }

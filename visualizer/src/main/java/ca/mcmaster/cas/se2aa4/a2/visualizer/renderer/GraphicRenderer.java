@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.Iterator;
@@ -24,6 +25,7 @@ public class GraphicRenderer implements Renderer {
         canvas.setStroke(stroke);
         drawPolygons(aMesh,canvas);
         drawSegments(aMesh, canvas);
+        drawVertices(aMesh, canvas);
     }
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
@@ -61,6 +63,30 @@ public class GraphicRenderer implements Renderer {
         }
 
     }
+
+    private void drawVertices(Mesh aMesh, Graphics2D canvas){
+        for (Structs.Vertex v : aMesh.getVerticesList()){
+            drawAVertex(v, aMesh, canvas);
+        }
+    }
+
+    private void drawAVertex(Structs.Vertex v, Mesh aMesh, Graphics2D canvas){
+        //only draw a segment if it was specifically given a colour
+        Optional<Color> color = new ColorProperty().extract(v.getPropertiesList());
+
+        if(!color.isPresent()){
+            return;
+        }
+
+        Color oldColor = canvas.getColor();
+        canvas.setColor(color.get());
+
+        Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-1.5f, (float) v.getY()-1.5f, 3, 3);
+        canvas.fill(circle);
+
+        canvas.setColor(oldColor);
+    }
+
     private void drawASegment(Structs.Segment s, Mesh aMesh, Graphics2D canvas){
         //only draw a segment if it was specifically given a colour
         Optional<Color> color = new ColorProperty().extract(s.getPropertiesList());
