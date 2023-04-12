@@ -21,6 +21,7 @@ public class OptionRegistry {
         options.addOption("r", null, true, "Number of rivers");
         options.addOption("soil", "soil", true, "Soil profile: absorbant, standard, or parched");
         options.addOption("heat", "heatmap", true, "Draw heatmap of specified attribute: elevation, moisture or temperature");
+        options.addOption("c", null, true, "Number of cities");
         return options;
     }
 }

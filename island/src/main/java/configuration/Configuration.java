@@ -37,6 +37,7 @@ public class Configuration {
     public Whittaker whittaker;
     public Soil soil;
     public Heatmap heatmap;
+    public int cities;
 
     public Configuration(String[] args){
         if(!parseArgs(args, OPTION_SUITE)){
@@ -83,6 +84,7 @@ public class Configuration {
         whittaker = Whittaker.TEMPERATE;
         soil = Soil.STANDARD;
         heatmap = Heatmap.NONE;
+        cities = 3;
 
         // Required options
         inputAddress = cmd.getOptionValue("i"); 
@@ -115,6 +117,9 @@ public class Configuration {
         }
         if(cmd.hasOption("heat")){
             heatmap = Heatmap.valueOf(cmd.getOptionValue("heat").toUpperCase());
+        }
+        if(cmd.hasOption("c")){
+            cities = Integer.parseInt(cmd.getOptionValue("c"));
         }
     }
 
