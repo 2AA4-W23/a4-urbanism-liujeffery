@@ -1,8 +1,11 @@
-# Assignment A2: Mesh Generator
+# Assignment A4: Urbanism
 
-  - Michael Shi [shim34@mcmaster.ca]
-  - Johnny Qu [quj22@mcmaster.ca]
   - Jeffery Liu [liu1121@mcmaster.ca]
+
+## Contributions to the repository
+
+This is a cumulation of three different projects: a mesh generation project, a terrain generation project, and a pathfinding/urbanism project. The first two projects were done as a group
+with Michael Shi (shim34@mcmaster.ca) and Johnny Qu (quj22@mcmaster.ca). Each individual's specific contributions to the project can be found in the backlog at the bottom of this README file.
 
 ## How to run the product
 
@@ -106,7 +109,7 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
-A feautre is considered completed when it has completed at least three tests. Each test should be unique so that the feature is tested in a holistic way.
+A feature is considered completed when it has completed at least three tests. Each test should be unique so that the feature is tested in a holistic way.
 For example, each test should input different parameters to the program or handle an edge case.
 
 ### Feature Backlog
